@@ -1,0 +1,298 @@
+/* Font family */
+/* Noto Sans, Caveat, Roboto, Betania Patmos, Montserrat,Caacupe One, Libre Baskerville */
+@import url('https://fonts.googleapis.com/css2?family=Betania+Patmos&family=Caacupe+One&family=Caveat:wght@400..700&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* General */
+html{
+    font-family: "Noto sans", Arial, Helvetica, sans-serif;
+    scroll-behavior: smooth;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+
+/* INDEX */
+
+/* Header and footer */
+#header, #footer{
+    display: flex;
+    justify-content: space-around; 
+    align-items: center; 
+    box-sizing: border-box;
+}
+
+#header{background: linear-gradient(to right, rgb(0, 102, 204), rgb(0, 80, 160));}
+
+#header a{
+    padding: 2%;
+    color: white;
+    font-weight: bold;
+    font-size: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all ease-in-out 0.2s;
+}
+#header a img{width: 25px;}
+
+#header a:hover {
+    background-color: rgba(0, 102, 204, 0.7);
+    cursor: pointer;
+}
+
+#home{
+    margin-right: auto;
+    font-size: 150% !important;
+    display: flex;
+    align-items: center;
+    gap: 5px !important;
+    padding: 0 0 0 1% !important;
+}
+
+#home img{width: 60px !important;}
+
+#footer{
+    color: white;
+    align-items: center; 
+    padding: 1%;
+    font-size: 85%;
+    margin-top: 20%;
+}
+
+#footer{background: linear-gradient(to left, rgb(0, 102, 204), rgb(0, 80, 160));}
+
+#footer a{
+    flex: 1;
+    text-align: center;
+    color: white;
+}
+
+
+
+/* Body and gallery */
+#body, #gallery, #configurator_box {padding: 2.5% 5%;}
+#body > h1, #gallery > h1{margin-bottom: 0.2%;}
+#body > p, #gallery > p{margin-top: 0.2%;}
+
+
+.button{
+    background-color: #0066ccb3;
+    padding: 0.25% 1% 0.5% 1%;
+    border-radius: 16px;
+    width: max-content;
+}
+
+.button a{
+    background: 
+    linear-gradient(black),
+    linear-gradient(orange);
+    background-size: 100% 0;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s;
+}
+
+.button a:hover{
+  background-size: 0 0.1em, 100% 0.1em;
+}
+
+#template_gallery{
+    width: 100%;
+    margin: 2.5% 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2%;
+}
+
+.template{
+    border: 1px #0066ccb3 solid;
+    border-radius: 16px;
+    align-content: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.template:hover{
+    transform: translateY(-15px);
+}
+
+
+.template img{
+    width: 100%;
+    border-radius: 16px;
+}
+
+.template p{
+    text-align: center;
+    font-weight: bold;
+}
+
+
+img.second{
+    display: none;
+}
+
+
+
+
+
+#arrow_up{
+    width: 4%;
+    position: fixed;
+    right: 0;
+    bottom: 30%;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+}
+
+#arrow_up img{
+    width: 100%;
+    margin: 0;
+}
+
+
+/* Formatting */
+.bold{font-weight: bold;}
+.italic{font-style: italic;}
+
+.highlight{
+    color: rgb(0, 102, 204);
+    font-family: 'Caveat', 'Times New Roman', Times, serif;
+    font-size: 120%;
+}
+
+
+
+/* CONFIGURE.HTML */
+#configurator_box{
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    "title title"
+    "description description"
+    "controls preview"
+    "create_template create_template";
+    padding: 0 5%;
+}
+
+#configurator_box h1{grid-area: title;}
+#description{grid-area: description;}
+
+.controls{
+    grid-area: controls;
+    text-align: left;
+}
+
+.selection{font-size: 80%;}
+
+.selection input{
+    border: 0;
+    background-color: transparent;
+    vertical-align: middle;
+}
+
+.selection input:hover, .selection select:hover{cursor: pointer;}
+
+.selection select, .selection input[type="text"], .selection input[type="number"]{
+    border: 1px grey solid;
+    border-radius: 16px;
+    padding: 0.5% 1%;
+    margin: 1.5% 0;
+    text-align: center;
+}
+
+.selection input[type="number"]{width: 10%; margin-left: 1%;}
+
+.selection p{font-weight: bold;}
+
+
+#preview {
+    grid-area: preview;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px 20px;
+}
+
+#tab_color_preview{
+    border: 2px solid;
+    border-color: #cbb9b1;
+    transition: background-color, 0.2s ease-in-out;} 
+
+.preview_header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.color_preview,
+.contrast_ratio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border-radius: 16px;
+}
+
+.contrast_ratio{
+    background-color: #f2f2f2;
+    color: #000;
+    border: 1px solid #ccc;
+    transition: background-color 0.2s ease;
+    font-weight: bold;
+}
+
+#title_color_preview{border: 1px black solid;}
+
+.contrast_red{background-color: #d62828;}
+.contrast_orange{background-color: #f08c00;}
+.contrast_green{background-color: #2a9d45;}
+
+#create_template{
+    grid-area: create_template;
+    border-radius: 16px;
+    margin: 5% auto;
+    padding: 0.2%;
+    border: 1px black solid;
+    width: 25%;
+    background-color: rgb(124, 154, 168);
+    transition: background-color 0.2s ease-in-out;
+}
+
+#create_template:hover{
+    cursor: pointer;
+    background-color: rgba(124, 154, 168, 0.7);
+}
+
+
+#template_preview {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.75);
+    transform-origin: top center;
+}
+/* Vertically centers the chart */
+#vis.vega-embed {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+#vis .chart-wrapper {flex: 0 0 auto;}
+

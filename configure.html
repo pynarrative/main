@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pynarrative - Configure template</title>
+
+    <link rel="icon" type="image/x-icon" href="img/icon/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Altair Vega -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <!-- Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="configure.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <a id="home" class="highlight" href="index.html"><img src="img/icon/pynarrative_logo.png" alt="Pynarrative Logo">Pynarrative</a>
+        <a href="index.html#gallery">Template gallery</a>
+        <a href="configure.html">Configure</a>
+        <!-- <a href="case_study.html">Case study</a> -->
+        <a href="about.html">About</a>
+    </div>
+
+    <div id="configurator_box">
+        <h1><span class="highlight">Pynarrative template configurator</span></h1>
+        <p id="description">[description...]</p>
+
+        <div class="controls">
+            <div class="selection">
+                <p>Template name</p>
+                <input type="text" value="myTemplate" id="template_name">
+            </div>
+
+            <div class="selection">
+                <p>Font options</p>
+                <div>
+                    <select id="font_selection">
+                        <option selected value="Noto Sans">Font Family</option>
+                        <option value="Noto Sans" style="font-family: 'Noto Sans', sans-serif;">Noto Sans</option>
+                        <option value="Times New Roman" style="font-family: 'Times New Roman', serif;">Times New Roman</option>
+                        <option value="Roboto" style="font-family: 'Roboto', sans-serif;">Roboto</option>
+                        <option value="Betania Patmos" style="font-family: 'Betania Patmos', serif;">Betania Patmos</option>
+                        <option value="Montserrat" style="font-family: 'Montserrat', sans-serif;">Montserrat</option>
+                        <option value="Caacupe One" style="font-family: 'Caacupe One', sans-serif;">Caacupé One</option>
+                        <option value="Helvetica" style="font-family: 'Helvetica', sans-serif;">Helvetica</option>
+                        <option value="Libre Baskerville" style="font-family: 'Libre Baskerville', serif;">Libre Baskerville</option>
+                    </select>
+                </div>
+
+                <!-- Standard font size -->
+                <div>
+                    <label for="font_size_selection">Base font size</label>
+                    <input type="number" value="12" id="font_size_selection" min="1" max="24">
+                </div>
+                <!-- Title multiplier -->
+                <div>
+                    <label for="title_font_multiplier">Title font multiplier</label>
+                    <input type="number" value="1.6" id="title_font_multiplier" min="0" max="5">
+                </div>
+                <!-- Subtitle multiplier -->
+                <div>
+                    <label for="subtitle_font_multiplier">Subtitle font multiplier</label>
+                    <input type="number" value="1.2" id="subtitle_font_multiplier" min="0" max="5">
+                </div>
+                <!-- Context multiplier -->
+                <div>
+                    <label for="context_font_multiplier">Context font multiplier</label>
+                    <input type="number" value="1" id="context_font_multiplier" min="0" max="5">
+                </div>
+                <!-- Nextstep multiplier -->
+                <div>
+                    <label for="nextstep_font_multiplier">Nextstep font multiplier</label>
+                    <input type="number" value="1" id="nextstep_font_multiplier" min="0" max="5">
+                </div>
+                <!-- Source multiplier -->
+                <div>
+                    <label for="source_font_multiplier">Source font multiplier</label>
+                    <input type="number" value="0.9" id="source_font_multiplier" min="0" max="5">
+                </div>
+            </div>
+
+
+            <div class="selection">
+                <p>Color options</p>
+                <!-- Main color input -->
+                <div>
+                    <input type="color" id="main_color_input" name="main_color_input" value="#af9386"/>
+                    <label for="main_color_input">Main color</label>
+                </div>
+
+                <!-- Text areas background color input -->
+                <div>
+                    <input type="color" id="tab_color_input" value="#cbb9b1">
+                    <input type="checkbox" checked id="tab_color_check">
+                    <label for="tab_color_input">Text areas background color</label>
+                </div>
+
+                <!-- Text areas border color input -->
+                <div class="ta_border_color_input">
+                    <input type="color" class="ta_border_color_input" value="#cbb9b1">
+                    <input type="checkbox" checked class="ta_border_color_input">
+                    <label for="ta_border_color_input">Text areas border color</label>
+                </div>
+
+                <!-- Secondary color input -->
+                <div>
+                    <input type="color" id="secondary_color_input" value="#7c9aa8">
+                    <input type="checkbox" checked id="secondary_color_check">
+                    <label for="secondary_color_input">Secondary color</label>
+                </div>
+
+                <!-- Title color input -->
+                <div>
+                    <input type="color" id="title_color_input" value="#000000">
+                    <label for="title_color_input">Title color</label>
+                </div>
+
+                <!-- Text color input -->
+                <div>
+                    <input type="color" id="text_color_input" value="#000000">
+                    <label for="text_color_input">Text color</label>
+                </div>
+
+                <!-- Highlight lines color input -->
+                <div>
+                    <input type="color" id="highlight_color_input" value="#bf2626">
+                    <label for="highlight_color_input">Highlight lines color</label>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div id="preview">
+            <div class="preview_header">Preview</div>
+            <div class="preview_header">Contrast checker</div>
+
+            <div id="main_color_preview" class="color_preview">
+                Main color
+            </div>
+            <div id="main_color_contrast" class="contrast_ratio">
+                Main color
+            </div>
+
+            <div id="tab_color_preview" class="color_preview">
+                Text areas background color
+            </div>
+            <div id="tab_color_contrast" class="contrast_ratio">
+                Text areas background color
+            </div>
+
+            <div id="secondary_color_preview" class="color_preview">
+                Secondary color
+            </div>
+            <div id="secondary_color_contrast" class="contrast_ratio">
+                Secondary color
+            </div>
+            <div id="title_color_preview" class="color_preview">
+                Title color
+            </div>
+            <div id="title_color_contrast" class="contrast_ratio">
+                Title color
+            </div>
+
+            <div id="highlight_color_preview" class="color_preview">
+                Highlight lines color
+            </div>
+
+
+        </div>
+
+        <a href="#template_preview" id="create_template">Create template</a>
+    </div>
+
+
+    <div id="template_preview">
+        <!-- Here will be visualized the template -->
+    </div>
+
+    
+
+        
+    <div id="footer">
+        Footer
+    </div>
+
+    <a id="arrow_up" href="#header"><img src="img/icon/arrow.svg" alt="arrow_up"></a>
+
+</body>
+
+
+</html>
