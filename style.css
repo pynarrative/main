@@ -117,6 +117,7 @@ a{
     margin-top: 5%;
     background-color: #0F172A;;
 }
+#footer .highlight{color: white !important;}
 
 #footer a{
     flex: 1;
