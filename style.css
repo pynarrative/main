@@ -12,7 +12,7 @@ html{
 body{
     margin: 0;
     padding: 0;
-    font-size: 100%;
+    font-size: 110%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -104,6 +104,7 @@ a{
     align-items: center;
     gap: 5px !important;
     padding: 0 1% !important;
+    height: 70px;
 }
 
 #home img{width: 60px !important;}
@@ -151,11 +152,11 @@ a{
 }
 
 #template_gallery{
-    width: 100%;
-    margin: 1.5% 0;
+    margin-left: -5%;
+    margin-right: -5%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10% 3.5%;
+    gap: 10% 1.5%;
 }
 
 .template{
@@ -170,7 +171,7 @@ a{
     height: 100%;
     margin-top: 5%;
 }
-.template:hover{transform: translateY(-15px);}
+.template:hover{transform: translateY(-10px);}
 
 .template img{
     width: 100%;
