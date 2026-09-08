@@ -11,7 +11,16 @@
 
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- <script src="home.js"></script> -->
+
+    <script>
+        $(window).on("scroll", function (){
+            if ($(window).scrollTop() > 100) {
+                $("#arrow_up").css("opacity", "1");
+            } else {
+                $("#arrow_up").css("opacity", "0");
+            }
+        });
+    </script>
 
 </head>
 
@@ -20,13 +29,47 @@
         <a id="home" class="highlight" href="index.html"><img src="img/icon/pynarrative_logo.png" alt="Pynarrative Logo">Pynarrative</a>
         <a href="index.html#gallery">Template gallery</a>
         <a href="configure.html">Configure</a>
-        <!-- <a href="case_study.html">Case study</a> -->
         <a href="about.html">About</a>
     </div>
 
-    <div id="body">
-        <h1><span class="highlight">About the project</span></h1>
-        <p>Create your charts and data stories with <span class="highlight">Pynarrative</span>, a data storytelling library for Python</p>
+    <div id="about_body">
+        <div>
+            <h1><span class="highlight">About the project</span></h1>
+            <p>Transform data visualizations into stories with <span class="highlight">Pynarrative</span></p>
+        </div>
+
+        <div>
+            <h3>Overview</h3>
+            <p>
+                <span class="highlight">Pynarrative</span> is a Python library designed to <span class="bold">transform
+                data visualizations into engaging narratives</span>. Built as an extension of Altair, pynarrative provides
+                a powerful set of tools for creating interactive, narrative-driven visualizations that engage
+                and inform your audience. The library <span class="bold">bridges the gap between raw data
+                visualization and storytelling</span> by introducing narrative elements such as <span class="bold">contextual descriptions</span>
+                and <span class="bold">annotations</span>.
+            </p>
+        </div>
+        
+        <div>
+            <h3>Architecture</h3>
+            <p>
+                <!-- RIVEDERE -->
+                <span class="highlight">Pynarrative</span> is built around two main classes: Story and NextStep.
+                The Story class serves as the core component, handling the creation and management of narrative
+                visualizations. It extends Altair's functionality while maintaining full compatibility with its
+                declarative API. The NextStep class complements Story by providing specialized support for
+                interactive elements, allowing you to guide users through your data narrative in various ways.
+            </p>
+        </div>
+
+        <div>
+            <h3>Installation</h3>
+            <p>
+                <span class="highlight">Pynarrative</span> can be easily installed using pip, Python's package manager.
+                To install the library, run the following command in your terminal:
+            </p>
+            <p class="code">pip install pynarrative</p>
+        </div>
     </div>
 
     <div id="footer">

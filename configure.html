@@ -25,18 +25,21 @@
         <a id="home" class="highlight" href="index.html"><img src="img/icon/pynarrative_logo.png" alt="Pynarrative Logo">Pynarrative</a>
         <a href="index.html#gallery">Template gallery</a>
         <a href="configure.html">Configure</a>
-        <!-- <a href="case_study.html">Case study</a> -->
         <a href="about.html">About</a>
     </div>
 
     <div id="configurator_box">
         <h1><span class="highlight">Pynarrative template configurator</span></h1>
-        <p id="description">[description...]</p>
+        <p id="description"><span class="bold">Customize</span> your <span class="highlight">Pynarrative</span> stories templates. Adjust <span class="bold">typography</span>, fine-tune <span class="bold">color</span> schemes with built-in contrast checking, and configure <span class="bold">layout styles</span> to perfectly match your data storytelling needs. 
+        Once configured, <span class="bold">download your template</span> and <span class="bold">easily integrate</span> it into your <span class="bold">Python</span> environment or <span class="bold">Jupyter Notebook</span>.</p>
 
         <div class="controls">
             <div class="selection">
                 <p>Template name</p>
-                <input type="text" value="myTemplate" id="template_name">
+                <div class="input_template">
+                    <input type="text" value="my" id="template_name">
+                    <span>Template</span>
+                </div>
             </div>
 
             <div class="selection">
@@ -47,43 +50,67 @@
                         <option value="Noto Sans" style="font-family: 'Noto Sans', sans-serif;">Noto Sans</option>
                         <option value="Times New Roman" style="font-family: 'Times New Roman', serif;">Times New Roman</option>
                         <option value="Roboto" style="font-family: 'Roboto', sans-serif;">Roboto</option>
-                        <option value="Betania Patmos" style="font-family: 'Betania Patmos', serif;">Betania Patmos</option>
+                        <option value="Open Sans" style="font-family: 'Open Sans', sans-serif;">Open Sans</option>
                         <option value="Montserrat" style="font-family: 'Montserrat', sans-serif;">Montserrat</option>
-                        <option value="Caacupe One" style="font-family: 'Caacupe One', sans-serif;">Caacupé One</option>
-                        <option value="Helvetica" style="font-family: 'Helvetica', sans-serif;">Helvetica</option>
-                        <option value="Libre Baskerville" style="font-family: 'Libre Baskerville', serif;">Libre Baskerville</option>
+                        <option value="Cinzel Decorative" style="font-family: 'Cinzel Decorative', serif;">Cinzel Decorative</option>
+                        <option value="Space Grotesk" style="font-family: 'Space Grotesk', sans-serif;">Space Grotesk</option>
+                        <option value="Syne" style="font-family: 'Syne', sans-serif;">Syne</option>
+                        <option value="Lato" style="font-family: 'Lato', sans-serif;">Lato</option>
+                        <option value="Poppins" style="font-family: 'Poppins', sans-serif;">Poppins</option>
+                        <option value="Inter" style="font-family: 'Inter', sans-serif;">Inter</option>
+                        <option value="Oswald" style="font-family: 'Oswald', sans-serif;">Oswald</option>
+                        <option value="Raleway" style="font-family: 'Raleway', sans-serif;">Raleway</option>
+                        <option value="Roboto Condensed" style="font-family: 'Roboto Condensed', sans-serif;">Roboto Condensed</option>
+                        <option value="Merriweather" style="font-family: 'Merriweather', serif;">Merriweather</option>
+                        <option value="Playfair Display" style="font-family: 'Playfair Display', serif;">Playfair Display</option>
+                        <option value="Lora" style="font-family: 'Lora', serif;">Lora</option>
+                        <option value="Nunito" style="font-family: 'Nunito', sans-serif;">Nunito</option>
+                        <option value="Ubuntu" style="font-family: 'Ubuntu', sans-serif;">Ubuntu</option>
                     </select>
                 </div>
 
                 <!-- Standard font size -->
                 <div>
                     <label for="font_size_selection">Base font size</label>
-                    <input type="number" value="12" id="font_size_selection" min="1" max="24">
+                    <input type="number" value="12" id="font_size_selection" min="1" max="24" step="0.5">
                 </div>
                 <!-- Title multiplier -->
                 <div>
                     <label for="title_font_multiplier">Title font multiplier</label>
-                    <input type="number" value="1.6" id="title_font_multiplier" min="0" max="5">
+                    <input type="number" value="1.6" id="title_font_multiplier" min="0" max="5" step="0.1">
                 </div>
                 <!-- Subtitle multiplier -->
                 <div>
                     <label for="subtitle_font_multiplier">Subtitle font multiplier</label>
-                    <input type="number" value="1.2" id="subtitle_font_multiplier" min="0" max="5">
-                </div>
-                <!-- Context multiplier -->
-                <div>
-                    <label for="context_font_multiplier">Context font multiplier</label>
-                    <input type="number" value="1" id="context_font_multiplier" min="0" max="5">
-                </div>
-                <!-- Nextstep multiplier -->
-                <div>
-                    <label for="nextstep_font_multiplier">Nextstep font multiplier</label>
-                    <input type="number" value="1" id="nextstep_font_multiplier" min="0" max="5">
+                    <input type="number" value="1.2" id="subtitle_font_multiplier" min="0" max="5" step="0.1">
                 </div>
                 <!-- Source multiplier -->
                 <div>
                     <label for="source_font_multiplier">Source font multiplier</label>
-                    <input type="number" value="0.9" id="source_font_multiplier" min="0" max="5">
+                    <input type="number" value="0.9" id="source_font_multiplier" min="0" max="5" step="0.1">
+                </div>
+                <!-- Context and nextstep options -->
+                <div id="multibox">
+                    <div id="context_font_multiplier_container">
+                        <label for="context_font_multiplier">Context font multiplier</label>
+                        <input type="number" value="1" id="context_font_multiplier" min="0" max="5" step="0.1">
+                    </div>
+                    <div id="nextstep_font_multiplier_container">
+                        <label for="nextstep_font_multiplier">Nextstep font multiplier</label>
+                        <input type="number" value="1" id="nextstep_font_multiplier" min="0" max="5" step="0.1">
+                    </div>
+
+                    <div id="context_corner_radius_selection">
+                        <label id="corner_radius_label" class="small">Text area(s) corner radius</label>
+                        <div id="opt1">40</div>
+                        <div id="opt2">32</div>
+                        <div id="opt3">24</div>
+                        <div id="opt4" class="context_corner_radius_selected">16</div>
+                        <div id="opt5">8</div>
+                        <div id="opt6">0</div>
+                        <label id="border_stroke_label" for="stroke_slider" class="small">Text area(s) border stroke</label>
+                        <input type="range" min="1" max="5" value="2" id="stroke_slider" step="1">
+                    </div>
                 </div>
             </div>
 
@@ -105,7 +132,7 @@
 
                 <!-- Text areas border color input -->
                 <div class="ta_border_color_input">
-                    <input type="color" class="ta_border_color_input" value="#cbb9b1">
+                    <input type="color" class="ta_border_color_input" value="rgb(103 91 91)">
                     <input type="checkbox" checked class="ta_border_color_input">
                     <label for="ta_border_color_input">Text areas border color</label>
                 </div>
@@ -129,10 +156,10 @@
                     <label for="text_color_input">Text color</label>
                 </div>
 
-                <!-- Highlight lines color input -->
+                <!-- Lines color input -->
                 <div>
-                    <input type="color" id="highlight_color_input" value="#bf2626">
-                    <label for="highlight_color_input">Highlight lines color</label>
+                    <input type="color" id="lines_color_input" value="#bf2626">
+                    <label for="lines_color_input">Lines color</label>
                 </div>
 
 
@@ -164,26 +191,86 @@
             <div id="secondary_color_contrast" class="contrast_ratio">
                 Secondary color
             </div>
-            <div id="title_color_preview" class="color_preview">
+            <div id="title_color_preview">
                 Title color
             </div>
             <div id="title_color_contrast" class="contrast_ratio">
                 Title color
             </div>
 
-            <div id="highlight_color_preview" class="color_preview">
-                Highlight lines color
+            <div id="lines_color_preview" class="color_preview">
+                Lines color
             </div>
 
 
         </div>
 
-        <a href="#template_preview" id="create_template">Create template</a>
+        <div class="button" id="create_template_container">
+            <a href="#template_preview" id="create_template">Create template</a>
+        </div>
     </div>
 
 
     <div id="template_preview">
         <!-- Here will be visualized the template -->
+    </div>
+    
+    <div id="download_box">
+        <h3>What to do now?</h3>
+        <ol>
+            <li>
+                <p class="highlighted bold" id="download">Download your template!</p>
+            </li>
+            <li>
+                Cut the <span class="italic bold template_name_span"></span><span class="bold italic">.py</span> file and paste it into the following directory: <span class="italic bold">pynarrative > src > pynarrative > templates > mytemplates</span>
+            </li>
+            <li>
+                <p>On your python script or on your notebook write:</p>
+                <p id="to_copy1" class="code">from pynarrative.templates.mytemplates.<span class="template_name_span highlighted"></span> import <span class="template_name_span highlighted"></span></p>
+                <img src="img/icon/copy.svg" alt="Copy to clipboard" id="copy1" title="Copy to clipboard">
+            </li>
+            <li>
+                <p>Try it and enjoy!</p>
+                <p>
+                    <span class="highlighted bold">Important!</span> Please note that the font-family you chose for your template will be applied to your chart only if you have it already available on your computer, otherwise python will use a fallback font family.
+                    However, if you are using a Notebook to create your data story, as we recommend, you can use the <span class="bold">Jupyter Notebook <span class="italic">%%html</span> special cell</span>. Just paste the following command in a <span class="bold">new cell</span> located <span class="bold">before</span> the data story you're working on.
+                </p>
+                <div id="to_copy2" class="code">%%html
+&lt;style&gt;</span>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700&display=swap');
+&lt;/style&gt;</div>
+                <img src="img/icon/copy.svg" alt="Copy to clipboard" id="copy2" title="Copy to clipboard">
+
+                <p>And after that:</p>
+                <p class="code">import pynarrative as pn
+
+story = (
+    pn.Story(
+        data = your_data,
+        <span class="bold highlighted">template = <span class="template_name_span"></span></span>
+    )
+    
+[...]</p>
+            </li>
+        </ol>
+
     </div>
 
     

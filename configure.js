@@ -1,14 +1,110 @@
 $(document).ready(function(){
 
-    $("select#font_selection").on("input", function(){
-        let selected_font = $(this).find("option:selected").val();
-        $(this).css("font-family", selected_font);
-        $(".color_preview").css("font-family", selected_font);
+    $(window).on("scroll", function (){
+        if ($(window).scrollTop() > 500) {
+            $("#arrow_up").css("opacity", "1");
+        } else {
+            $("#arrow_up").css("opacity", "0");
+        }
     });
+
+    $("#copy1").on("click", function(){
+        navigator.clipboard.writeText($("#to_copy1").text().trim());
+        $(this).addClass("img_green");
+        $(this).attr("title", "Copied!");
+        setTimeout(function () {
+            $("#copy1").removeClass("img_green");
+        }, 2000);
+    });
+
+    $("#copy2").on("click", function(){
+        navigator.clipboard.writeText($("#to_copy2").text().trim());
+        $(this).addClass("img_green");
+        $(this).attr("title", "Copied!");
+        setTimeout(function () {
+            $("#copy2").removeClass("img_green");
+        }, 2000);
+    });
+
+    $("#context_corner_radius_selection div").on("click", function(){
+        let was_selected = $(this).siblings(".context_corner_radius_selected");
+        was_selected.removeClass("context_corner_radius_selected");
+        let selected = $(this).addClass("context_corner_radius_selected");
+        let radius = selected.css("border-top-left-radius");
+        $("#tab_color_preview").css("border-radius", radius);
+    });
+
+    $("#stroke_slider").on("input", function(){
+        let ta_border_stroke = $(this).val()
+        console.log(ta_border_stroke)
+        $("#tab_color_preview").css("border-width", ta_border_stroke+"px");
+        console.log($("#tab_color_preview").css("border-width"))
+    })
+
+    $("#template_preview").on("click", function(){
+        window.scrollTo(0, $("#download_box").offset().top);
+    })
+
+    function get_complementary_color(hex) {
+        hex = hex.replace("#", "");
+
+        let r = parseInt(hex.substring(0, 2), 16);
+        let g = parseInt(hex.substring(2, 4), 16);
+        let b = parseInt(hex.substring(4, 6), 16);
+
+        r /= 255;
+        g /= 255;
+        b /= 255;
+
+        let max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
+
+        if (max === min) {
+            h = s = 0;
+        } else {
+            let d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+
+        h = (h + 0.5) % 1;
+
+        let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        let p = 2 * l - q;
+
+        function hueToRgb(p, q, t) {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1/6) return p + (q - p) * 6 * t;
+            if (t < 1/2) return q;
+            if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+        }
+
+        let rComp = Math.round(hueToRgb(p, q, h + 1/3) * 255);
+        let gComp = Math.round(hueToRgb(p, q, h) * 255);
+        let bComp = Math.round(hueToRgb(p, q, h - 1/3) * 255);
+
+        return `rgb(${rComp}, ${gComp}, ${bComp})`;
+    }
 
 
     function check_contrast(background, foreground, contrast_element) {
         function hexToRgb(color) {
+            if (color && color.startsWith("rgb")){
+                let match = color.match(/\d+/g);
+                return {
+                    r: parseInt(match[0]),
+                    g: parseInt(match[1]),
+                    b: parseInt(match[2])
+                };
+            }
+
             color = color.replace("#", "");
 
             if (color.length === 3) {
@@ -128,6 +224,14 @@ $(document).ready(function(){
             "#main_color_preview",
             "#main_color_contrast"
         );
+        let complementary_color = get_complementary_color($(this).val());
+        $("#secondary_color_preview").css("background-color", complementary_color);
+        $("#secondary_color_input").val(complementary_color);
+        check_contrast(
+            complementary_color,
+            $("#secondary_color_preview").css("color"),
+            "#secondary_color_contrast"
+        );
     });
 
     $("#tab_color_input").on("input", function () {
@@ -142,11 +246,11 @@ $(document).ready(function(){
         $("#tab_color_preview").css("border-color", $(this).val());
     });
 
-    $("#highlight_color_input").on("input", function () {
+    $("#lines_color_input").on("input", function () {
         update_color(
-            "#highlight_color_input",
-            "#highlight_color_preview",
-            "#highlight_color_contrast"
+            "#lines_color_input",
+            "#lines_color_preview",
+            "#lines_color_contrast"
         );
     });
 
@@ -166,25 +270,9 @@ $(document).ready(function(){
 
     $("#text_color_input").on("input", function () {
         let text_color = $(this).val();
-
         $(".color_preview").css("color", text_color);
-
         update_all_contrasts();
     });
-
-    $("#font_selection").on("change", function () {
-        let selected_font = $(this).val();
-        $(".color_preview").css("font-family", selected_font);
-    });
-
-    $("#font_size_selection").on("change", function () {
-        let font_size = $(this).val();
-        if (font_size > 24){
-            font_size = 24;
-        }
-        $(".color_preview").css("font-size", font_size+"pt");
-    });
-
 
     let original_tab_color = $("#tab_color_input").val();
     $("#tab_color_check").on("click", function () {
@@ -201,7 +289,6 @@ $(document).ready(function(){
             check_contrast("#ffffff", $("#text_color_input").val(), "#tab_color_contrast");
         }
     });
-    
     
     let original_ta_border_color = $("input[type='color'].ta_border_color_input").val();
     $("input[type='checkbox'].ta_border_color_input").on("click", function () {
@@ -234,9 +321,9 @@ $(document).ready(function(){
     );
 
     update_color(
-        "#highlight_color_input",
-        "#highlight_color_preview",
-        "#highlight_color_contrast"
+        "#lines_color_input",
+        "#lines_color_preview",
+        "#lines_color_contrast"
     );
 
     update_color(
@@ -249,18 +336,29 @@ $(document).ready(function(){
     $("#font_selection").trigger("change");
     $("#font_size_selection").trigger("change");
 
-
-
-    $(window).on("scroll", function (){
-        if ($(window).scrollTop() > 500) {
-            $("#arrow_up").css("opacity", "1");
-        } else {
-            $("#arrow_up").css("opacity", "0");
-        }
+    $("#font_selection").on("change", function() {
+        let selected_font = $(this).val();
+        $(".color_preview").css("font-family", selected_font);
+        $("#title_color_preview").css("font-family", selected_font);
     });
+
+    $("#font_size_selection").on("change", function() {
+        let font_size = $(this).val();
+        if (font_size > 24){
+            font_size = 24;
+        }
+        $(".color_preview").css("font-size", font_size+"pt");
+    });
+
+    $("input#title_font_multiplier").on("input", function(){
+        let base_font_size = $("#font_size_selection").val()
+        let title_font_size = $(this).val() * base_font_size
+        $("#title_color_preview").css("font-size", title_font_size)
+    })
 
 
     $("#create_template").on("click", function(){
+        $("#download_box").css("display", "none");
         let output_box = $("#template_preview");
         output_box.html("<img src='img/icon/loading_icon.gif'/>"); //gif di caricamento
 
@@ -273,10 +371,11 @@ $(document).ready(function(){
             
         }
 
-        let template_name = $("#template_name").val()
+        let template_name = $("#template_name").val();
         if (template_name == ""){
-            template_name = "myTemplate"
+            template_name = "myTemplate";
         }
+        $(".template_name_span").html(template_name+"Template");
 
         // Font options
         let font_family = $("#font_selection").val();
@@ -301,19 +400,24 @@ $(document).ready(function(){
         let secondary_color = $("#secondary_color_preview").css("background-color");
         let title_color = $("#title_color_input").val();
         let text_color = $("#main_color_preview").css("color");
-        let highlight_color = $("#highlight_color_preview").css("background-color");
+        let lines_color = $("#lines_color_preview").css("background-color");
 
-        function lighten_color(color) {
+        // Other options
+        let ta_border_radius = $("#tab_color_preview").css("border-radius");
+        let ta_border_stroke = $("#tab_color_preview").css("border-width");
+
+        function darkened_color(color) {
             const match = color.match(/\d+/g);
-            const rgb = match.slice(0, 3).map(value => Math.min(255, parseInt(value, 10) + 50));
+            const rgb = match.slice(0, 3).map(value => Math.min(255, parseInt(value, 10) - 70));
             return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
         }
 
         if ($("#secondary_color_preview").css("display") == "none"){
-            secondary_color = lighten_color(main_color)
+            secondary_color = main_color;
+            main_color = darkened_color(secondary_color);
         }
         if ($("#tab_color_preview").css("display") == "none"){
-            tab_color = "(255, 255, 255)"
+            tab_color = "(255, 255, 255)";
         }
 
         async function main() {
@@ -325,134 +429,149 @@ $(document).ready(function(){
             const micropip = pyodide.pyimport("micropip");
             // 3. Installa il tuo .whl locale
             await micropip.install("./pynarrative-0.4-py3-none-any.whl");
-            console.log("Tutto ok");
+            console.log("Pynarrative ok");
+
+            const pythonTemplateCode =
+`from copy import deepcopy
+from pynarrative.templates.layout import DefaultLayout, Layout
+from pynarrative.templates.style import DefaultStyle, Style
+from pynarrative.templates.template import Template
+
+#Font options
+font_family = "${font_family}"
+standard_font_size = ${standard_font_size}
+title_font_size_multiplier = ${title_font_size_multiplier}
+subtitle_font_size_multiplier = ${subtitle_font_size_multiplier}
+context_font_size_multiplier = ${context_font_size_multiplier}
+nextstep_font_size_multiplier = ${nextstep_font_size_multiplier}
+source_font_size_multiplier = ${source_font_size_multiplier}
+
+#Color options
+main_color = "${main_color}"
+secondary_color = "${secondary_color}"
+tab_color = "${tab_color}"
+ta_border_color = "${ta_border_color}"
+lines_color = "${lines_color}"
+title_color = "${title_color}"
+text_color = "${text_color}"
+
+#Border options
+def remove_px(val):
+    val_str = str(val).lower().replace("px", "").strip()
+    return float(val_str)
+ta_border_radius = "${ta_border_radius}"
+ta_border_radius = remove_px(ta_border_radius)
+ta_border_stroke = "${ta_border_stroke}"
+ta_border_stroke = remove_px(ta_border_stroke)
+
+class myStyle(Style):
+    def __init__(self):
+        base = DefaultStyle()
+        super().__init__(deepcopy(base.data))
+
+        self.set_font(font_family)
+        self.set_base_font_size(int(standard_font_size))
+        self.set_font_sizes(
+            title = float(title_font_size_multiplier),
+            subtitle = float(subtitle_font_size_multiplier),
+            context = float(context_font_size_multiplier),
+            nextstep = float(nextstep_font_size_multiplier),
+            source = float(source_font_size_multiplier)
+        )
+
+        #COLOR OPTIONS
+        self.set_colors(
+            #Title and subtitle colors
+            title = title_color,
+            subtitle = title_color,
+
+            #Context area(s) text color
+            context = text_color,
+
+            #Bars colors (if bar chart is used)
+            bar_muted = main_color,
+            bar_highlight = secondary_color, #(if .add_highlight() method is used)
+
+            #.add_annotation() color options
+            callout_text = lines_color,
+            callout_arrow = lines_color,
+            callout_point = lines_color,
+
+            #Nextstep color options
+            nextstep_box = tab_color,
+            nextstep_border = ta_border_color,
+            nextstep_text = text_color,
+            nextstep_title = text_color,
+
+            #Source text color
+            source = text_color,
+
+            #Label text color
+            chart_label_color = text_color
+        )
+
+        self.set_context_box(
+            #Context area(s) options 
+            fill = tab_color,
+            stroke = ta_border_color,
+            padding = 25,
+            corner_radius = ta_border_radius,
+            opacity = 1.0,
+        )
+
+        self.set(
+            #Other general options
+            title_color=self.get_colors()['title'],
+            label_color='#594a37',
+            axis_tick_color='#d8c9ad',
+            axis_domain_color='#d8c9ad',
+            bar_fill_color = main_color,
+            nextstep_corner_radius = ta_border_radius,
+            context_border_width = ta_border_stroke,
+            nextstep_border_width = ta_border_stroke,
+
+            series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
+
+            reference_line_color = lines_color, #horizontal and vertical lines
+        )
+
+
+class myLayout(Layout):
+    """
+    Layout values.
+    """
+
+    def __init__(self):
+        base = DefaultLayout()
+        super().__init__(deepcopy(base.data))
+
+        self.set(
+            title_area_height=58,
+            title_y=4,
+            subtitle_y=30,
+            preferred_width=760,
+            preferred_height=560,
+            context_left_height_ratio=1.0,
+            context_right_height_ratio=1.0,
+        )
+
+
+class ${template_name}Template(Template):
+    """
+    Custom style template.
+    """
+
+    def __init__(self):
+        super().__init__(
+            style=myStyle(),
+            layout=myLayout(),
+        )
+`;
+            
+            await pyodide.runPythonAsync(pythonTemplateCode);
+
 
             const output = await pyodide.runPythonAsync(`
-                template_name = "${template_name}"
-                str_template_name = template_name
-
-                font_family = "${font_family}"
-                standard_font_size = "${standard_font_size}"
-                title_font_size_multiplier = "${title_font_size_multiplier}"
-                subtitle_font_size_multiplier = "${subtitle_font_size_multiplier}"
-                context_font_size_multiplier = "${context_font_size_multiplier}"
-                nextstep_font_size_multiplier = "${nextstep_font_size_multiplier}"
-                source_font_size_multiplier = "${source_font_size_multiplier}"
-
-                primary_color = "${main_color}"
-                secondary_color = "${secondary_color}"
-                tab_color = "${tab_color}"
-                tab_border_color = "${ta_border_color}"
-                highlight_color = "${highlight_color}"
-                title_color = "${title_color}"
-                text_color = "${text_color}"
-
-                from copy import deepcopy
-                from pynarrative.templates.layout import DefaultLayout, Layout
-                from pynarrative.templates.style import DefaultStyle, Style
-                from pynarrative.templates.template import Template
-
-
-                class myStyle(Style):
-                    def __init__(self):
-                        base = DefaultStyle()
-                        super().__init__(deepcopy(base.data))
-
-                        self.set_font(font_family)
-                        self.set_base_font_size(int(standard_font_size))
-                        self.set_font_sizes(
-                            title = float(title_font_size_multiplier),
-                            subtitle = float(subtitle_font_size_multiplier),
-                            context = float(context_font_size_multiplier),
-                            nextstep = float(nextstep_font_size_multiplier),
-                            source = float(source_font_size_multiplier)
-                        )
-
-                        self.set_colors(
-                            #TITOLO e SOTTOTITOLO
-                            title = title_color,
-                            subtitle = title_color,
-
-                            #CONTESTO 1
-                            context = text_color,
-
-                            #BARRE
-                            bar_muted = secondary_color,
-                            bar_highlight = primary_color,
-
-                            #ANNOTAZIONE
-                            callout_text = highlight_color,
-                            callout_arrow = highlight_color,
-                            callout_point = highlight_color,
-
-                            #NEXTSTEP
-                            nextstep_box = tab_color,
-                            nextstep_border = tab_border_color,
-                            nextstep_text = text_color,
-                            nextstep_title = text_color,
-
-                            #FONTE
-                            source = text_color,
-
-                            #LABEL
-                            chart_label_color = text_color
-                        )
-
-                        self.set_context_box(
-                            #CONTESTO 
-                            fill = tab_color,
-                            stroke = tab_border_color,
-                            padding=10,
-                            corner_radius=10,
-                            opacity=1.0,
-                        )
-
-                        self.set(
-                            title_color=self.get_colors()['title'],
-                            label_color='#594a37',
-                            axis_tick_color='#d8c9ad',
-                            axis_domain_color='#d8c9ad',
-                            bar_fill_color = secondary_color,
-
-                            series_colors = [secondary_color, primary_color, "#348035", "#a46cc2", "#d96027"],
-
-                            reference_line_color = highlight_color, #linea orizzontale/verticale
-                        )
-
-
-                class myLayout(Layout):
-                    """
-                    Layout values.
-                    """
-
-                    def __init__(self):
-                        base = DefaultLayout()
-                        super().__init__(deepcopy(base.data))
-
-                        self.set(
-                            title_area_height=58,
-                            title_y=4,
-                            subtitle_y=30,
-                            preferred_width=760,
-                            preferred_height=560,
-                            context_left_height_ratio=1.0,
-                            context_right_height_ratio=1.0,
-                        )
-
-
-                class template_name (Template):
-                    """
-                    Custom style template.
-                    """
-
-                    def __init__(self):
-                        super().__init__(
-                            style=myStyle(),
-                            layout=myLayout(),
-                        )
-
-                        
-
                 import pynarrative as pn
                 import pandas as pd
                 import altair as alt
@@ -476,7 +595,7 @@ $(document).ready(function(){
                         data = category_data,
                         width = 500,
                         height = 300,
-                        template = template_name
+                        template = ${template_name}Template
                     )
 
                     #Chiamata dei metodi
@@ -484,17 +603,16 @@ $(document).ready(function(){
                     .mark_bar(
                         cornerRadiusTopLeft = 7,
                         cornerRadiusTopRight = 7,
-
                     )
 
                     .encode( #encoding dei dati
-                        x = alt.X("category:N", title = "Category", axis = alt.Axis(grid = True)),
+                        x = alt.X("category:N", title = "Category", axis = alt.Axis(grid = True, labelAngle = 0)),
                         y = alt.Y("data:Q", title = "Data", axis = alt.Axis(grid = True))
                     )
                     
 
                     .add_title( #titolo e sottotitolo
-                        title = str_template_name,
+                        title = "${template_name}Template",
                         subtitle = "Example of using pynarrative with a custom template",
                         align = "center"
                     )
@@ -510,7 +628,8 @@ $(document).ready(function(){
                     )
 
                     .add_next_steps( #prossima parte della storia
-                        steps = ["Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.", "ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."],
+                        steps = ["Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+                                "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."],
                         title = "Next Steps",
                         position = "bottom"
                     )
@@ -551,6 +670,20 @@ $(document).ready(function(){
 
             // Risultato
             output_box.html(output);
+            $("#download_box").css("display", "block");
+
+            $("#download").off("click").on("click", function(){
+                const blob = new Blob([pythonTemplateCode], {type: 'text/x-python' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${template_name}Template.py`;
+                document.body.appendChild(a);
+                a.click();
+                console.log("File correctly downloaded")
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
 
         } catch (err) {
             console.log("Error:");
