@@ -36,9 +36,7 @@ $(document).ready(function(){
 
     $("#stroke_slider").on("input", function(){
         let ta_border_stroke = $(this).val()
-        console.log(ta_border_stroke)
         $("#tab_color_preview").css("border-width", ta_border_stroke+"px");
-        console.log($("#tab_color_preview").css("border-width"))
     })
 
     $("#template_preview").on("click", function(){
@@ -364,7 +362,7 @@ $(document).ready(function(){
 
         // Font options
         function check_font_size(size, min, max, default_size){
-            if (size == ""){size = default_size; console.log("Ramo isNaN" + size)};
+            if (size == ""){size = default_size;};
             if (size < min){size = min};
             if (size > max){size = max};
             return Number(size)
@@ -496,6 +494,9 @@ class myStyle(Style):
             callout_text = lines_color,
             callout_arrow = lines_color,
             callout_point = lines_color,
+            annotation_fill = main_color.replace("rgb", "rgba").replace(")", ", 0.5)"),
+            annotation_text = text_color,
+            annotation_stroke = ta_border_color,
 
             #Nextstep color options
             nextstep_box = tab_color,

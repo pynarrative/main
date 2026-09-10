@@ -126,10 +126,43 @@ a{
 }
 
 /* Body and gallery */
-#body, #gallery, #configurator_box, #download_box, #about_body, #instructions {padding: 2.5% 7.5%;}
+#body, #big_template_preview, #gallery, #configurator_box, #download_box, #about_body, #instructions {padding: 2.5% 7.5%;}
 #body > h1, #gallery > h1, #about_body  h1 {margin-bottom: 0.2%;}
 #body > p, #gallery > p, #about_body p {margin-top: 0.2%;}
 
+#big_template_preview{
+    width: 75%;
+    height: 500px;
+    margin: auto;
+    border: 1px #0f172a solid;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+#big_template_preview img{
+    height: 80%;
+    width: auto;
+}
+#big_template_preview div{
+    width: 100%;
+    margin-top: 5%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#big_template_preview img.secondary_image{
+    display: none;
+}
+
+
+#download_notebook_button{
+    background-color: #0EA5E9 !important;
+}
 
 .button{
     background-color: #5bae92;
@@ -157,7 +190,7 @@ a{
     margin-right: -5%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10% 1.5%;
+    gap: 7.5% 1.5%;
 }
 
 .template{
@@ -186,7 +219,7 @@ a{
 
 img.second{display: none;}
 
-.click_to_download{
+.click_to_preview{
     background-color: rgba(15, 23, 42, 0.6);
     width: 100%;
     height: 100%;
