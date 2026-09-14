@@ -26,10 +26,10 @@ $(document).ready(function(){
         }, 2000);
     });
 
-    $("#context_corner_radius_selection div").on("click", function(){
-        let was_selected = $(this).siblings(".context_corner_radius_selected");
-        was_selected.removeClass("context_corner_radius_selected");
-        let selected = $(this).addClass("context_corner_radius_selected");
+    $("#text_areas_corner_radius_selection div").on("click", function(){
+        let was_selected = $(this).siblings(".text_areas_corner_radius_selected");
+        was_selected.removeClass("text_areas_corner_radius_selected");
+        let selected = $(this).addClass("text_areas_corner_radius_selected");
         let radius = selected.css("border-top-left-radius");
         $("#tab_color_preview").css("border-radius", radius);
     });
@@ -217,11 +217,13 @@ $(document).ready(function(){
     }
 
     $("#main_color_input").on("input", function () {
+
         update_color(
             "#main_color_input",
             "#main_color_preview",
             "#main_color_contrast"
         );
+
         let complementary_color = get_complementary_color($(this).val());
         $("#secondary_color_preview").css("background-color", complementary_color);
         $("#secondary_color_input").val(complementary_color);
@@ -304,6 +306,7 @@ $(document).ready(function(){
         $("#secondary_color_input").toggle(100);
         $("#secondary_color_preview").toggle();
         $("#secondary_color_contrast").toggle();
+        $("#preview").toggleClass("no_secondary")
     });
 
     update_color(
@@ -334,10 +337,20 @@ $(document).ready(function(){
     $("#font_selection").trigger("change");
     $("#font_size_selection").trigger("change");
 
+    $("#title_font_selection").on("change", function() {
+        let selected_font = $(this).val();
+        $(this).css("font-family", selected_font);
+        $("#title_color_preview").css("font-family", selected_font);
+    });
+
     $("#font_selection").on("change", function() {
         let selected_font = $(this).val();
+        $(this).css("font-family", selected_font);
+        $("#title_font_selection").css("font-family", selected_font);
         $(".color_preview").css("font-family", selected_font);
-        $("#title_color_preview").css("font-family", selected_font);
+        $("#subtitle_preview").css("font-family", selected_font);
+        $("#source_preview").css("font-family", selected_font);
+        $("#title_font_selection").val(selected_font).trigger("change");
     });
 
     $("#font_size_selection").on("change", function() {
@@ -348,11 +361,32 @@ $(document).ready(function(){
         $(".color_preview").css("font-size", font_size+"pt");
     });
 
+    // Setting font sizes based on default multiplier
+    let base_font_size = $("#font_size_selection").val()
+    let title_font_size = $("#title_font_multiplier").val() * base_font_size
+    $("#title_color_preview").css("font-size", title_font_size)
+    let subtitle_font_size = $("#subtitle_font_multiplier").val() * base_font_size
+    $("#subtitle_preview").css("font-size", subtitle_font_size)
+    let source_font_size = $("#source_font_multiplier").val() * base_font_size
+    $("#source_preview").css("font-size", source_font_size)
+
     $("input#title_font_multiplier").on("input", function(){
         let base_font_size = $("#font_size_selection").val()
         let title_font_size = $(this).val() * base_font_size
         $("#title_color_preview").css("font-size", title_font_size)
-    })
+    });
+
+    $("input#subtitle_font_multiplier").on("input", function(){
+        let base_font_size = $("#font_size_selection").val()
+        let subtitle_font_size = $(this).val() * base_font_size
+        $("#subtitle_preview").css("font-size", subtitle_font_size)
+    });
+
+    $("input#source_font_multiplier").on("input", function(){
+        let base_font_size = $("#font_size_selection").val()
+        let source_font_size = $(this).val() * base_font_size
+        $("#source_preview").css("font-size", source_font_size)
+    });
 
 
     $("#create_template").on("click", function(){
@@ -370,6 +404,7 @@ $(document).ready(function(){
         }
 
         let template_name = $("#template_name").val();
+        template_name = template_name.replaceAll(" ", "_");
         if (template_name == ""){
             template_name = "myTemplate";
         }
@@ -377,6 +412,7 @@ $(document).ready(function(){
 
         // Font options
         let font_family = $("#font_selection").val();
+        let title_font_family = $("#title_font_selection").val();
         let standard_font_size = $("#font_size_selection").val();
         standard_font_size = check_font_size(standard_font_size, 1, 30, 12);
         let title_font_size_multiplier = $("#title_font_multiplier").val();
@@ -387,6 +423,9 @@ $(document).ready(function(){
         context_font_size_multiplier = check_font_size(context_font_size_multiplier, 0, 5, 1);
         let nextstep_font_size_multiplier = $("#nextstep_font_multiplier").val();
         nextstep_font_size_multiplier = check_font_size(nextstep_font_size_multiplier, 0, 5, 1);
+        let annotation_font_multiplier = $("#annotation_font_multiplier").val();
+        annotation_font_multiplier = check_font_size(annotation_font_multiplier, 0, 5, 1);
+        annotation_font_size = annotation_font_multiplier * standard_font_size
         let source_font_size_multiplier = $("#source_font_multiplier").val();
         source_font_size_multiplier = check_font_size(source_font_size_multiplier, 0, 5, 0.9);
 
@@ -409,6 +448,7 @@ $(document).ready(function(){
             const rgb = match.slice(0, 3).map(value => Math.min(255, parseInt(value, 10) - 70));
             return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
         }
+
 
         if ($("#secondary_color_preview").css("display") == "none"){
             secondary_color = main_color;
@@ -437,11 +477,13 @@ from pynarrative.templates.template import Template
 
 #Font options
 font_family = "${font_family}"
+title_font_family = "${title_font_family}"
 standard_font_size = ${standard_font_size}
 title_font_size_multiplier = ${title_font_size_multiplier}
 subtitle_font_size_multiplier = ${subtitle_font_size_multiplier}
 context_font_size_multiplier = ${context_font_size_multiplier}
 nextstep_font_size_multiplier = ${nextstep_font_size_multiplier}
+annotation_font_size = ${(annotation_font_size)}
 source_font_size_multiplier = ${source_font_size_multiplier}
 
 #Color options
@@ -468,6 +510,7 @@ class myStyle(Style):
         super().__init__(deepcopy(base.data))
 
         self.set_font(font_family)
+        self.set_title_font(title_font_family)
         self.set_base_font_size(int(standard_font_size))
         self.set_font_sizes(
             title = float(title_font_size_multiplier),
@@ -494,7 +537,7 @@ class myStyle(Style):
             callout_text = lines_color,
             callout_arrow = lines_color,
             callout_point = lines_color,
-            annotation_fill = main_color.replace("rgb", "rgba").replace(")", ", 0.5)"),
+            annotation_fill = tab_color.replace("rgb", "rgba").replace(")", ", 0.5)"),
             annotation_text = text_color,
             annotation_stroke = ta_border_color,
 
@@ -530,6 +573,8 @@ class myStyle(Style):
             nextstep_corner_radius = ta_border_radius,
             context_border_width = ta_border_stroke,
             nextstep_border_width = ta_border_stroke,
+            annotation_label_size = annotation_font_size,
+            annotation_box_border_width = ta_border_stroke,
 
             series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
 
@@ -571,109 +616,126 @@ class ${template_name}Template(Template):
             
             await pyodide.runPythonAsync(pythonTemplateCode);
 
+            const output =
+`import pynarrative as pn
+import altair as alt
+import pandas as pd
 
-            const output = await pyodide.runPythonAsync(`
-                import pynarrative as pn
-                import pandas as pd
-                import altair as alt
-                import numpy as np
-                import string
+#IMPORTANT: decomment the following row!
+#from pynarrative.templates.mytemplates.${template_name}Template import ${template_name}Template
 
-                np.random.seed(42)
+year = [y  for y in range(2012, 2025)]
 
-                length = 10
-                data = np.random.randint(0, 100, length)
+year_values = pd.DataFrame({
+    "year" : year,
+    "value" : [5.201, 5.625, 6.182, 6.551, 6.409, 7.036, 7.650, 7.618, 1.086, 1.689, 9.812, 12.298, 14.733]
+})
 
-                category_data = pd.DataFrame({
-                    "category": [i for i in string.ascii_uppercase[:length]],
-                    "data": data
-                })
+story = (
+    pn.Story(
+    #Builing the Story class object
+        data = year_values,
+        width = 800,
+        height = 350,
+        template = ${template_name}Template
+    )
+
+    #Method invocation
+    #Bar chart
+    .mark_bar(
+        size = 25
+    )
+
+    #Data encoding
+    .encode(
+        #We need both quantitative axis to add annotation
+        x = alt.X(
+            "year:Q",
+            title = "Year", 
+            axis = alt.Axis(
+                format = "d",
+                grid = True,
+                labelAngle = -30,
+                values = list(range(2012, 2025))
+            )
+        ),
+        y = alt.Y(
+            "value:Q",
+            title = "Value (in millions)",
+            axis = alt.Axis(
+                grid = True
+            )
+        ),
+    )
+    
+    #Data source
+    .add_source(
+        text = "Source: sample data",
+        position = "top",
+        align = "left"
+    )
+    
+    #Title and subtitle
+    .add_title(
+        title = "Example of using pynarrative with ${template_name}Template",
+        subtitle = "${template_name}Template",
+        align = "center"
+    )
+
+    .add_labels_chart(
+        values = "value:Q",
+        font_weight = "bold",
+        font_size = 14,
+        dy = -15
+    )
+
+    .add_annotation(
+        x = 2013,
+        y = 12,
+        text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+    )
+
+    .add_highlight(2024)
+
+    .add_line(
+        orientation = "horizontal",
+        value = year_values["value"],
+        math = "mean",
+    )
+
+    #Context (on bottom)
+    .add_context(
+        position = "bottom",
+        text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."
+    )
+
+    #Next steps
+    .add_next_steps(
+        position = "right",
+        mode = "vertical",
+        title = "Next steps",
+        steps = ["Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut", "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut", "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut"],
+    )
+
+    .render()
+)
+
+story
+
+story.to_html(fullhtml=False)
+
+`;
 
 
-                storia = (
-                    pn.Story(
-                    #Costruzione dell'oggetto di classe Story
-                        data = category_data,
-                        width = 500,
-                        height = 300,
-                        template = ${template_name}Template
-                    )
-
-                    #Chiamata dei metodi
-
-                    .mark_bar(
-                        cornerRadiusTopLeft = 7,
-                        cornerRadiusTopRight = 7,
-                    )
-
-                    .encode( #encoding dei dati
-                        x = alt.X("category:N", title = "Category", axis = alt.Axis(grid = True, labelAngle = 0)),
-                        y = alt.Y("data:Q", title = "Data", axis = alt.Axis(grid = True))
-                    )
-                    
-
-                    .add_title( #titolo e sottotitolo
-                        title = "${template_name}Template",
-                        subtitle = "Example of using pynarrative with a custom template",
-                        align = "center"
-                    )
-
-                    .add_context( #contesto, testo, spiegazione
-                        text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
-                        position = "left",
-                    )
-
-                    .add_context( #contesto, testo, spiegazione
-                        text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
-                        position = "right",
-                    )
-
-                    .add_next_steps( #prossima parte della storia
-                        steps = ["Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
-                                "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."],
-                        title = "Next Steps",
-                        position = "bottom"
-                    )
-
-                    .add_source( #fonte
-                        text = "Source: sample data",
-                        position = "bottom",
-                        align = "right"
-                    )
-
-                    .add_labels_chart(
-                        font_size = 20,
-                        font_weight = "bold",
-                        dy = 20
-                    )
-
-                    .add_line(
-                        value = category_data["data"].tolist(),
-                        math = "mean",
-                        label_font_size = 16,
-                        label_font_weight = "bold"
-                    )
-
-                    .add_line(
-                        value = category_data["data"].tolist(),
-                        math = "median",
-                        label_font_size = 16,
-                        label_font_weight = "bold"
-                    )
-
-                    .add_highlight("B")
-
-                    .render()
-                )
-
-                storia.to_html(fullhtml = False)
-            `);
+            const output_chart = await pyodide.runPythonAsync(output);
+            // TODO:permettere download del notebook di esempio
 
             // Risultato
-            output_box.html(output);
+            output_box.html(output_chart);
+
             $("#download_box").css("display", "block");
 
-            $("#download").off("click").on("click", function(){
+            $("#download_template").off("click").on("click", function(){
                 const blob = new Blob([pythonTemplateCode], {type: 'text/x-python' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -684,6 +746,85 @@ class ${template_name}Template(Template):
                 console.log("File correctly downloaded")
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
+            });
+
+
+            $("#download_notebook").off("click").on("click", function(){
+                let notebookCode = output.replace("story.to_html(fullhtml=False)", "");
+
+                const cssFontsCode = `%%html
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+</style>`;
+
+                const notebookStructure = {
+                    cells: [
+                        {
+                            cell_type: "code",
+                            execution_count: null,
+                            metadata: {},
+                            outputs: [],
+                            source: cssFontsCode.split("\n").map(line => line + "\n")
+                        },
+                        {
+                            cell_type: "code",
+                            execution_count: null,
+                            metadata: {},
+                            outputs: [],
+                            source: notebookCode.split("\n").map(line => line + "\n")
+                        }
+                    ],
+                    metadata: {
+                        language_info: {
+                            name: "python"
+                        }
+                    },
+                    nbformat: 4,
+                    nbformat_minor: 2
+                };
+
+                const blob = new Blob([JSON.stringify(notebookStructure, null, 2)], { type: 'application/json;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                
+                a.href = url;
+                a.download = `${template_name}Template.ipynb`;
+                
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                URL.revokeObjectURL(url);
+                console.log("Notebook .ipynb succesfully downloaded");
             });
 
         } catch (err) {

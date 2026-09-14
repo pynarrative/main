@@ -5,11 +5,13 @@ from pynarrative.templates.template import Template
 
 #Font options
 font_family = "Merriweather"
+title_font_family = "Oswald"
 standard_font_size = 12
 title_font_size_multiplier = 1.6
 subtitle_font_size_multiplier = 1.2
 context_font_size_multiplier = 1
 nextstep_font_size_multiplier = 1
+annotation_font_size = 12
 source_font_size_multiplier = 0.9
 
 #Color options
@@ -36,6 +38,7 @@ class myStyle(Style):
         super().__init__(deepcopy(base.data))
 
         self.set_font(font_family)
+        self.set_title_font(title_font_family)
         self.set_base_font_size(int(standard_font_size))
         self.set_font_sizes(
             title = float(title_font_size_multiplier),
@@ -62,6 +65,9 @@ class myStyle(Style):
             callout_text = lines_color,
             callout_arrow = lines_color,
             callout_point = lines_color,
+            annotation_fill = tab_color.replace("rgb", "rgba").replace(")", ", 0.5)"),
+            annotation_text = text_color,
+            annotation_stroke = ta_border_color,
 
             #Nextstep color options
             nextstep_box = tab_color,
@@ -95,6 +101,8 @@ class myStyle(Style):
             nextstep_corner_radius = ta_border_radius,
             context_border_width = ta_border_stroke,
             nextstep_border_width = ta_border_stroke,
+            annotation_label_size = annotation_font_size,
+            annotation_box_border_width = ta_border_stroke,
 
             series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
 
@@ -122,7 +130,7 @@ class myLayout(Layout):
         )
 
 
-class military2Template(Template):
+class militaryTemplate(Template):
     """
     Custom style template.
     """

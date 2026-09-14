@@ -4,8 +4,8 @@ from pynarrative.templates.style import DefaultStyle, Style
 from pynarrative.templates.template import Template
 
 #Font options
-font_family = "Oswald"
-title_font_family = "Oswald"
+font_family = "Montserrat"
+title_font_family = "Montserrat"
 standard_font_size = 12
 title_font_size_multiplier = 1.6
 subtitle_font_size_multiplier = 1.2
@@ -15,10 +15,10 @@ annotation_font_size = 12
 source_font_size_multiplier = 0.9
 
 #Color options
-main_color = "rgb(178, 95, 56)"
-secondary_color = "rgb(56, 139, 178)"
-tab_color = "rgb(255, 185, 153)"
-ta_border_color = "rgb(178, 95, 56)"
+main_color = "rgb(89, 141, 88)"
+secondary_color = "rgb(113, 193, 209)"
+tab_color = "rgb(255, 255, 255)"
+ta_border_color = "rgb(89, 141, 88)"
 lines_color = "rgb(191, 38, 38)"
 title_color = "#000000"
 text_color = "rgb(0, 0, 0)"
@@ -27,9 +27,9 @@ text_color = "rgb(0, 0, 0)"
 def remove_px(val):
     val_str = str(val).lower().replace("px", "").strip()
     return float(val_str)
-ta_border_radius = "24px"
+ta_border_radius = "40px"
 ta_border_radius = remove_px(ta_border_radius)
-ta_border_stroke = "2px"
+ta_border_stroke = "1.875px"
 ta_border_stroke = remove_px(ta_border_stroke)
 
 class myStyle(Style):
@@ -104,7 +104,7 @@ class myStyle(Style):
             annotation_label_size = annotation_font_size,
             annotation_box_border_width = ta_border_stroke,
 
-            series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
+            series_colors = [main_color, secondary_color, "lightgrey", "darkblue", "orange", "yellow"],
 
             reference_line_color = lines_color, #horizontal and vertical lines
         )
@@ -130,7 +130,7 @@ class myLayout(Layout):
         )
 
 
-class orangeBlueTemplate(Template):
+class pieTemplate(Template):
     """
     Custom style template.
     """

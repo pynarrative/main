@@ -2,17 +2,21 @@ $(document).ready(function(){
     var template_gallery = $("#template_gallery");
 
     let templates = [
+        "pointsTemplate",
+        "blueBeigeTemplate",
         "colosseumTemplate",
+        "pieTemplate",
         "tourEiffelTemplate",
         "darkBlueTemplate",
         "inflationTemplate",
         "orangeBlueTemplate",
         "militaryTemplate",
         "sampleTemplate",
-        "greenTemplate"
+        "greenTemplate",
+        "defaultTemplate"
     ]
 
-    for (let i=0; i<=7; i++){
+    for (let i=0; i<=11; i++){
         let template_name = templates[i];
         let main_image_path = `img/template/${template_name}/${template_name}A.png`;
         let second_image_path = `img/template/${template_name}/${template_name}B.png`;
@@ -24,7 +28,7 @@ $(document).ready(function(){
                     <img class = "second" src = "${second_image_path}">
                     <a class = "template_file" href = "${template_file}"></a>
                     <a class = "notebook_file" href = "${notebook_file}"></a>
-                    <p class = "click_to_preview">Click to preview ${template_name}.py</p>
+                    <p class = "click_to_preview">Click to preview <span class="italic">${template_name}</span>.py</p>
                 </div>
             `);
         template_gallery.append(template_img);
@@ -111,6 +115,10 @@ $(document).ready(function(){
         start();
     }
     slideshow();
+
+    $("#big_template_preview").on("click", function (){
+        window.scrollTo(0, $("#instructions").offset().top);
+    });
 
     $("#big_template_preview").on("mouseenter", function (){
         let main_img = $(this).find("img.main_image");
