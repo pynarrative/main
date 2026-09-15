@@ -140,22 +140,28 @@ a{
 
 #big_template_preview{
     width: 75%;
-    height: 500px;
-    margin: auto;
+    height: auto;
+    margin: 10% auto 2.5% auto;
     border: 1px #0f172a solid;
     border-radius: 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer;
+    cursor: grab;
     overflow: hidden;
 }
 
-#big_template_preview img{
-    height: 80%;
-    width: auto;
+#images_container{
+    width: 75%;
+    margin: auto;
+    text-align: center;
 }
-#big_template_preview div{
+
+#big_template_preview #images_container img{
+    max-width: 100%;
+    margin: auto;
+}
+#download_button_container{
     width: 100%;
     margin-top: 5%;
     display: flex;
@@ -216,7 +222,8 @@ a{
 .template:hover{transform: translateY(-10px);}
 
 .template img{
-    max-width: 90%;
+    margin: auto;
+    max-width: 100%;
     border-radius: 16px;
 }
 
@@ -279,10 +286,11 @@ img.second{display: none;}
 
 /* Options (left column) */
 #options{
+    font-size: 80%;
     grid-area: options;
     display: grid;
-    grid-template-columns: 1fr 2.5fr;
-    grid-template-rows: repeat(10, 0.75fr);
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr 1.5fr 1.5fr 1.5fr;
     grid-template-areas:
     "title_options title_options"
     "input_template input_template"
@@ -291,9 +299,9 @@ img.second{display: none;}
     "title_font_multiplier_container title_font_selection_container"
     "subtitle_font_multiplier_container title_subtitle_source_color_input_container"
     "source_font_multiplier_container title_subtitle_source_color_input_container"
-    "context_font_multiplier_container ta_background_color_input_container"
-    "nextstep_font_multiplier_container ta_border_color_input_container"
-    "annotation_font_multiplier_container text_areas_corner_radius_selection"
+    "context_font_multiplier_container context_options"
+    "nextstep_font_multiplier_container ns_options"
+    "annotation_font_multiplier_container annotation_options"
 }
 
 #options h2{
@@ -313,10 +321,11 @@ img.second{display: none;}
 #options input[type = "text"], #options input[type = "number"]{
     border: 0.5px #0f172a solid;
     border-radius: 16px;
-    padding: 1.5% 2%;
     text-align: center;
 }
 #options input, #options select{cursor: pointer;}
+#options input[type = "text"]{padding: 1%;}
+#options input[type = "number"]{padding: 2% 1.5%;}
 
  #options select{
     font-size: 90%;
@@ -372,14 +381,24 @@ select:open::picker-icon {
 #subtitle_font_multiplier_container{grid-area: subtitle_font_multiplier_container;}
 #source_font_multiplier_container{grid-area: source_font_multiplier_container;}
 #context_font_multiplier_container{grid-area: context_font_multiplier_container;}
+#context_options{grid-area: context_options;}
+#context_options, #ns_options, #annotation_options{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    max-width: 90%;
+    margin: auto;
+}
 #ta_background_color_input_container{grid-area: ta_background_color_input_container;}
 #ta_border_color_input_container{grid-area: ta_border_color_input_container;}
 #nextstep_font_multiplier_container{grid-area: nextstep_font_multiplier_container;}
+#ns_options{grid-area: ns_options;}
 #annotation_font_multiplier_container{grid-area: annotation_font_multiplier_container;}
-#text_areas_corner_radius_selection{
-    grid-area: text_areas_corner_radius_selection;
+#annotation_options{grid-area: annotation_options;}
+
+#text_areas_corner_radius_selection, #ns_areas_corner_radius_selection, #annotation_areas_corner_radius_selection{
     margin: auto;
-    width: 70%;
+    width: 60%;
     align-self: center;
     display: grid;
     grid-template-rows: repeat(4, auto);
@@ -389,9 +408,9 @@ select:open::picker-icon {
     "context_corner_radius_opt1  context_corner_radius_opt2 context_corner_radius_opt3 context_corner_radius_opt4 context_corner_radius_opt5 context_corner_radius_opt6"
     "border_stroke_label border_stroke_label border_stroke_label border_stroke_label border_stroke_label border_stroke_label"
     "stroke_slider stroke_slider stroke_slider stroke_slider stroke_slider stroke_slider";
-    gap: 0.5% 3%;
+    gap: 0.5% 2%;
 }
-#text_areas_corner_radius_selection div{
+#text_areas_corner_radius_selection div, #ns_areas_corner_radius_selection div, #annotation_areas_corner_radius_selection div{
     height: 25px;
     width: 25px;
     margin: auto;
@@ -402,9 +421,9 @@ select:open::picker-icon {
     justify-content: center;
     align-items: center;
     font-size: 85%;
+    cursor: pointer;
 }
-#text_areas_corner_radius_selection div:hover{cursor: pointer;}
-.text_areas_corner_radius_selected{background-color: grey;}
+.text_areas_corner_radius_selected, .ns_areas_corner_radius_selected, .annotation_areas_corner_radius_selected{background-color: grey;}
 #opt1{
     grid-area: context_corner_radius_opt1;
     border-top-left-radius: 40px;
@@ -432,8 +451,7 @@ select:open::picker-icon {
 #corner_radius_label{grid-area: corner_radius_label; text-align: center; font-weight: bold; margin: 5% 0 1% 0;}
 #border_stroke_label{grid-area: border_stroke_label; text-align: center; font-weight: bold; margin: 5% 0 1% 0;}
 
-#stroke_slider{grid-area: stroke_slider;}
-#stroke_slider:hover{cursor: pointer;}
+.stroke_slider{grid-area: stroke_slider; cursor: pointer;}
 
 #lines_color_input_container{grid-area: lines_color_input_container;}
 
@@ -444,24 +462,28 @@ select:open::picker-icon {
     grid-area: preview;
     gap: 1% 3%;
     grid-template-columns: 1.5fr 1fr;
-    grid-template-rows: 0.5fr 1fr 1fr 0.3fr 1fr 1fr;
+    grid-template-rows: 0.5fr 1fr 1fr 0.3fr 1fr 1fr 1fr 1fr;
     grid-template-areas:
     "title_preview title_contrast"
     "main_color_preview main_color_contrast"
     "secondary_color_preview secondary_color_contrast"
     "lines_color_preview lines_color_preview"
     "title_color_preview_container title_color_contrast"
-    "tab_color_preview tab_color_contrast";
+    "tab_color_preview tab_color_contrast"
+    "ns_color_preview ns_color_contrast"
+    "annotation_color_preview annotation_color_contrast";
 }
 
 #preview.no_secondary {
-    grid-template-rows: 0.5fr 1fr 0.3fr 1fr 1fr;
+    grid-template-rows: 0.5fr 1fr 0.3fr 1fr 1fr 1fr 1fr;
     grid-template-areas:
     "title_preview title_contrast"
     "main_color_preview main_color_contrast"
     "lines_color_preview lines_color_preview"
     "title_color_preview_container title_color_contrast"
-    "tab_color_preview tab_color_contrast";
+    "tab_color_preview tab_color_contrast"
+    "ns_color_preview ns_color_contrast"
+    "annotation_color_preview annotation_color_contrast";
 }
 
 #preview h2{
@@ -476,9 +498,10 @@ select:open::picker-icon {
 #main_color_contrast{grid-area: main_color_contrast;}
 #secondary_color_preview{grid-area: secondary_color_preview;}
 #secondary_color_contrast{grid-area: secondary_color_contrast;}
+#lines_color_preview{grid-area: lines_color_preview;}
 #title_color_preview_container{grid-area: title_color_preview_container; border: 1px black solid;}
 #tab_color_contrast{grid-area: tab_color_contrast;}
-#tab_color_preview{
+#tab_color_preview, #ns_color_preview, #annotation_color_preview{
     grid-area: tab_color_preview;
     border-width: 2px;
     border-style: solid;
@@ -486,7 +509,10 @@ select:open::picker-icon {
     transition: all, 0.2s ease-in-out;
 }
 #tab_color_contrast{grid-area: tab_color_contrast;}
-#lines_color_preview{grid-area: lines_color_preview;}
+#ns_color_preview{grid-area: ns_color_preview;}
+#ns_color_contrast{grid-area: ns_color_contrast;}
+#annotation_color_preview{grid-area: annotation_color_preview;}
+#annotation_color_contrast{grid-area: annotation_color_contrast;}
 
 .color_preview{font-size: 12pt;}
 .color_preview, .contrast_ratio, #title_color_preview_container {

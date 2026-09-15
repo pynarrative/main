@@ -4,8 +4,8 @@ from pynarrative.templates.style import DefaultStyle, Style
 from pynarrative.templates.template import Template
 
 #Font options
-font_family = "Montserrat"
-title_font_family = "Montserrat"
+font_family = "Inter"
+title_font_family = "Inter"
 standard_font_size = 12
 title_font_size_multiplier = 1.6
 subtitle_font_size_multiplier = 1.2
@@ -15,21 +15,21 @@ annotation_font_size = 12
 source_font_size_multiplier = 0.9
 
 #Color options
-main_color = "rgb(89, 141, 88)"
-secondary_color = "rgb(113, 193, 209)"
+secondary_color = "rgb(206, 84, 0)"
+main_color = secondary_color
 tab_color = "rgb(255, 255, 255)"
-ta_border_color = "transparent"
+ta_border_color = "rgba(0, 0, 0, 0)"
 lines_color = "rgb(191, 38, 38)"
-title_color = "#000000"
-text_color = "rgb(0, 0, 0)"
+title_color = "#ce5400"
+text_color = "rgb(206, 84, 0)"
 
 #Border options
 def remove_px(val):
     val_str = str(val).lower().replace("px", "").strip()
     return float(val_str)
-ta_border_radius = "40px"
+ta_border_radius = "16px"
 ta_border_radius = remove_px(ta_border_radius)
-ta_border_stroke = "1.875px"
+ta_border_stroke = "1.66667px"
 ta_border_stroke = remove_px(ta_border_stroke)
 
 class myStyle(Style):
@@ -65,8 +65,8 @@ class myStyle(Style):
             callout_text = lines_color,
             callout_arrow = lines_color,
             callout_point = lines_color,
-            annotation_fill = tab_color.replace("rgb", "rgba").replace(")", ", 0.5)"),
-            annotation_text = text_color,
+            annotation_fill = secondary_color,
+            annotation_text = "#ffffff",
             annotation_stroke = ta_border_color,
 
             #Nextstep color options
@@ -86,7 +86,7 @@ class myStyle(Style):
             #Context area(s) options 
             fill = tab_color,
             stroke = ta_border_color,
-            padding = 25,
+            padding = 0,
             corner_radius = ta_border_radius,
             opacity = 1.0,
         )
@@ -104,7 +104,7 @@ class myStyle(Style):
             annotation_label_size = annotation_font_size,
             annotation_box_border_width = ta_border_stroke,
 
-            series_colors = [main_color, secondary_color, "lightgrey", "darkblue", "orange", "yellow"],
+            series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
 
             reference_line_color = lines_color, #horizontal and vertical lines
         )
@@ -130,7 +130,7 @@ class myLayout(Layout):
         )
 
 
-class pieTemplate(Template):
+class orangeTemplate(Template):
     """
     Custom style template.
     """

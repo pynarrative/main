@@ -65,9 +65,9 @@ class myStyle(Style):
             callout_text = lines_color,
             callout_arrow = lines_color,
             callout_point = lines_color,
-            annotation_fill = tab_color.replace("rgb", "rgba").replace(")", ", 0.5)"),
+            annotation_fill = "rgba(255, 255, 255, 0.5)",
             annotation_text = text_color,
-            annotation_stroke = ta_border_color,
+            annotation_stroke = "transparent",
 
             #Nextstep color options
             nextstep_box = tab_color,
@@ -86,7 +86,7 @@ class myStyle(Style):
             #Context area(s) options 
             fill = tab_color,
             stroke = ta_border_color,
-            padding = 25,
+            padding = 5,
             corner_radius = ta_border_radius,
             opacity = 1.0,
         )

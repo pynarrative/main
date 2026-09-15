@@ -34,10 +34,37 @@ $(document).ready(function(){
         $("#tab_color_preview").css("border-radius", radius);
     });
 
-    $("#stroke_slider").on("input", function(){
+    $("#ns_areas_corner_radius_selection div").on("click", function(){
+        let was_selected = $(this).siblings(".ns_areas_corner_radius_selected");
+        was_selected.removeClass("ns_areas_corner_radius_selected");
+        let selected = $(this).addClass("ns_areas_corner_radius_selected");
+        let radius = selected.css("border-top-left-radius");
+        $("#ns_color_preview").css("border-radius", radius);
+    });
+
+    $("#annotation_areas_corner_radius_selection div").on("click", function(){
+        let was_selected = $(this).siblings(".annotation_areas_corner_radius_selected");
+        was_selected.removeClass("annotation_areas_corner_radius_selected");
+        let selected = $(this).addClass("annotation_areas_corner_radius_selected");
+        let radius = selected.css("border-top-left-radius");
+        $("#annotation_color_preview").css("border-radius", radius);
+    });
+
+    $("#context_stroke_slider").on("input", function(){
         let ta_border_stroke = $(this).val()
         $("#tab_color_preview").css("border-width", ta_border_stroke+"px");
     })
+
+    $("#ns_stroke_slider").on("input", function(){
+        let ta_border_stroke = $(this).val()
+        $("#ns_color_preview").css("border-width", ta_border_stroke+"px");
+    })
+
+    $("#annotation_stroke_slider").on("input", function(){
+        let ta_border_stroke = $(this).val()
+        $("#annotation_color_preview").css("border-width", ta_border_stroke+"px");
+    })
+
 
     $("#template_preview").on("click", function(){
         window.scrollTo(0, $("#download_box").offset().top);
@@ -197,6 +224,13 @@ $(document).ready(function(){
             "#main_color_contrast"
         );
 
+
+        check_contrast(
+            $("#secondary_color_input").val(),
+            text_color,
+            "#secondary_color_contrast"
+        );
+
         check_contrast(
             $("#tab_color_input").val(),
             text_color,
@@ -204,10 +238,17 @@ $(document).ready(function(){
         );
 
         check_contrast(
-            $("#secondary_color_input").val(),
+            $("#ns_color_input").val(),
             text_color,
-            "#secondary_color_contrast"
+            "#ns_color_contrast"
         );
+
+        check_contrast(
+            $("#annotation_color_input").val(),
+            text_color,
+            "#annotation_color_contrast"
+        );
+
 
         check_contrast( 
             "#ffffff",
@@ -242,8 +283,31 @@ $(document).ready(function(){
         );
     });
 
+    $("#ns_color_input").on("input", function () {
+        update_color(
+            "#ns_color_input",
+            "#ns_color_preview",
+            "#ns_color_contrast"
+        );
+    });
+
+    $("#annotation_color_input").on("input", function () {
+        update_color(
+            "#annotation_color_input",
+            "#annotation_color_preview",
+            "annotation_color_contrast"
+        );
+    });
+
     $("input.ta_border_color_input").on("input", function () {
         $("#tab_color_preview").css("border-color", $(this).val());
+    });
+    
+    $("input.ns_border_color_input").on("input", function () {
+        $("#ns_color_preview").css("border-color", $(this).val());
+    });
+    $("input.annotation_border_color_input").on("input", function () {
+        $("#annotation_color_preview").css("border-color", $(this).val());
     });
 
     $("#lines_color_input").on("input", function () {
@@ -262,45 +326,141 @@ $(document).ready(function(){
         );
     });
 
-    $("#title_color_input").on("input", function () {
-        title_color = $(this).val();
-        $("#title_color_preview").css("color", title_color)
-        update_all_contrasts();
-    });
-
     $("#text_color_input").on("input", function () {
         let text_color = $(this).val();
         $(".color_preview").css("color", text_color);
+        $("#title_color_preview").css("color", text_color);
+        $("#context_text_color_input").val(text_color);
+        $("#ns_text_color_input").val(text_color);
+        $("#annotation_text_color_input").val(text_color);
         update_all_contrasts();
     });
 
-    let original_tab_color = $("#tab_color_input").val();
-    $("#tab_color_check").on("click", function () {
-        $("#tab_color_input").toggle(100);
-        let current_color = $("#tab_color_input").val();
-        if (current_color == "#ffffff"){
-            $("#tab_color_input").val(original_tab_color);
-            $("#tab_color_preview").css("background-color", original_tab_color);
-            check_contrast(original_tab_color, $("#text_color_input").val(), "#tab_color_contrast");
-        } else{
-            original_tab_color = current_color;
-            $("#tab_color_input").val("#ffffff");
-            $("#tab_color_preview").css("background-color", "#ffffff");
-            check_contrast("#ffffff", $("#text_color_input").val(), "#tab_color_contrast");
-        }
+    $("#title_color_input").on("input", function () {
+        let title_color = $(this).val();
+        $("#title_color_preview").css("color", title_color);
+        check_contrast(
+            $("#title_color_preview_container").css("background-color"),
+            title_color,
+            "#title_color_contrast"
+        );
     });
+    // SEI QUI
+
+    $("#context_text_color_input").on("input", function () {
+        let context_text_color = $(this).val();
+        $("#tab_color_preview").css("color", context_text_color)
+        check_contrast(
+            $("#tab_color_preview").css("background-color"),
+            context_text_color,
+            "#tab_color_contrast"
+        );
+    });
+
+    $("#ns_text_color_input").on("input", function () {
+        let ns_text_color = $(this).val();
+        $("#ns_color_preview").css("color", ns_text_color);
+        check_contrast(
+            $("#ns_color_preview").css("background-color"),
+            ns_text_color,
+            "#ns_color_contrast"
+        );
+    });
+
+    $("#annotation_text_color_input").on("input", function () {
+        let annotation_text_color = $(this).val();
+        $("#annotation_color_preview").css("color", annotation_text_color);
+        check_contrast(
+            $("#annotation_color_preview").css("background-color"),
+            annotation_text_color,
+            "#annotation_color_contrast"
+        );
+    });
+
+    let original_tab_color = $("#tab_color_input").val();
+    $("#tab_color_check").on("click", function() {
+        toggle_background_color_selection(
+            original_tab_color,
+            $("#tab_color_input"), 
+            $("#tab_color_preview"), 
+            $("#tab_color_contrast")
+        );
+    });
+
+    let original_ns_color = $("#ns_color_input").val();
+    $("#ns_color_check").on("click", function() {
+        toggle_background_color_selection(
+            original_ns_color,
+            $("#ns_color_input"), 
+            $("#ns_color_preview"), 
+            $("#ns_color_contrast")
+        );
+    });
+
+    let original_annotation_color = $("#annotation_color_input").val();
+    $("#annotation_color_check").on("click", function() {
+        toggle_background_color_selection(
+            original_annotation_color,
+            $("#annotation_color_input"), 
+            $("#annotation_color_preview"), 
+            $("#annotation_color_contrast")
+        );
+    });
+
+    function toggle_background_color_selection(original_color, input_element, preview_element, contrast_element){
+        input_element.toggle(100);
+        let current_color = input_element.val();
+
+        if (current_color == "#ffffff"){
+            input_element.val(original_color);
+            preview_element.css("background-color", original_color);
+            check_contrast(original_color, $("#context_text_color_input").val(), contrast_element);
+        } else{
+            original_color = current_color;
+            input_element.val("#ffffff");
+            preview_element.css("background-color", "#ffffff");
+            check_contrast("#ffffff", $("#context_text_color_input").val(), contrast_element);
+        }
+    }
+
     
     let original_ta_border_color = $("input[type='color'].ta_border_color_input").val();
     $("input[type='checkbox'].ta_border_color_input").on("click", function () {
-        let current_color = $("#tab_color_preview").css("border-color");
-        $("input[type='color'].ta_border_color_input").toggle(100);
-        if (current_color == "rgba(0, 0, 0, 0)"){
-            $("#tab_color_preview").css("border-color", original_ta_border_color);
-        } else{
-            original_ta_border_color = current_color;
-            $("#tab_color_preview").css("border-color", "rgba(0, 0, 0, 0)");
-        }
+        toggle_border_color_selection(
+            original_ta_border_color,
+            $("input[type='color'].ta_border_color_input"),
+            $("#tab_color_preview")
+        );
     });
+
+    let original_ns_border_color = $("input[type='color'].ns_border_color_input").val();
+    $("input[type='checkbox'].ns_border_color_input").on("click", function () {
+        toggle_border_color_selection(
+            original_ns_border_color,
+            $("input[type='color'].ns_border_color_input"),
+            $("#ns_color_preview")
+        );
+    });
+
+    let original_annotation_border_color = $("input[type='color'].annotation_border_color_input").val();
+    $("input[type='checkbox'].annotation_border_color_input").on("click", function () {
+        toggle_border_color_selection(
+            original_annotation_border_color,
+            $("input[type='color'].annotation_border_color_input"),
+            $("#annotation_color_preview")
+        );
+    });
+
+    function toggle_border_color_selection(original_color, input_element, preview_element) {
+        let current_color = preview_element.css("border-color");
+        input_element.toggle(100);
+
+        if (current_color === "rgba(0, 0, 0, 0)" || current_color === "transparent") {
+            preview_element.css("border-color", original_color);
+        } else {
+            preview_element.css("border-color", "rgba(0, 0, 0, 0)");
+        }
+    }
 
     $("#secondary_color_check").on("click", function () {
         $("#secondary_color_input").toggle(100);
@@ -319,6 +479,18 @@ $(document).ready(function(){
         "#tab_color_input",
         "#tab_color_preview",
         "#tab_color_contrast"
+    );
+
+    update_color(
+        "#ns_color_input",
+        "#ns_color_preview",
+        "#ns_color_contrast"
+    );
+
+    update_color(
+        "#annotation_color_input",
+        "#annotation_color_preview",
+        "#annotation_color_contrast"
     );
 
     update_color(
@@ -434,25 +606,35 @@ $(document).ready(function(){
         let main_color = $("#main_color_preview").css("background-color");
         let tab_color = $("#tab_color_preview").css("background-color");
         let ta_border_color = $("#tab_color_preview").css("border-color");
+        let ns_color = $("#ns_color_preview").css("background-color");
+        let ns_border_color = $("#ns_color_preview").css("border-color");
+        let annotation_color = $("#annotation_color_preview").css("background-color");
+        let annotation_border_color = $("#annotation_color_preview").css("border-color");
         let secondary_color = $("#secondary_color_preview").css("background-color");
         let title_color = $("#title_color_input").val();
         let text_color = $("#main_color_preview").css("color");
+        let context_text_color = $("#tab_color_preview").css("color");
+        let ns_text_color = $("#ns_color_preview").css("color");
+        let annotation_text_color = $("#annotation_color_preview").css("color");
         let lines_color = $("#lines_color_preview").css("background-color");
 
         // Other options
         let ta_border_radius = $("#tab_color_preview").css("border-radius");
         let ta_border_stroke = $("#tab_color_preview").css("border-width");
+        let ns_border_radius = $("#ns_color_preview").css("border-radius");
+        let ns_border_stroke = $("#ns_color_preview").css("border-width");
+        let annotation_border_radius = $("#annotation_color_preview").css("border-radius");
+        let annotation_border_stroke = $("#annotation_color_preview").css("border-width");
 
         function darkened_color(color) {
             const match = color.match(/\d+/g);
-            const rgb = match.slice(0, 3).map(value => Math.min(255, parseInt(value, 10) - 70));
+            const rgb = match.slice(0, 3).map(value => Math.min(255, parseInt(value, 10) - 40));
             return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
         }
 
 
         if ($("#secondary_color_preview").css("display") == "none"){
-            secondary_color = main_color;
-            main_color = darkened_color(secondary_color);
+            secondary_color = darkened_color(main_color);
         }
         if ($("#tab_color_preview").css("display") == "none"){
             tab_color = "(255, 255, 255)";
@@ -491,9 +673,16 @@ main_color = "${main_color}"
 secondary_color = "${secondary_color}"
 tab_color = "${tab_color}"
 ta_border_color = "${ta_border_color}"
+ns_color = "${ns_color}"
+ns_border_color = "${ns_border_color}"
+annotation_color = "${annotation_color}"
+annotation_border_color = "${annotation_border_color}"
 lines_color = "${lines_color}"
 title_color = "${title_color}"
 text_color = "${text_color}"
+context_text_color = "${context_text_color}"
+ns_text_color = "${ns_text_color}"
+annotation_text_color = "${annotation_text_color}"
 
 #Border options
 def remove_px(val):
@@ -503,6 +692,16 @@ ta_border_radius = "${ta_border_radius}"
 ta_border_radius = remove_px(ta_border_radius)
 ta_border_stroke = "${ta_border_stroke}"
 ta_border_stroke = remove_px(ta_border_stroke)
+
+ns_border_radius = "${ns_border_radius}"
+ns_border_radius = remove_px(ns_border_radius)
+ns_border_stroke = "${ns_border_stroke}"
+ns_border_stroke = remove_px(ns_border_stroke)
+
+annotation_border_radius = "${annotation_border_radius}"
+annotation_border_radius = remove_px(annotation_border_radius)
+annotation_border_stroke = "${annotation_border_stroke}"
+annotation_border_stroke = remove_px(annotation_border_stroke)
 
 class myStyle(Style):
     def __init__(self):
@@ -527,7 +726,7 @@ class myStyle(Style):
             subtitle = title_color,
 
             #Context area(s) text color
-            context = text_color,
+            context = context_text_color,
 
             #Bars colors (if bar chart is used)
             bar_muted = main_color,
@@ -537,15 +736,15 @@ class myStyle(Style):
             callout_text = lines_color,
             callout_arrow = lines_color,
             callout_point = lines_color,
-            annotation_fill = tab_color.replace("rgb", "rgba").replace(")", ", 0.5)"),
-            annotation_text = text_color,
-            annotation_stroke = ta_border_color,
+            annotation_fill = annotation_color,
+            annotation_text = annotation_text_color,
+            annotation_stroke = annotation_border_color,
 
             #Nextstep color options
-            nextstep_box = tab_color,
-            nextstep_border = ta_border_color,
-            nextstep_text = text_color,
-            nextstep_title = text_color,
+            nextstep_box = ns_color,
+            nextstep_border = ns_border_color,
+            nextstep_text = ns_text_color,
+            nextstep_title = ns_text_color,
 
             #Source text color
             source = text_color,
@@ -570,11 +769,11 @@ class myStyle(Style):
             axis_tick_color='#d8c9ad',
             axis_domain_color='#d8c9ad',
             bar_fill_color = main_color,
-            nextstep_corner_radius = ta_border_radius,
             context_border_width = ta_border_stroke,
-            nextstep_border_width = ta_border_stroke,
+            nextstep_corner_radius = ns_border_radius,
+            nextstep_border_width = ns_border_stroke,
             annotation_label_size = annotation_font_size,
-            annotation_box_border_width = ta_border_stroke,
+            annotation_box_border_width = annotation_border_stroke,
 
             series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
 

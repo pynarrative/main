@@ -5,9 +5,9 @@ from pynarrative.templates.template import Template
 
 #Font options
 font_family = "Raleway"
-title_font_family = "Space Grotesk"
+title_font_family = "Caveat"
 standard_font_size = 12
-title_font_size_multiplier = 1.6
+title_font_size_multiplier = 2.2
 subtitle_font_size_multiplier = 1.2
 context_font_size_multiplier = 1
 nextstep_font_size_multiplier = 1
@@ -17,11 +17,11 @@ source_font_size_multiplier = 0.9
 #Color options
 main_color = "rgb(-17, 14, 56)"
 secondary_color = "rgb(53, 84, 126)"
-tab_color = "rgb(53, 84, 126)"
-ta_border_color = "rgba(0, 0, 0, 0)"
+tab_color = "#ffffff"
+ta_border_color = "transparent"
 lines_color = "rgb(191, 38, 38)"
-title_color = "#000000"
-text_color = "rgb(255, 255, 255)"
+title_color = "rgb(-17, 14, 56)"
+text_color = "rgb(-17, 14, 56)"
 
 #Border options
 def remove_px(val):
@@ -29,8 +29,7 @@ def remove_px(val):
     return float(val_str)
 ta_border_radius = "16px"
 ta_border_radius = remove_px(ta_border_radius)
-ta_border_stroke = "2px"
-ta_border_stroke = remove_px(ta_border_stroke)
+ta_border_stroke = 1
 
 class myStyle(Style):
     def __init__(self):

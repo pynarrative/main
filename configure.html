@@ -169,47 +169,126 @@
                     <input type="color" id="title_color_input" value="#000000">
                 </div>
 
-                <!-- Context and nextstep options -->
+
+                <!-- CONTEXT font size multiplier -->
                 <div id="context_font_multiplier_container">
                     <h4>Context font multiplier</h4>
                     <input type="number" value="1" id="context_font_multiplier" min="0" max="5" step="0.1">
                 </div>
 
+                <!-- CONTEXT areas options -->
+                <div id="context_options">
+                    
+                    <div id="context_text_color_input_container">
+                        <h4>Text color</h4>
+                        <input type="color" id="context_text_color_input" value="#000000">
+                    </div>
+
+                    <div id="ta_background_color_input_container">
+                        <h4>Context areas background color</h4>
+                        <input type="checkbox" checked id="tab_color_check">
+                        <input type="color" id="tab_color_input" value="#cbb9b1">
+                    </div>
+
+                    <div class="ta_border_color_input" id="ta_border_color_input_container">
+                        <h4>Context areas border color</h4>
+                        <input type="checkbox" checked class="ta_border_color_input">
+                        <input type="color" class="ta_border_color_input" value="rgb(103 91 91)">
+                    </div>
+                    
+                    <div id="text_areas_corner_radius_selection">
+                        <label id="corner_radius_label">Context areas corner radius</label>
+                        <div id="opt1">40</div>
+                        <div id="opt2">32</div>
+                        <div id="opt3">24</div>
+                        <div id="opt4" class="text_areas_corner_radius_selected">16</div>
+                        <div id="opt5">8</div>
+                        <div id="opt6">0</div>
+                        <label id="border_stroke_label" for="stroke_slider">Context areas border stroke</label>
+                        <input type="range" min="1" max="5" value="2" class="stroke_slider" id="context_stroke_slider" step="1">
+                    </div>
+                    
+                </div>
+
+                 <!-- NEXTSTEPS font size multiplier -->
                 <div id="nextstep_font_multiplier_container">
                     <h4>Nextstep font multiplier</h4>
                     <input type="number" value="1" id="nextstep_font_multiplier" min="0" max="5" step="0.1">
                 </div>
 
+                <!-- NEXTSTEPS areas options -->
+                <div id="ns_options">
+                    
+                    <div id="ns_text_color_input_container">
+                        <h4>Text color</h4>
+                        <input type="color" id="ns_text_color_input" value="#000000">
+                    </div>
+                    
+                    <div id="ns_background_color_input_container">
+                        <h4>Nextsteps areas background color</h4>
+                        <input type="checkbox" checked id="ns_color_check">
+                        <input type="color" id="ns_color_input" value="#cbb9b1">
+                    </div>
+
+                    <div id="ns_border_color_input_container">
+                        <h4>Nextsteps areas border color</h4>
+                        <input type="checkbox" checked class="ns_border_color_input">
+                        <input type="color" class="ns_border_color_input" value="rgb(103 91 91)">
+                    </div>
+
+                    <div id="ns_areas_corner_radius_selection">
+                        <label id="corner_radius_label">Nextsteps areas corner radius</label>
+                        <div id="opt1">40</div>
+                        <div id="opt2">32</div>
+                        <div id="opt3">24</div>
+                        <div id="opt4" class="ns_areas_corner_radius_selected">16</div>
+                        <div id="opt5">8</div>
+                        <div id="opt6">0</div>
+                        <label id="border_stroke_label" for="stroke_slider">Nextsteps areas border stroke</label>
+                        <input type="range" min="1" max="5" value="2" class="stroke_slider" id="ns_stroke_slider" step="1">
+                    </div>
+                </div>
+
+                <!-- ANNOTATION font size multiplier -->
                 <div id="annotation_font_multiplier_container">
                     <h4>Annotation font multiplier</h4>
                     <input type="number" value="1" id="annotation_font_multiplier" min="0" max="5" step="0.1">
                 </div>
 
-                <!-- Text areas background color input -->
-                <div id="ta_background_color_input_container">
-                    <h4>Text areas background color</h4>
-                    <input type="checkbox" checked id="tab_color_check">
-                    <input type="color" id="tab_color_input" value="#cbb9b1">
+                <!-- ANNOTATION areas options -->
+                <div id="annotation_options">
+
+                    <div id="annotation_text_color_input_container">
+                        <h4>Text color</h4>
+                        <input type="color" id="annotation_text_color_input" value="#000000">
+                    </div>
+
+                    <div id="annotation_background_color_input_container">
+                        <h4>Annotation areas background color</h4>
+                        <input type="checkbox" checked id="annotation_color_check">
+                        <input type="color" id="annotation_color_input" value="#cce4f0">
+                    </div>
+
+                    <div id="annotation_border_color_input_container">
+                        <h4>Annotation areas border color</h4>
+                        <input type="checkbox" checked class="annotation_border_color_input">
+                        <input type="color" class="annotation_border_color_input" value="rgb(103 91 91)">
+                    </div>
+
+                    <div id="annotation_areas_corner_radius_selection">
+                        <label id="corner_radius_label">Annotation areas corner radius</label>
+                        <div id="opt1">40</div>
+                        <div id="opt2">32</div>
+                        <div id="opt3">24</div>
+                        <div id="opt4" class="annotation_areas_corner_radius_selected">16</div>
+                        <div id="opt5">8</div>
+                        <div id="opt6">0</div>
+                        <label id="border_stroke_label" for="stroke_slider">Annotation areas border stroke</label>
+                        <input type="range" min="1" max="5" value="2" class="stroke_slider" id="annotation_stroke_slider" step="1">
+                    </div>
                 </div>
 
-                <!-- Text areas border color input -->
-                <div class="ta_border_color_input" id="ta_border_color_input_container">
-                    <h4>Text areas border color</h4>
-                    <input type="checkbox" checked class="ta_border_color_input">
-                    <input type="color" class="ta_border_color_input" value="rgb(103 91 91)">
-                </div>
-
-                <div id="text_areas_corner_radius_selection">
-                    <label id="corner_radius_label">Text areas corner radius</label>
-                    <div id="opt1">40</div>
-                    <div id="opt2">32</div>
-                    <div id="opt3">24</div>
-                    <div id="opt4" class="text_areas_corner_radius_selected">16</div>
-                    <div id="opt5">8</div>
-                    <div id="opt6">0</div>
-                    <label id="border_stroke_label" for="stroke_slider">Text areas border stroke</label>
-                    <input type="range" min="1" max="5" value="2" id="stroke_slider" step="1">
-                </div>
+                
         </div>
 
 
@@ -232,6 +311,10 @@
                 Secondary color
             </div>
 
+            <div id="lines_color_preview" class="color_preview">
+                Lines color
+            </div>
+
             <div id="title_color_preview_container">
                 <div>
                     <p id="title_color_preview">Title</p>
@@ -244,17 +327,25 @@
             </div>
 
             <div id="tab_color_preview" class="color_preview">
-                <p>Text areas background color <span class="small italic">(context, nextstep and annotation areas)</span></p>
+                Context areas
             </div>
             <div id="tab_color_contrast" class="contrast_ratio">
-                Text areas background color
+                Context areas
             </div>
 
-            <div id="lines_color_preview" class="color_preview">
-                Lines color
+            <div id="ns_color_preview" class="color_preview">
+                Nextsteps areas
+            </div>
+            <div id="ns_color_contrast" class="contrast_ratio">
+                Nextsteps areas
             </div>
 
-
+            <div id="annotation_color_preview" class="color_preview">
+                Annotation areas
+            </div>
+            <div id="annotation_color_contrast" class="contrast_ratio">
+                Annotation areas
+            </div>
 
         </div>
         

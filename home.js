@@ -8,7 +8,7 @@ $(document).ready(function(){
         "pieTemplate",
         "tourEiffelTemplate",
         "darkBlueTemplate",
-        "inflationTemplate",
+        "orangeTemplate",
         "orangeBlueTemplate",
         "militaryTemplate",
         "sampleTemplate",
@@ -120,7 +120,7 @@ $(document).ready(function(){
         window.scrollTo(0, $("#instructions").offset().top);
     });
 
-    $("#big_template_preview").on("mouseenter", function (){
+    $("#images_container").on("mouseenter", function (){
         let main_img = $(this).find("img.main_image");
         let second_img = $(this).find("img.secondary_image");
         
