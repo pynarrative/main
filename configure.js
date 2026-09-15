@@ -328,6 +328,7 @@ $(document).ready(function(){
 
     $("#text_color_input").on("input", function () {
         let text_color = $(this).val();
+        $("#title_color_input").val(text_color);
         $(".color_preview").css("color", text_color);
         $("#title_color_preview").css("color", text_color);
         $("#context_text_color_input").val(text_color);
@@ -339,13 +340,23 @@ $(document).ready(function(){
     $("#title_color_input").on("input", function () {
         let title_color = $(this).val();
         $("#title_color_preview").css("color", title_color);
+        $("#subtitle_preview").css("color", title_color);
         check_contrast(
             $("#title_color_preview_container").css("background-color"),
             title_color,
             "#title_color_contrast"
         );
     });
-    // SEI QUI
+
+    $("#source_color_input").on("input", function () {
+        let source_color = $(this).val();
+        $("#source_preview").css("color", title_color);
+        check_contrast(
+            $("#source_preview_container").css("background-color"),
+            source_color,
+            "#source_color_contrast"
+        );
+    });
 
     $("#context_text_color_input").on("input", function () {
         let context_text_color = $(this).val();
@@ -764,10 +775,6 @@ class myStyle(Style):
 
         self.set(
             #Other general options
-            title_color=self.get_colors()['title'],
-            label_color='#594a37',
-            axis_tick_color='#d8c9ad',
-            axis_domain_color='#d8c9ad',
             bar_fill_color = main_color,
             context_border_width = ta_border_stroke,
             nextstep_corner_radius = ns_border_radius,
@@ -789,16 +796,6 @@ class myLayout(Layout):
     def __init__(self):
         base = DefaultLayout()
         super().__init__(deepcopy(base.data))
-
-        self.set(
-            title_area_height=58,
-            title_y=4,
-            subtitle_y=30,
-            preferred_width=760,
-            preferred_height=560,
-            context_left_height_ratio=1.0,
-            context_right_height_ratio=1.0,
-        )
 
 
 class ${template_name}Template(Template):

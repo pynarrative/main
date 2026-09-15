@@ -297,8 +297,8 @@ img.second{display: none;}
     "font_selection_container font_selection_container"
     "standard_font_size_container main_secondary_text_color_input_container"
     "title_font_multiplier_container title_font_selection_container"
-    "subtitle_font_multiplier_container title_subtitle_source_color_input_container"
-    "source_font_multiplier_container title_subtitle_source_color_input_container"
+    "subtitle_font_multiplier_container title_subtitle_color_input_container"
+    "source_font_multiplier_container title_subtitle_color_input_container"
     "context_font_multiplier_container context_options"
     "nextstep_font_multiplier_container ns_options"
     "annotation_font_multiplier_container annotation_options"
@@ -377,7 +377,7 @@ select:open::picker-icon {
 
 #title_font_multiplier_container{grid-area: title_font_multiplier_container;}
 #title_font_selection_container{grid-area: title_font_selection_container;}
-#title_subtitle_source_color_input_container{grid-area: title_subtitle_source_color_input_container;}
+#title_subtitle_color_input_container{grid-area: title_subtitle_color_input_container;}
 #subtitle_font_multiplier_container{grid-area: subtitle_font_multiplier_container;}
 #source_font_multiplier_container{grid-area: source_font_multiplier_container;}
 #context_font_multiplier_container{grid-area: context_font_multiplier_container;}
@@ -560,6 +560,7 @@ select:open::picker-icon {
     transform: scale(0.9);
     transform-origin: top center;
     margin: 0;
+    margin-bottom: 5%;
 }
 #template_preview *{
     cursor: pointer;
