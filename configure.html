@@ -157,16 +157,17 @@
                     <input type="number" value="1.2" id="subtitle_font_multiplier" min="0" max="5" step="0.1">
                 </div>
 
-                 <!-- Source multiplier -->
-                <div id="source_font_multiplier_container">
-                    <h4>Source font multiplier</h4>
-                    <input type="number" value="0.9" id="source_font_multiplier" min="0" max="5" step="0.1">
-                </div>
-
                 <!-- Title, subtitle color input -->
                 <div id="title_subtitle_color_input_container">
-                    <h4>Title and subtitle text color</h4>
-                    <input type="color" id="title_color_input" value="#000000">
+                    <div>
+                        <h4>Title and subtitle text color</h4>
+                        <input type="color" id="title_color_input" value="#000000">
+                    </div>
+                    
+                    <div>
+                        <h4>Title and subtitle background color</h4>
+                        <input type="color" id="title_background_color_input" value="#FFFFFF">
+                    </div>
                 </div>
 
 
@@ -319,7 +320,6 @@
                 <div>
                     <p id="title_color_preview">Title</p>
                     <p id="subtitle_preview">subtitle</p>
-                    <p id="source_preview">source</p>
                 </div>
             </div>
             <div id="title_color_contrast" class="contrast_ratio">

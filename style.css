@@ -161,6 +161,7 @@ a{
     max-width: 100%;
     margin: auto;
 }
+
 #download_button_container{
     width: 100%;
     margin-top: 5%;
@@ -221,9 +222,11 @@ a{
 }
 .template:hover{transform: translateY(-10px);}
 
-.template img{
+.template img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     margin: auto;
-    max-width: 100%;
     border-radius: 16px;
 }
 
@@ -290,7 +293,7 @@ img.second{display: none;}
     grid-area: options;
     display: grid;
     grid-template-columns: 1fr 3fr;
-    grid-template-rows: 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr 1.5fr 1.5fr 1.5fr;
+    grid-template-rows: 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr 1.5fr 1.5fr 1.5fr;
     grid-template-areas:
     "title_options title_options"
     "input_template input_template"
@@ -298,7 +301,6 @@ img.second{display: none;}
     "standard_font_size_container main_secondary_text_color_input_container"
     "title_font_multiplier_container title_font_selection_container"
     "subtitle_font_multiplier_container title_subtitle_color_input_container"
-    "source_font_multiplier_container title_subtitle_color_input_container"
     "context_font_multiplier_container context_options"
     "nextstep_font_multiplier_container ns_options"
     "annotation_font_multiplier_container annotation_options"
@@ -377,9 +379,8 @@ select:open::picker-icon {
 
 #title_font_multiplier_container{grid-area: title_font_multiplier_container;}
 #title_font_selection_container{grid-area: title_font_selection_container;}
-#title_subtitle_color_input_container{grid-area: title_subtitle_color_input_container;}
+#title_subtitle_color_input_container{grid-area: title_subtitle_color_input_container; display: flex; gap: 5%;}
 #subtitle_font_multiplier_container{grid-area: subtitle_font_multiplier_container;}
-#source_font_multiplier_container{grid-area: source_font_multiplier_container;}
 #context_font_multiplier_container{grid-area: context_font_multiplier_container;}
 #context_options{grid-area: context_options;}
 #context_options, #ns_options, #annotation_options{

@@ -7,10 +7,10 @@ from pynarrative.templates.template import Template
 font_family = "Montserrat"
 title_font_family = "Montserrat"
 standard_font_size = 12
-title_font_size_multiplier = 1.6
+title_font_size_multiplier = 3
 subtitle_font_size_multiplier = 1.2
-context_font_size_multiplier = 1.2
-nextstep_font_size_multiplier = 1
+context_font_size_multiplier = 1.3
+nextstep_font_size_multiplier = 1.3
 annotation_font_size = 12
 source_font_size_multiplier = 0.9
 
@@ -18,10 +18,10 @@ source_font_size_multiplier = 0.9
 main_color = "rgb(73, 90, 185)"
 secondary_color = "rgb(143, 160, 255)"
 tab_color = "rgb(255, 255, 255)"
-#ta_border_color = "rgb(73, 90, 185)"
 ta_border_color = "#ffffff"
 lines_color = "rgb(191, 38, 38)"
-title_color = "#000000"
+title_color = "#FFFFFF"
+title_color_background = "rgb(75, 75, 75)"
 text_color = "rgb(0, 0, 0)"
 
 #Border options
@@ -53,6 +53,7 @@ class myStyle(Style):
         self.set_colors(
             #Title and subtitle colors
             title = title_color,
+            title_background_color = title_color_background,
             subtitle = title_color,
 
             #Context area(s) text color
@@ -87,7 +88,7 @@ class myStyle(Style):
             #Context area(s) options 
             fill = tab_color,
             stroke = ta_border_color,
-            padding = 5,
+            padding = 25,
             corner_radius = ta_border_radius,
             opacity = 1.0,
         )
@@ -100,14 +101,23 @@ class myStyle(Style):
             axis_domain_color='#d8c9ad',
             bar_fill_color = main_color,
             nextstep_corner_radius = ta_border_radius,
-            context_border_width = ta_border_stroke,
             nextstep_border_width = ta_border_stroke,
+            nextstep_text_top_padding_px = 0,
+            nextstep_text_bottom_padding_px = 0,
+            nextstep_text_side_padding_px = 0,
+            nextstep_gap = 5,
+            
+            context_border_width = ta_border_stroke,
             annotation_label_size = annotation_font_size,
             annotation_box_border_width = ta_border_stroke,
 
             series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
 
             reference_line_color = lines_color, #horizontal and vertical lines
+            reference_line_dash = [5, 5], #dash type
+            text_wrap_char_width_ratio = 0.5,
+
+
         )
 
 
@@ -122,12 +132,15 @@ class myLayout(Layout):
 
         self.set(
             title_area_height=58,
-            title_y=4,
+            title_y=15, #title vertical offset
             subtitle_y=30,
             preferred_width=760,
             preferred_height=560,
-            context_left_height_ratio=1.0,
-            context_right_height_ratio=1.0,
+            layout_context_side_width_ratio = 0.6, #title block width multiplier
+            context_right_width_ratio = 0.5, #right context block width multiplier
+            context_left_width_ratio = 0.5, #left context block width multiplier
+            context_top_width_ratio = 1.7, #top context block width multiplier
+            context_bottom_width_ratio = 1.7, #bottom context block width multiplier
         )
 
 

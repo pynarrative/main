@@ -107,6 +107,8 @@ class myStyle(Style):
             series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
 
             reference_line_color = lines_color, #horizontal and vertical lines
+            reference_line_dash = [5, 5], #dash type
+            text_wrap_char_width_ratio = 0.45, #parameter to modify text wrapping in text areas
         )
 
 
@@ -125,8 +127,11 @@ class myLayout(Layout):
             subtitle_y=30,
             preferred_width=760,
             preferred_height=560,
-            context_left_height_ratio=1.0,
-            context_right_height_ratio=1.0,
+            layout_context_side_width_ratio = 0.73, #title block width multiplier
+            context_right_width_ratio = 0.5, #right context block width multiplier
+            context_left_width_ratio = 0.5, #left context block width multiplier
+            context_top_width_ratio = 1.7, #top context block width multiplier
+            context_bottom_width_ratio = 1.7, #bottom context block width multiplier
         )
 
 

@@ -6,6 +6,7 @@ $(document).ready(function(){
         "blueBeigeTemplate",
         "colosseumTemplate",
         "pieTemplate",
+        "mapTemplate",
         "tourEiffelTemplate",
         "darkBlueTemplate",
         "orangeTemplate",
@@ -16,7 +17,7 @@ $(document).ready(function(){
         "defaultTemplate"
     ]
 
-    for (let i=0; i<=11; i++){
+    for (let i=0; i<=12; i++){
         let template_name = templates[i];
         let main_image_path = `img/template/${template_name}/${template_name}A.png`;
         let second_image_path = `img/template/${template_name}/${template_name}B.png`;

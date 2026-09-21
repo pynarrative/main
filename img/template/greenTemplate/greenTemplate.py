@@ -7,9 +7,9 @@ from pynarrative.templates.template import Template
 font_family = "Lato"
 title_font_family = "Montserrat"
 standard_font_size = 12
-title_font_size_multiplier = 1.6
+title_font_size_multiplier = 1.8
 subtitle_font_size_multiplier = 1.2
-context_font_size_multiplier = 1
+context_font_size_multiplier = 1.3
 nextstep_font_size_multiplier = 1
 annotation_font_size = 12
 source_font_size_multiplier = 0.9
@@ -17,8 +17,8 @@ source_font_size_multiplier = 0.9
 #Color options
 main_color = "rgb(117, 151, 127)"
 secondary_color = "rgb(187, 221, 197)"
-tab_color = "rgb(117, 151, 127)"
-ta_border_color = "rgb(187, 221, 197)"
+tab_color = "transparent"
+ta_border_color = "transparent"
 lines_color = "rgb(191, 38, 38)"
 title_color = "#000000"
 text_color = "rgb(0, 0, 0)"
@@ -69,6 +69,7 @@ class myStyle(Style):
             annotation_text = text_color,
             annotation_stroke = "transparent",
 
+
             #Nextstep color options
             nextstep_box = tab_color,
             nextstep_border = ta_border_color,
@@ -99,14 +100,21 @@ class myStyle(Style):
             axis_domain_color='#d8c9ad',
             bar_fill_color = main_color,
             nextstep_corner_radius = ta_border_radius,
-            context_border_width = ta_border_stroke,
             nextstep_border_width = ta_border_stroke,
+            
+            context_border_width = ta_border_stroke,            
             annotation_label_size = annotation_font_size,
             annotation_box_border_width = ta_border_stroke,
+
+            nextstep_text_top_padding_px = 0,
+            nextstep_text_bottom_padding_px = 0,
+            nextstep_text_side_padding_px = 5,
 
             series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
 
             reference_line_color = lines_color, #horizontal and vertical lines
+            reference_line_dash = [5, 5], #dash type
+            text_wrap_char_width_ratio = 0.45, #parameter to modify text wrapping in text areas
         )
 
 
@@ -125,8 +133,11 @@ class myLayout(Layout):
             subtitle_y=30,
             preferred_width=760,
             preferred_height=560,
-            context_left_height_ratio=1.0,
-            context_right_height_ratio=1.0,
+            layout_context_side_width_ratio = 0.73, #title block width multiplier
+            context_right_width_ratio = 0.5, #right context block width multiplier
+            context_left_width_ratio = 0.5, #left context block width multiplier
+            context_top_width_ratio = 1, #top context block width multiplier
+            context_bottom_width_ratio = 1.7, #bottom context block width multiplier
         )
 
 

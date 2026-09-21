@@ -275,6 +275,15 @@ $(document).ready(function(){
         );
     });
 
+    $("#title_background_color_input").on("input", function () {
+        update_color(
+            "#title_background_color_input",
+            "#title_color_preview_container",
+            "#title_color_contrast"
+        );
+
+    });
+
     $("#tab_color_input").on("input", function () {
         update_color(
             "#tab_color_input",
@@ -345,16 +354,6 @@ $(document).ready(function(){
             $("#title_color_preview_container").css("background-color"),
             title_color,
             "#title_color_contrast"
-        );
-    });
-
-    $("#source_color_input").on("input", function () {
-        let source_color = $(this).val();
-        $("#source_preview").css("color", title_color);
-        check_contrast(
-            $("#source_preview_container").css("background-color"),
-            source_color,
-            "#source_color_contrast"
         );
     });
 
@@ -532,7 +531,6 @@ $(document).ready(function(){
         $("#title_font_selection").css("font-family", selected_font);
         $(".color_preview").css("font-family", selected_font);
         $("#subtitle_preview").css("font-family", selected_font);
-        $("#source_preview").css("font-family", selected_font);
         $("#title_font_selection").val(selected_font).trigger("change");
     });
 
@@ -550,8 +548,6 @@ $(document).ready(function(){
     $("#title_color_preview").css("font-size", title_font_size)
     let subtitle_font_size = $("#subtitle_font_multiplier").val() * base_font_size
     $("#subtitle_preview").css("font-size", subtitle_font_size)
-    let source_font_size = $("#source_font_multiplier").val() * base_font_size
-    $("#source_preview").css("font-size", source_font_size)
 
     $("input#title_font_multiplier").on("input", function(){
         let base_font_size = $("#font_size_selection").val()
@@ -563,12 +559,6 @@ $(document).ready(function(){
         let base_font_size = $("#font_size_selection").val()
         let subtitle_font_size = $(this).val() * base_font_size
         $("#subtitle_preview").css("font-size", subtitle_font_size)
-    });
-
-    $("input#source_font_multiplier").on("input", function(){
-        let base_font_size = $("#font_size_selection").val()
-        let source_font_size = $(this).val() * base_font_size
-        $("#source_preview").css("font-size", source_font_size)
     });
 
 
@@ -609,8 +599,6 @@ $(document).ready(function(){
         let annotation_font_multiplier = $("#annotation_font_multiplier").val();
         annotation_font_multiplier = check_font_size(annotation_font_multiplier, 0, 5, 1);
         annotation_font_size = annotation_font_multiplier * standard_font_size
-        let source_font_size_multiplier = $("#source_font_multiplier").val();
-        source_font_size_multiplier = check_font_size(source_font_size_multiplier, 0, 5, 0.9);
 
 
         // Colors
@@ -623,6 +611,7 @@ $(document).ready(function(){
         let annotation_border_color = $("#annotation_color_preview").css("border-color");
         let secondary_color = $("#secondary_color_preview").css("background-color");
         let title_color = $("#title_color_input").val();
+        let title_background_color = $("#title_background_color_input").val();
         let text_color = $("#main_color_preview").css("color");
         let context_text_color = $("#tab_color_preview").css("color");
         let ns_text_color = $("#ns_color_preview").css("color");
@@ -677,7 +666,6 @@ subtitle_font_size_multiplier = ${subtitle_font_size_multiplier}
 context_font_size_multiplier = ${context_font_size_multiplier}
 nextstep_font_size_multiplier = ${nextstep_font_size_multiplier}
 annotation_font_size = ${(annotation_font_size)}
-source_font_size_multiplier = ${source_font_size_multiplier}
 
 #Color options
 main_color = "${main_color}"
@@ -690,6 +678,7 @@ annotation_color = "${annotation_color}"
 annotation_border_color = "${annotation_border_color}"
 lines_color = "${lines_color}"
 title_color = "${title_color}"
+title_background_color = "${title_background_color}"
 text_color = "${text_color}"
 context_text_color = "${context_text_color}"
 ns_text_color = "${ns_text_color}"
@@ -727,13 +716,14 @@ class myStyle(Style):
             subtitle = float(subtitle_font_size_multiplier),
             context = float(context_font_size_multiplier),
             nextstep = float(nextstep_font_size_multiplier),
-            source = float(source_font_size_multiplier)
+            source = 0.9
         )
 
         #COLOR OPTIONS
         self.set_colors(
             #Title and subtitle colors
             title = title_color,
+            title_background_color = title_background_color,
             subtitle = title_color,
 
             #Context area(s) text color
@@ -797,6 +787,19 @@ class myLayout(Layout):
         base = DefaultLayout()
         super().__init__(deepcopy(base.data))
 
+        self.set(
+            title_area_height=58,
+            title_y=4,
+            subtitle_y=30,
+            preferred_width=760,
+            preferred_height=560,
+            layout_context_side_width_ratio = 0.73, #title block width multiplier
+            context_right_width_ratio = 0.6, #right context block width multiplier
+            context_left_width_ratio = 0.6, #left context block width multiplier
+            context_top_width_ratio = 1, #top context block width multiplier
+            context_bottom_width_ratio = 1.7, #bottom context block width multiplier
+        )
+
 
 class ${template_name}Template(Template):
     """
@@ -813,6 +816,10 @@ class ${template_name}Template(Template):
             await pyodide.runPythonAsync(pythonTemplateCode);
 
             const output =
+
+        
+
+
 `import pynarrative as pn
 import altair as alt
 import pandas as pd
@@ -827,11 +834,12 @@ year_values = pd.DataFrame({
     "value" : [5.201, 5.625, 6.182, 6.551, 6.409, 7.036, 7.650, 7.618, 1.086, 1.689, 9.812, 12.298, 14.733]
 })
 
+
 story = (
     pn.Story(
     #Builing the Story class object
         data = year_values,
-        width = 800,
+        width = 600,
         height = 350,
         template = ${template_name}Template
     )
@@ -860,7 +868,8 @@ story = (
             title = "Value (in millions)",
             axis = alt.Axis(
                 grid = True
-            )
+            ),
+            scale = alt.Scale(domain=[0, 20])
         ),
     )
     
@@ -886,9 +895,11 @@ story = (
     )
 
     .add_annotation(
-        x = 2013,
-        y = 12,
+        x = 2021,
+        y = 1.689,
         text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+        dx = -350,
+        dy = -400
     )
 
     .add_highlight(2024)
@@ -899,18 +910,30 @@ story = (
         math = "mean",
     )
 
-    #Context (on bottom)
+    # Context (on the left)
     .add_context(
-        position = "bottom",
+        position = "top",
         text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."
     )
+
 
     #Next steps
     .add_next_steps(
         position = "right",
         mode = "vertical",
         title = "Next steps",
-        steps = ["Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut", "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut", "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut"],
+        steps = [
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+        ],
+        img_url = [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD4kXoPXArWYORmlhrdZIZM4e53ZrzziZrDRtsr4ZoHA&s=10",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0bta0j90YvpRGv7__lNOeG5-3yFP_yHNMI11R1kEUuQ&s=10",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgMsz3pZbNvmkmOpKlXUgXmn8Vcg1jHwSOUNYrRfKs5g&s=10",
+        ],
+        x_img_offset = -40,
+        y_img_offset = -10
     )
 
     .render()
@@ -919,7 +942,6 @@ story = (
 story
 
 story.to_html(fullhtml=False)
-
 `;
 
 
