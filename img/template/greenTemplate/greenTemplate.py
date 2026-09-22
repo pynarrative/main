@@ -128,7 +128,7 @@ class myLayout(Layout):
         super().__init__(deepcopy(base.data))
 
         self.set(
-            title_area_height=58,
+            title_area_height=20,
             title_y=4,
             subtitle_y=30,
             preferred_width=760,

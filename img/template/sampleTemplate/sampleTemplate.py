@@ -102,9 +102,9 @@ class myStyle(Style):
             bar_fill_color = main_color,
             nextstep_corner_radius = ta_border_radius,
             nextstep_border_width = ta_border_stroke,
-            nextstep_text_top_padding_px = 0,
-            nextstep_text_bottom_padding_px = 0,
-            nextstep_text_side_padding_px = 0,
+            nextstep_text_top_padding_px = 25,
+            nextstep_text_bottom_padding_px = 25,
+            nextstep_text_side_padding_px = 25,
             nextstep_gap = 5,
             
             context_border_width = ta_border_stroke,
@@ -139,7 +139,7 @@ class myLayout(Layout):
             layout_context_side_width_ratio = 0.6, #title block width multiplier
             context_right_width_ratio = 0.5, #right context block width multiplier
             context_left_width_ratio = 0.5, #left context block width multiplier
-            context_top_width_ratio = 1.7, #top context block width multiplier
+            context_top_width_ratio = 1.4, #top context block width multiplier
             context_bottom_width_ratio = 1.7, #bottom context block width multiplier
         )
 

@@ -103,11 +103,15 @@ class myStyle(Style):
             annotation_label_size = annotation_font_size,
             annotation_box_border_width = ta_border_stroke,
 
+            nextstep_text_top_padding_px = 5,
+            nextstep_text_bottom_padding_px = 5,
+            nextstep_text_side_padding_px = 25,
+
             series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
 
             reference_line_color = lines_color, #horizontal and vertical lines
             reference_line_dash = [5, 5], #dash type
-            text_wrap_char_width_ratio = 0.45, #parameter to modify text wrapping in text areas
+            text_wrap_char_width_ratio = 0.35, #parameter to modify text wrapping in text areas
         )
 
 

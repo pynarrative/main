@@ -104,6 +104,10 @@ class myStyle(Style):
             nextstep_border_width = ta_border_stroke,
             annotation_label_size = annotation_font_size,
             annotation_box_border_width = ta_border_stroke,
+            nextstep_text_top_padding_px = 25,
+            nextstep_text_bottom_padding_px = 25,
+            nextstep_text_side_padding_px = 0,
+            nextstep_gap = 5,
 
             series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
 
@@ -128,7 +132,7 @@ class myLayout(Layout):
             subtitle_y=30,
             preferred_width=760,
             preferred_height=560,
-            layout_context_side_width_ratio = 0.73, #title block width multiplier
+            layout_context_side_width_ratio = 0.8, #title block width multiplier
             context_right_width_ratio = 0.5, #right context block width multiplier
             context_left_width_ratio = 0.5, #left context block width multiplier
             context_top_width_ratio = 1.7, #top context block width multiplier

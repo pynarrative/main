@@ -122,7 +122,7 @@ class myStyle(Style):
 
             reference_line_color = lines_color, #horizontal and vertical lines
             reference_line_dash = [5, 5], #dash type
-            text_wrap_char_width_ratio = 0.55, #parameter to modify text wrapping in text areas
+            text_wrap_char_width_ratio = 0.5, #parameter to modify text wrapping in text areas
           
  )
 
@@ -143,7 +143,7 @@ class myLayout(Layout):
             preferred_width=760,
             preferred_height=560,
             layout_context_side_width_ratio = 0.73, #title block width multiplier
-            context_right_width_ratio = 0.5, #right context block width multiplier
+            context_right_width_ratio = 0.7, #right context block width multiplier
             context_left_width_ratio = 0.6, #left context block width multiplier
             context_top_width_ratio = 1.7, #top context block width multiplier
             context_bottom_width_ratio = 1.7, #bottom context block width multiplier
