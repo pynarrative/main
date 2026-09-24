@@ -78,7 +78,7 @@ a{
     padding: 2%;
     color: white;
     font-weight: bold;
-    font-size: 90%;
+    font-size: 110%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -94,14 +94,13 @@ a{
 
 #home{
     margin-right: auto;
-    font-size: 150% !important;
+    font-size: 200% !important;
     display: flex;
     align-items: center;
     gap: 5px !important;
     padding: 0 1% !important;
-    height: 70px;
+    height: 100px;
 }
-
 #home img{width: 60px !important;}
 
 #footer{
@@ -123,12 +122,9 @@ a{
     justify-content: space-between;
 }
 
-#about_body div a{
-    display: flex;
-}
-
 /* Body and gallery */
 #body, #big_template_preview, #gallery, #download_box, #about_body, #instructions {padding: 2.5% 7.5%;}
+#gallery{padding-top: 0 !important;}
 #body > h1, #gallery > h1, #about_body  h1 {margin-bottom: 0.2%;}
 #body > p, #gallery > p, #about_body p {margin-top: 0.2%;}
 
@@ -186,7 +182,7 @@ a{
     filter: brightness(0.75);
 }
 
-.button_link a {
+.button_link a , #about_body div a{
     color: #0b87c1 !important;
     background-image: 
         linear-gradient(#0b87c1, #0b87c1),
@@ -198,8 +194,18 @@ a{
     transition: background-size 0.4s ease;
 }
 
-.button_link a:hover{
+.button_link a:hover, #about_body div a:hover, #footer a:hover{
     background-size: 0 0.1em, 100% 0.1em;
+}
+#footer a{
+    background-image: 
+        linear-gradient(transparent,transparent),
+        linear-gradient(#ff925f, #ff925f);
+    background-size: 100% 0.1em, 0 0.1em;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    
+    transition: background-size 0.4s ease;
 }
 
 #template_gallery{
@@ -664,5 +670,6 @@ li img:hover{
 
 /* ABOUT.HTML */
 #about_body div{margin-bottom: 3%;}
-#about_body div h3{margin-bottom: 0.5%;}
+#about_body div h2{margin-bottom: 0.2%; font-size: 120%;}
 #about_body div p{margin-top: 0;}
+/* #about_body div a{text-decoration: underline;} */

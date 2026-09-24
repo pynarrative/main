@@ -41,39 +41,183 @@
                 <span>Star and follow the project on <span class="bold">Github</span></span>
             </a>
         </div>
-<!-- RISCRIVERE L'ABOUT E LA DOCUMENTAZIONE. RIVEDERE DOCSTRING -->
+
         <div>
-            <h3>Overview</h3>
-            <p>
-                <span class="highlight">Pynarrative</span> is a Python library designed to <span class="bold">transform
-                data visualizations into engaging narratives</span>. Built as an extension of Altair, pynarrative provides
-                a powerful set of tools for creating interactive, narrative-driven visualizations that engage
-                and inform your audience. The library <span class="bold">bridges the gap between raw data
-                visualization and storytelling</span> by introducing narrative elements such as <span class="bold">contextual descriptions</span>
-                and <span class="bold">annotations</span>.
-            </p>
-        </div>
-        
-        <div>
-            <h3>Architecture</h3>
-            <p>
-                <!-- RIVEDERE -->
-                <span class="highlight">Pynarrative</span> is built around two main classes: Story and NextStep.
-                The Story class serves as the core component, handling the creation and management of narrative
-                visualizations. It extends Altair's functionality while maintaining full compatibility with its
-                declarative API. The NextStep class complements Story by providing specialized support for
-                interactive elements, allowing you to guide users through your data narrative in various ways.
-            </p>
+            <h2 id="installation">Installation</h2>
+            <p><span class="highlight">Pynarrative</span> can be easily installed using <strong>pip</strong>, Python&#39;s package manager. To install the library, run the following command in your terminal:</p>
+            <p class="code">pip install pynarrative</p>
         </div>
 
         <div>
-            <h3>Installation</h3>
-            <p>
-                <span class="highlight">Pynarrative</span> can be easily installed using pip, Python's package manager.
-                To install the library, run the following command in your terminal:
-            </p>
-            <p class="code">pip install pynarrative</p>
+            <h2>Core API Reference</h2>
+            <p>Full technical documentation <a href="https://pynarrative.github.io/doc/site/api/" class="bold" target="_blank">here</a></p>
+<p class="code">
+    <span class="bold">Story</span>(
+            <span>data=None,</span>
+            <span>width=None,</span>
+            <span>height=None,</span>
+            <span>font=None,</span>
+            <span>base_font_size=None,</span>
+            <span>template=None,</span>
+            <span>geodata=False,</span>
+            <span>geojson_url=None,</span>
+            <span>geojson_property=None,</span>
+            <span>geo_property=None,</span>
+            <span>geo_value=None,</span>
+            **kwargs
+        )
+
+        <span class="bold">add_title</span>(
+            title,
+            <span>subtitle=None,</span>
+            <span>background_color=None,</span>
+            <span>color=None,</span> <span>align='center',</span>
+            <span>img_url=None,</span>
+            <span>img_width=80,</span>
+            <span>x_img_offset=-300,</span>
+            <span>y_img_offset=0</span>
+        )
+
+        <span class="bold">add_context</span>(
+            text,
+            <span>text_align='left',</span>
+            <span>position='left',</span>
+            <span>align='middle',</span>
+            <span>font_weight='normal',</span>
+            <span>font_style='normal',</span>
+            <span>title='CONTEXT',</span>
+            <span>title_dy=0,</span>
+            <span>img_url=None,</span>
+            <span>img_width=60,</span>
+            <span>x_img_offset=-40,</span>
+            <span>y_img_offset=0</span>
+        )
+
+        <span class="bold">add_next_steps</span>(
+            steps,
+            <span>text_align='left',</span>
+            <span>position='bottom',</span>
+            <span>title='NEXT</span> STEPS',
+            <span>title_dy=0,</span>
+            <span>title_dx=0,</span>
+            <span>mode='horizontal',</span>
+            <span>img_url=None,</span>
+            <span>img_width=45,</span>
+            <span>x_img_offset=-50,</span>
+            <span>y_img_offset=-22.5</span>
+        )
+
+        <span class="bold">add_source</span>(
+            text,
+            <span>position='top',</span>
+            <span>vertical=False,</span>
+            <span>align='center'</span>
+        )
+
+        <span class="bold">add_annotation</span>(
+            <span>x=None,</span>
+            <span>y=None,</span>
+            <span>text=None,</span>
+            <span>title=None,</span>
+            <span>dx=0,</span>
+            <span>dy=0,</span>
+            <span>background_color=None,</span>
+            <span>text_color=None,</span>
+            <span>how_subject=False,</span>
+            <span>line_point_color=None,</span>
+            <span>img_url=None,</span>
+            <span>img_width=60,</span>
+            <span>x_img_offset=0,</span>
+            <span>y_img_offset=0</span>
+        )
+
+
+        <span class="bold">add_line</span>(
+            value,
+            <span>orientation='horizontal',</span>
+            <span>math=None,</span>
+            <span>color='',</span>
+            <span>label_text='',</span>
+            <span>label_dx=0,</span>
+            <span>label_dy=0,</span>
+            <span>label_font_size='',</span>
+            <span>label_font_weight='normal',</span>
+            <span>label_font_style='normal'</span>
+        )
+
+
+        <span class="bold">render</span>(
+            <span>save=False,</span>
+            <span>filename=None,</span>
+            <span>ppi=False</span>
+        )
+</p>
         </div>
+
+        <div>
+            <h2>Overview</h2>
+            <p><span class="highlight">Pynarrative</span> is a Python library designed to transform data visualizations into engaging narratives. Built as an extension of Altair, pynarrative provides a powerful set of tools for creating interactive, narrative-driven visualizations that engage and inform your audience. The library bridges the gap between raw data visualization and storytelling by introducing narrative elements such as <span class="bold">contextual</span> descriptions, <span class="bold">annotations</span> and <span class="bold">nextsteps</span>.</p>
+        </div>
+
+        <div>
+            <h2>Architecture</h2>
+            <p>Pynarrative is built around the <strong>Story class</strong>: it serves as the core component, handling the creation and management of narrative visualizations. It extends Altair&#39;s functionality while maintaining full compatibility with its declarative API.</p>
+            <p>The library requires Python 3.6 or later and depends on the following packages:</p>
+<p class="code">altair
+pandas
+geopandas
+</p>
+            <p>These dependencies will be automatically installed if they&#39;re not already available in your environment.</p>
+        </div>
+
+        <div>
+            <h2 id="getting-started">Getting Started</h2>
+            <!-- RIVEDERE -->
+            <p>PyNarrative is designed to be intuitive while providing powerful narrative capabilities. Here are two comprehensive examples showcasing both basic usage and advanced features:</p>
+
+            <div>
+                <h3>Basic Example</h3>
+                <p class="code">
+
+                </p>
+            </div>
+
+
+            
+            <div>
+                <h3>Advanced Example with Customization</h3>
+                <p class="code">
+
+                </p>
+            </div>
+
+            <p>These examples demonstrate how <span class="highlight">pynarrative</span> allows you to create rich, interactive narrative visualizations with just a few lines of code. The first example illustrates the library&#39;s basic functionality, while the second shows how you can customize every aspect of the visualization in detail.</p>
+        </div>
+
+        <div>
+            <h2>Documentation</h2>
+            <p>Comprehensive documentation is available for <span class="highlight">pynarrative</span>, providing detailed information about all features and capabilities. The documentation includes in-depth tutorials, complete API reference, and numerous examples showing different ways to use pynarrative for creating engaging data narratives.</p>
+            <p>Full documentation is accessible on GitHub at: <a class="bold" target="_blank" href="https://pynarrative.github.io/doc/site/api/">Pynarrative API Documentation</a></p>
+        </div>
+
+        <div>
+            <h2>Contributing</h2>
+            <p><span class="highlight">Pynarrative</span> is an open-source project, and we welcome contributions from the community. Whether you&#39;re fixing bugs, adding new features, or improving documentation, your help is valuable. Please refer to our contribution guidelines in the repository for more information about how to get involved.</p>
+        </div>
+
+        <div>
+            <h2>License</h2>
+            <p><span class="highlight">Pynarrative</span> is released under the MIT License, allowing both personal and commercial use with minimal restrictions. See the <a target="_blank" class="bold" href="https://github.com/pynarrative/pynarrative/blob/dev/LICENSE">LICENSE file in the repository</a> for the complete license text.</p>
+        </div>
+        
+        <div>
+            <h2>Authors</h2>
+            <p><span class="highlight">Pynarrative</span> was implemented by <span class="bold">Roberto Olinto Barsotti</span> as a master&#39;s thesis project in digital humanities, under the supervision of <span class="bold">professor Angelica Lo Duca</span>. It was then developped by <span class="bold">Lorenzo Ferrante</span> as a bachelor&#39;s thesis project in digital humanities, also under the supervision of professor Lo Duca.</p>
+        </div>
+
+        
+
+        
     </div>
 
     <div id="footer">
