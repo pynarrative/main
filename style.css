@@ -52,19 +52,13 @@ a{
 }
 
 .code{
-    background-color: lightgrey;
-    width: fit-content;
-    margin: 0.5% 0;
+    background-color: rgb(234, 234, 234);
+    width: 90%;
+    margin: 0;
     padding: 2%;
     border-radius: 16px;
     white-space: pre;
     font-family: monospace;
-}
-.highlighted{
-    background-color: rgb(251, 251, 140);
-    padding: 0.2%;
-    border-radius: 4px;
-    color: red !important;
 }
 .small{font-size: 90%;}
 
@@ -176,28 +170,36 @@ a{
 
 
 #download_notebook_button{
-    background-color: #0EA5E9 !important;
+    background-color: #ff925f !important;
 }
 
 .button{
-    background-color: #5bae92;
+    background-color: #9cdaf7;
     padding: 0.25% 1% 0.5% 1%;
     border-radius: 16px;
     width: max-content;
+    cursor: pointer;
+    transition: filter 0.2s ease-in-out;
 }
 
-.button a{
-    background: 
-    linear-gradient(black),
-    linear-gradient(orange);
-    background-size: 100% 0;
+.button:hover{
+    filter: brightness(0.75);
+}
+
+.button_link a {
+    color: #0b87c1 !important;
+    background-image: 
+        linear-gradient(#0b87c1, #0b87c1),
+        linear-gradient(#ff925f, #ff925f);
+    background-size: 100% 0.1em, 0 0.1em;
     background-position: 100% 100%, 0 100%;
     background-repeat: no-repeat;
-    transition: background-size 0.4s;
+    
+    transition: background-size 0.4s ease;
 }
 
-.button a:hover{
-  background-size: 0 0.1em, 100% 0.1em;
+.button_link a:hover{
+    background-size: 0 0.1em, 100% 0.1em;
 }
 
 #template_gallery{
@@ -278,6 +280,7 @@ img.second{display: none;}
     grid-template-areas:
     "title_description title_description"
     "options preview"
+    "chart_type_container chart_type_container"
     "create_template_container create_template_container";
 }
 
@@ -424,7 +427,7 @@ select:open::picker-icon {
     font-size: 85%;
     cursor: pointer;
 }
-.text_areas_corner_radius_selected, .ns_areas_corner_radius_selected, .annotation_areas_corner_radius_selected{background-color: grey;}
+.text_areas_corner_radius_selected, .ns_areas_corner_radius_selected, .annotation_areas_corner_radius_selected, .chart_type_selected{background-color: lightgrey;}
 #opt1{
     grid-area: context_corner_radius_opt1;
     border-top-left-radius: 40px;
@@ -543,8 +546,32 @@ select:open::picker-icon {
 .contrast_green{background-color: #2a9d45;}
 
 
-#create_template_container{
+#chart_type_container{
+    grid-area: chart_type_container;
+    width: 60%;
+    margin: auto;
+    text-align: center;
+}
+#chart_type_selection{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#chart_type_selection div{
+    padding: 1%;
+    margin: 0 1.5%;
+    width: 80%;
     border: 1px black solid;
+    box-sizing: border-box;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out
+}
+#chart_type_selection div p{margin: 0 0 5% 0;}
+#chart_type_selection div img{width: 50%; max-width: 100%;}
+
+#create_template_container{
     grid-area: create_template_container;
     width: 15%;
     margin: auto;
@@ -590,13 +617,23 @@ details{display: none;}
     font-size: 120%;
     transition: color 0.2s ease-in-out;
     width: fit-content;
+    max-width: 100%;
     margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     transition: background-color 0.2s ease-in-out;
 }
 
 #download_template:hover, #download_notebook:hover{
     cursor: pointer;
     background-color: orange;
+}
+
+#download_icon{
+    margin: 0 !important;
+    width: 1.5em;
+    opacity: 1 !important;
 }
 
 #download_box ol li{margin: 2% 0;}

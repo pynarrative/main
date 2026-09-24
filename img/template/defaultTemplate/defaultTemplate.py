@@ -15,10 +15,10 @@ annotation_font_size = 12
 source_font_size_multiplier = 0.9
 
 #Color options
-main_color = "rgb(124, 154, 168)"
-secondary_color = "rgb(168, 138, 124)"
-tab_color = "rgb(203, 185, 177)"
-ta_border_color = "rgb(203, 185, 177)"
+main_color = "rgb(156, 218, 247)"
+secondary_color = " rgb(255, 146, 95)"
+tab_color = "#EAEFF2"
+ta_border_color = "transparent"
 lines_color = "rgb(191, 38, 38)"
 title_color = "#000000"
 text_color = "rgb(0, 0, 0)"
@@ -65,12 +65,12 @@ class myStyle(Style):
             callout_text = lines_color,
             callout_arrow = lines_color,
             callout_point = lines_color,
-            annotation_fill = tab_color.replace("rgb", "rgba").replace(")", ", 0.5)"),
+            annotation_fill = "#F4F0EA",
             annotation_text = text_color,
             annotation_stroke = ta_border_color,
 
             #Nextstep color options
-            nextstep_box = tab_color,
+            nextstep_box = "#EAEFF2",
             nextstep_border = ta_border_color,
             nextstep_text = text_color,
             nextstep_title = text_color,
@@ -91,6 +91,10 @@ class myStyle(Style):
             opacity = 1.0,
         )
 
+        series_colors = list(self.data.get('series_colors', []))
+        series_colors.insert(0, main_color)
+        series_colors.insert(1, secondary_color)
+
         self.set(
             #Other general options
             title_color=self.get_colors()['title'],
@@ -104,7 +108,7 @@ class myStyle(Style):
             annotation_label_size = annotation_font_size,
             annotation_box_border_width = ta_border_stroke,
 
-            series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
+            series_colors = series_colors,
 
             reference_line_color = lines_color, #horizontal and vertical lines
             reference_line_dash = [5, 5], #dash type
@@ -130,8 +134,8 @@ class myLayout(Layout):
             layout_context_side_width_ratio = 0.73, #title block width multiplier
             context_right_width_ratio = 0.5, #right context block width multiplier
             context_left_width_ratio = 0.5, #left context block width multiplier
-            context_top_width_ratio = 1.7, #top context block width multiplier
-            context_bottom_width_ratio = 1.7, #bottom context block width multiplier
+            context_top_width_ratio = 1.8, #top context block width multiplier
+            context_bottom_width_ratio = 1.8, #bottom context block width multiplier
         )
 
 

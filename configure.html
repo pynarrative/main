@@ -80,7 +80,7 @@
                 <!-- Standard font size -->
                 <div id="standard_font_size_container">
                     <h4>Base font size</h4>
-                    <input type="number" value="12" id="font_size_selection" min="1" max="24" step="0.5">
+                    <input type="number" value="12" id="font_size_selection" min="1" max="20" step="0.5">
                 </div>
 
                 <!-- Main and secondary color input -->
@@ -88,14 +88,14 @@
                     <!-- Main color input -->
                     <div id="main_color_input_container">
                         <h4>Main color</h4>
-                        <input type="color" id="main_color_input" name="main_color_input" value="#af9386"/>
+                        <input type="color" id="main_color_input" name="main_color_input" value="#9cdaf7"/>
                     </div>
 
                     <!-- Secondary color input -->
                     <div id="secondary_color_input_container">
                         <h4>Secondary color</h4>
                         <input type="checkbox" checked id="secondary_color_check">
-                        <input type="color" id="secondary_color_input" value="#7c9aa8">
+                        <input type="color" id="secondary_color_input" value="#ff925f">
                     </div>
 
                     <!-- Text color input -->
@@ -114,7 +114,7 @@
                 <!-- Title multiplier -->
                 <div id="title_font_multiplier_container">
                     <h4>Title font multiplier</h4>
-                    <input type="number" value="1.6" id="title_font_multiplier" min="0" max="5" step="0.1">
+                    <input type="number" value="1.6" id="title_font_multiplier" min="0" max="3" step="0.1">
                 </div>
 
                 <div id="title_font_selection_container">
@@ -154,7 +154,7 @@
                 <!-- Subtitle multiplier -->
                 <div id="subtitle_font_multiplier_container">
                     <h4>Subtitle font multiplier</h4>
-                    <input type="number" value="1.2" id="subtitle_font_multiplier" min="0" max="5" step="0.1">
+                    <input type="number" value="1.2" id="subtitle_font_multiplier" min="0" max="3" step="0.1">
                 </div>
 
                 <!-- Title, subtitle color input -->
@@ -174,7 +174,7 @@
                 <!-- CONTEXT font size multiplier -->
                 <div id="context_font_multiplier_container">
                     <h4>Context font multiplier</h4>
-                    <input type="number" value="1" id="context_font_multiplier" min="0" max="5" step="0.1">
+                    <input type="number" value="1" id="context_font_multiplier" min="0" max="3" step="0.1">
                 </div>
 
                 <!-- CONTEXT areas options -->
@@ -188,13 +188,13 @@
                     <div id="ta_background_color_input_container">
                         <h4>Context areas background color</h4>
                         <input type="checkbox" checked id="tab_color_check">
-                        <input type="color" id="tab_color_input" value="#cbb9b1">
+                        <input type="color" id="tab_color_input" value="#EAEFF2">
                     </div>
 
                     <div class="ta_border_color_input" id="ta_border_color_input_container">
                         <h4>Context areas border color</h4>
                         <input type="checkbox" checked class="ta_border_color_input">
-                        <input type="color" class="ta_border_color_input" value="rgb(103 91 91)">
+                        <input type="color" class="ta_border_color_input" value="#000000">
                     </div>
                     
                     <div id="text_areas_corner_radius_selection">
@@ -214,7 +214,7 @@
                  <!-- NEXTSTEPS font size multiplier -->
                 <div id="nextstep_font_multiplier_container">
                     <h4>Nextstep font multiplier</h4>
-                    <input type="number" value="1" id="nextstep_font_multiplier" min="0" max="5" step="0.1">
+                    <input type="number" value="1" id="nextstep_font_multiplier" min="0" max="3" step="0.1">
                 </div>
 
                 <!-- NEXTSTEPS areas options -->
@@ -228,13 +228,13 @@
                     <div id="ns_background_color_input_container">
                         <h4>Nextsteps areas background color</h4>
                         <input type="checkbox" checked id="ns_color_check">
-                        <input type="color" id="ns_color_input" value="#cbb9b1">
+                        <input type="color" id="ns_color_input" value="#EAEFF2">
                     </div>
 
                     <div id="ns_border_color_input_container">
                         <h4>Nextsteps areas border color</h4>
                         <input type="checkbox" checked class="ns_border_color_input">
-                        <input type="color" class="ns_border_color_input" value="rgb(103 91 91)">
+                        <input type="color" class="ns_border_color_input" value="#000000">
                     </div>
 
                     <div id="ns_areas_corner_radius_selection">
@@ -253,7 +253,7 @@
                 <!-- ANNOTATION font size multiplier -->
                 <div id="annotation_font_multiplier_container">
                     <h4>Annotation font multiplier</h4>
-                    <input type="number" value="1" id="annotation_font_multiplier" min="0" max="5" step="0.1">
+                    <input type="number" value="1" id="annotation_font_multiplier" min="0" max="3" step="0.1">
                 </div>
 
                 <!-- ANNOTATION areas options -->
@@ -267,13 +267,13 @@
                     <div id="annotation_background_color_input_container">
                         <h4>Annotation areas background color</h4>
                         <input type="checkbox" checked id="annotation_color_check">
-                        <input type="color" id="annotation_color_input" value="#cce4f0">
+                        <input type="color" id="annotation_color_input" value="#F4F0EA">
                     </div>
 
                     <div id="annotation_border_color_input_container">
                         <h4>Annotation areas border color</h4>
                         <input type="checkbox" checked class="annotation_border_color_input">
-                        <input type="color" class="annotation_border_color_input" value="rgb(103 91 91)">
+                        <input type="color" class="annotation_border_color_input" value="#000000">
                     </div>
 
                     <div id="annotation_areas_corner_radius_selection">
@@ -348,6 +348,33 @@
             </div>
 
         </div>
+
+        <div id="chart_type_container">
+            <!-- SEI QUI -->
+            <p>What type of graph do you prefer to preview?</p>
+            <div id="chart_type_selection">
+                <div id="bar_chart" class="chart_type_selected">
+                    <p>Bar chart</p>
+                    <img src="img/icon/bar_chart.svg" alt="Bar chart">
+                </div>
+                <div id="line_chart">
+                    <p>Line chart</p>
+                    <img src="img/icon/line_chart.svg" alt="Line chart">
+                </div>
+                <div id="pie_chart">
+                    <p>Pie chart</p>
+                    <img src="img/icon/pie_chart.svg" alt="Pie chart">
+                </div>
+                <div id="area_chart">
+                    <p>Area chart</p>
+                    <img src="img/icon/area_chart.svg" alt="Scatter plot">
+                </div>
+                <div id="scatter_plot">
+                    <p>Scatter plot</p>
+                    <img src="img/icon/scatter_plot.svg" alt="Scatter plot">
+                </div>
+            </div>
+        </div>
         
         <!-- Create template button -->
         <div class="button" id="create_template_container">
@@ -367,23 +394,23 @@
         <h3>What to do now?</h3>
         <ol>
             <li>
-                <p class="highlighted bold" id="download_template">Download your template!</p>
+                <p class="bold" id="download_template">Download your template! <img src="img/icon/download.svg" alt="Download" id="download_icon"></p>
             </li>
             <li>
                 Cut the <span class="italic bold template_name_span"></span><span class="bold italic">.py</span> file and paste it into the following directory: <span class="italic bold">pynarrative > src > pynarrative > templates > mytemplates</span>
             </li>
             <li>
-                <p>(If you want) <span class="highlighted bold" id="download_notebook">download your example notebook and enjoy!</span></p>
+                <p>(If you want) <span class="bold" id="download_notebook">download your example notebook and enjoy!</span></p>
             </li>
             <li>
                 <p>On your python script or on your notebook write:</p>
-                <p id="to_copy1" class="code">from pynarrative.templates.mytemplates.<span class="template_name_span highlighted"></span> import <span class="template_name_span highlighted"></span></p>
+                <p id="to_copy1" class="code">from pynarrative.templates.mytemplates.<span class="template_name_span bold"></span> import <span class="template_name_span bold"></span></p>
                 <img src="img/icon/copy.svg" alt="Copy to clipboard" id="copy1" title="Copy to clipboard">
             </li>
             <li>
                 <p>Try it and enjoy!</p>
                 <p>
-                    <span class="highlighted bold">Important!</span> Please note that the font-family you chose for your template will be applied to your chart only if you have it already available on your computer, otherwise python will use a fallback font family.
+                    <span class="bold">Important!</span> Please note that the font-family you chose for your template will be applied to your chart only if you have it already available on your computer, otherwise python will use a fallback font family.
                     However, if you are using a Notebook to create your data story, as we recommend, you can use the <span class="bold">Jupyter Notebook <span class="italic">%%html</span> special cell</span>. Just paste the following command in a <span class="bold">new cell</span> located <span class="bold">before</span> the data story you're working on.
                 </p>
                 <div id="to_copy2" class="code">%%html
@@ -427,7 +454,7 @@
 story = (
     pn.Story(
         data = your_data,
-        <span class="bold highlighted">template = <span class="template_name_span"></span></span>
+        <span class="bold">template = <span class="template_name_span"></span></span>
     )
     
 [...]</p>

@@ -4,33 +4,50 @@ from pynarrative.templates.style import DefaultStyle, Style
 from pynarrative.templates.template import Template
 
 #Font options
-font_family = "Montserrat"
-title_font_family = "Montserrat"
+font_family = "Ubuntu"
+title_font_family = "Ubuntu"
 standard_font_size = 12
 title_font_size_multiplier = 1.6
 subtitle_font_size_multiplier = 1.2
 context_font_size_multiplier = 1
 nextstep_font_size_multiplier = 1
 annotation_font_size = 12
-source_font_size_multiplier = 0.9
 
 #Color options
-main_color = "rgb(89, 141, 88)"
-secondary_color = "rgb(113, 193, 209)"
-tab_color = "rgb(255, 255, 255)"
-ta_border_color = "transparent"
+main_color = "rgb(242, 80, 80)"
+secondary_color = "rgb(202, 40, 40)"
+tab_color = "rgb(234, 239, 242)"
+ta_border_color = "rgb(103, 91, 91)"
+ns_color = "rgb(234, 239, 242)"
+ns_border_color = "rgb(103, 91, 91)"
+annotation_color = "rgb(244, 240, 234)"
+annotation_border_color = "rgb(103, 91, 91)"
 lines_color = "rgb(191, 38, 38)"
 title_color = "#000000"
+title_background_color = "#ffffff"
 text_color = "rgb(0, 0, 0)"
+context_text_color = "rgb(0, 0, 0)"
+ns_text_color = "rgb(0, 0, 0)"
+annotation_text_color = "rgb(0, 0, 0)"
 
 #Border options
 def remove_px(val):
     val_str = str(val).lower().replace("px", "").strip()
     return float(val_str)
-ta_border_radius = "40px"
+ta_border_radius = "16px"
 ta_border_radius = remove_px(ta_border_radius)
-ta_border_stroke = "1.875px"
+ta_border_stroke = "2px"
 ta_border_stroke = remove_px(ta_border_stroke)
+
+ns_border_radius = "16px"
+ns_border_radius = remove_px(ns_border_radius)
+ns_border_stroke = "2px"
+ns_border_stroke = remove_px(ns_border_stroke)
+
+annotation_border_radius = "16px"
+annotation_border_radius = remove_px(annotation_border_radius)
+annotation_border_stroke = "2px"
+annotation_border_stroke = remove_px(annotation_border_stroke)
 
 class myStyle(Style):
     def __init__(self):
@@ -45,17 +62,18 @@ class myStyle(Style):
             subtitle = float(subtitle_font_size_multiplier),
             context = float(context_font_size_multiplier),
             nextstep = float(nextstep_font_size_multiplier),
-            source = float(source_font_size_multiplier)
+            source = 0.9
         )
 
         #COLOR OPTIONS
         self.set_colors(
             #Title and subtitle colors
             title = title_color,
+            title_background_color = title_background_color,
             subtitle = title_color,
 
             #Context area(s) text color
-            context = text_color,
+            context = context_text_color,
 
             #Bars colors (if bar chart is used)
             bar_muted = main_color,
@@ -65,15 +83,15 @@ class myStyle(Style):
             callout_text = lines_color,
             callout_arrow = lines_color,
             callout_point = lines_color,
-            annotation_fill = tab_color.replace("rgb", "rgba").replace(")", ", 0.5)"),
-            annotation_text = text_color,
-            annotation_stroke = ta_border_color,
+            annotation_fill = annotation_color,
+            annotation_text = annotation_text_color,
+            annotation_stroke = annotation_border_color,
 
             #Nextstep color options
-            nextstep_box = tab_color,
-            nextstep_border = ta_border_color,
-            nextstep_text = text_color,
-            nextstep_title = text_color,
+            nextstep_box = ns_color,
+            nextstep_border = ns_border_color,
+            nextstep_text = ns_text_color,
+            nextstep_title = ns_text_color,
 
             #Source text color
             source = text_color,
@@ -97,22 +115,18 @@ class myStyle(Style):
 
         self.set(
             #Other general options
-            title_color=self.get_colors()['title'],
-            label_color='#594a37',
-            axis_tick_color='#d8c9ad',
-            axis_domain_color='#d8c9ad',
             bar_fill_color = main_color,
-            nextstep_corner_radius = ta_border_radius,
             context_border_width = ta_border_stroke,
-            nextstep_border_width = ta_border_stroke,
+            nextstep_corner_radius = ns_border_radius,
+            nextstep_border_width = ns_border_stroke,
             annotation_label_size = annotation_font_size,
-            annotation_box_border_width = ta_border_stroke,
+            annotation_box_border_width = annotation_border_stroke,
 
-            series_colors=series_colors,
+            series_colors = series_colors,
 
             reference_line_color = lines_color, #horizontal and vertical lines
             reference_line_dash = [5, 5], #dash type
-            text_wrap_char_width_ratio = 0.45, #parameter to modify text wrapping in text areas
+            text_wrap_char_width_ratio = 0.5, #parameter to modify text wrapping in text areas
         )
 
 
@@ -128,18 +142,18 @@ class myLayout(Layout):
         self.set(
             title_area_height=58,
             title_y=4,
-            subtitle_y=30,
+            subtitle_y = 40 + standard_font_size,
             preferred_width=760,
             preferred_height=560,
             layout_context_side_width_ratio = 0.73, #title block width multiplier
-            context_right_width_ratio = 0.5, #right context block width multiplier
-            context_left_width_ratio = 0.5, #left context block width multiplier
-            context_top_width_ratio = 1.7, #top context block width multiplier
-            context_bottom_width_ratio = 1.7, #bottom context block width multiplier
+            context_right_width_ratio = 0.55, #right context block width multiplier
+            context_left_width_ratio = 0.4, #left context block width multiplier
+            context_top_width_ratio = 1.75, #top context block width multiplier
+            context_bottom_width_ratio = 1.75, #bottom context block width multiplier
         )
 
 
-class pieTemplate(Template):
+class areaTemplate(Template):
     """
     Custom style template.
     """

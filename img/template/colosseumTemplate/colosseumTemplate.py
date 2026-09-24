@@ -15,11 +15,11 @@ annotation_font_size = 12
 source_font_size_multiplier = 0.9
 
 #Color options
-main_color = "rgb(163, 153, 138)"
-secondary_color = "rgb(138, 148, 163)"
+main_color = "#E3C291"
+secondary_color = "#C68B59"
 tab_color = "rgb(255, 255, 255)"
 ta_border_color = "rgb(103, 91, 91)"
-lines_color = "rgb(191, 38, 38)"
+lines_color = "#8A1C14"
 title_color = "#000000"
 text_color = "rgb(0, 0, 0)"
 

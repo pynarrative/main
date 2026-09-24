@@ -41,7 +41,7 @@
         <h1><span class="highlight">Pynarrative</span></h1>
         <p>Transform data visualizations into stories with <span class="highlight">Pynarrative</span></p>
 
-        <div class="button">
+        <div class="button_link">
             <a href="about.html">Find out more about the project</a>
         </div>
     </div>
@@ -51,7 +51,7 @@
         <h1>Template Gallery</h1>
         <p>Here you can find some preset templates, ready to download!</p>
 
-        <div class="button">
+        <div class="button_link">
             <a href="configure.html">However, you can also configure your own customizable template</a>
         </div>
         
@@ -76,19 +76,19 @@
         <h3>How does it work?</h3>
         <ol>
             <li>
-                 <p>Once you've <a class="highlighted" href="#template_gallery">downloaded your favourite template</a>...</p>
+                 <p>Once you've <a class="bold" href="#template_gallery">downloaded your favourite template</a>...</p>
             </li>
             <li>
                 Open the directory you've downloaded the file in, cut the <span class="bold italic">.py</span> file and paste it into the following directory: <span class="italic bold">pynarrative > src > pynarrative > templates > mytemplates</span>
             </li>
             <li>
                 <p>On your python script or on your notebook write:</p>
-                <p class="code">from pynarrative.templates.mytemplates.<span class="highlighted italic">templateName</span> import <span class="highlighted italic">templateName</span></p>
+                <p class="code">from pynarrative.templates.mytemplates.<span class="bold italic">templateName</span> import <span class="bold italic">templateName</span></p>
             </li>
             <li>
                 <p>Try it and enjoy!</p>
                 <p>
-                    <span class="highlighted bold">Important!</span> Please note that the font-family pre-set in the template you chose will be applied to your chart only if you have it already available on your computer, otherwise python will use a fallback font family.
+                    <span class="bold">Important!</span> Please note that the font-family pre-set in the template you chose will be applied to your chart only if you have it already available on your computer, otherwise python will use a fallback font family.
                     However, if you are using a Notebook to create your data story, as we recommend, you can use the <span class="bold">Jupyter Notebook <span class="italic">%%html</span> special cell</span>.
                     <br>
                     Go on <a class="italic" style="text-decoration: underline;" target="_blank" href="https://fonts.google.com">Google Fonts</a> and <span class="bold">find</span> the font that is used in the template.
@@ -117,7 +117,7 @@
 story = (
     pn.Story(
         data = your_data,
-        <span class="bold highlighted">template = <span class="italic">templateName</span><span class="template_name_span"></span></span>
+        <span class="bold">template = <span class="italic">templateName</span><span class="template_name_span"></span></span>
     )
     
 [...]</p>

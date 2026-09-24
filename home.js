@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    var slideshow_control;
     var template_gallery = $("#template_gallery");
 
     let templates = [
@@ -7,6 +8,7 @@ $(document).ready(function(){
         "colosseumTemplate",
         "pieTemplate",
         "mapTemplate",
+        "areaTemplate",
         "tourEiffelTemplate",
         "darkBlueTemplate",
         "orangeTemplate",
@@ -17,7 +19,7 @@ $(document).ready(function(){
         "defaultTemplate"
     ]
 
-    for (let i=0; i<=12; i++){
+    for (let i=0; i<templates.length; i++){
         let template_name = templates[i];
         let main_image_path = `img/template/${template_name}/${template_name}A.png`;
         let second_image_path = `img/template/${template_name}/${template_name}B.png`;
@@ -36,6 +38,8 @@ $(document).ready(function(){
     }
 
     $(".template").on("mouseenter", function (){
+        if (slideshow_control) slideshow_control.stop();
+
         let main_img = $(this).find("img.main");
         let second_img = $(this).find("img.second");
         let click_to_preview = $(this).find(".click_to_preview");
@@ -114,8 +118,10 @@ $(document).ready(function(){
         );
 
         start();
+        
+        return { start, stop };
     }
-    slideshow();
+    slideshow_control = slideshow();
 
     $("#big_template_preview").on("click", function (){
         window.scrollTo(0, $("#instructions").offset().top);

@@ -7,15 +7,15 @@ from pynarrative.templates.template import Template
 font_family = "Raleway"
 title_font_family = "Caveat"
 standard_font_size = 12
-title_font_size_multiplier = 2.2
-subtitle_font_size_multiplier = 1.2
-context_font_size_multiplier = 1
-nextstep_font_size_multiplier = 1
+title_font_size_multiplier = 2.5
+subtitle_font_size_multiplier = 1.3
+context_font_size_multiplier = 1.2
+nextstep_font_size_multiplier = 1.2
 annotation_font_size = 12
 source_font_size_multiplier = 0.9
 
 #Color options
-main_color = "rgb(-17, 14, 56)"
+main_color = "darkred"
 secondary_color = "rgb(53, 84, 126)"
 tab_color = "#ffffff"
 ta_border_color = "transparent"
@@ -127,14 +127,14 @@ class myLayout(Layout):
         self.set(
             title_area_height=58,
             title_y=4,
-            subtitle_y=30,
+            subtitle_y=50,
             preferred_width=760,
             preferred_height=560,
             layout_context_side_width_ratio = 0.73, #title block width multiplier
             context_right_width_ratio = 0.5, #right context block width multiplier
             context_left_width_ratio = 0.5, #left context block width multiplier
-            context_top_width_ratio = 1.7, #top context block width multiplier
-            context_bottom_width_ratio = 1.7, #bottom context block width multiplier
+            context_top_width_ratio = 1.9, #top context block width multiplier
+            context_bottom_width_ratio = 1.9, #bottom context block width multiplier
         )
 
 

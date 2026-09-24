@@ -70,6 +70,12 @@ $(document).ready(function(){
         window.scrollTo(0, $("#download_box").offset().top);
     })
 
+    $("#chart_type_selection div").on("click", function(){
+        let was_selected = $(this).siblings(".chart_type_selected");
+        was_selected.removeClass("chart_type_selected");
+        $(this).addClass("chart_type_selected");
+    });
+
     function get_complementary_color(hex) {
         hex = hex.replace("#", "");
 
@@ -534,35 +540,52 @@ $(document).ready(function(){
         $("#title_font_selection").val(selected_font).trigger("change");
     });
 
-    $("#font_size_selection").on("change", function() {
-        let font_size = $(this).val();
-        if (font_size > 24){
-            font_size = 24;
+    const font_bindings = [
+        { multiplier: "#title_font_multiplier", preview: "#title_color_preview" },
+        { multiplier: "#subtitle_font_multiplier", preview: "#subtitle_preview" },
+        { multiplier: "#context_font_multiplier", preview: "#tab_color_preview" },
+        { multiplier: "#nextstep_font_multiplier", preview: "#ns_color_preview" },
+        { multiplier: "#annotation_font_multiplier", preview: "#annotation_color_preview" }
+    ];
+
+    function update_font_size($multiplier_input, $preview_element) {
+        let base_size = parseFloat($("#font_size_selection").val()) || 0;
+        if (base_size > 20) base_size = 20;
+        
+        let multiplier = parseFloat($multiplier_input.val()) || 1;
+        let new_size = base_size * multiplier;
+        
+        $preview_element.css("font-size", new_size + "pt");
+    }
+
+    function update_all_font_sizes() {
+        font_bindings.forEach(binding => {
+            update_font_size($(binding.multiplier), $(binding.preview));
+        });
+    }
+
+    $("#font_size_selection").on("input change", function() {
+        let font_size = parseFloat($(this).val()) || 0;
+        if (font_size > 20) {
+            font_size = 20;
+            $(this).val(20);
         }
-        $(".color_preview").css("font-size", font_size+"pt");
+        
+        $(".color_preview").css("font-size", font_size + "pt");
+        
+        update_all_font_sizes();
     });
 
-    // Setting font sizes based on default multiplier
-    let base_font_size = $("#font_size_selection").val()
-    let title_font_size = $("#title_font_multiplier").val() * base_font_size
-    $("#title_color_preview").css("font-size", title_font_size)
-    let subtitle_font_size = $("#subtitle_font_multiplier").val() * base_font_size
-    $("#subtitle_preview").css("font-size", subtitle_font_size)
-
-    $("input#title_font_multiplier").on("input", function(){
-        let base_font_size = $("#font_size_selection").val()
-        let title_font_size = $(this).val() * base_font_size
-        $("#title_color_preview").css("font-size", title_font_size)
+    font_bindings.forEach(binding => {
+        $(binding.multiplier).on("input", function() {
+            update_font_size($(this), $(binding.preview));
+        });
     });
 
-    $("input#subtitle_font_multiplier").on("input", function(){
-        let base_font_size = $("#font_size_selection").val()
-        let subtitle_font_size = $(this).val() * base_font_size
-        $("#subtitle_preview").css("font-size", subtitle_font_size)
-    });
+    $("#font_size_selection").trigger("change");
 
 
-    $("#create_template").on("click", function(){
+    $("#create_template_container").on("click", function(){
         $("#download_box").css("display", "none");
         let output_box = $("#template_preview");
         output_box.html("<img src='img/icon/loading_icon.gif'/>"); //gif di caricamento
@@ -596,6 +619,7 @@ $(document).ready(function(){
         context_font_size_multiplier = check_font_size(context_font_size_multiplier, 0, 5, 1);
         let nextstep_font_size_multiplier = $("#nextstep_font_multiplier").val();
         nextstep_font_size_multiplier = check_font_size(nextstep_font_size_multiplier, 0, 5, 1);
+        nextstep_font_size = nextstep_font_size_multiplier * standard_font_size
         let annotation_font_multiplier = $("#annotation_font_multiplier").val();
         annotation_font_multiplier = check_font_size(annotation_font_multiplier, 0, 5, 1);
         annotation_font_size = annotation_font_multiplier * standard_font_size
@@ -648,7 +672,8 @@ $(document).ready(function(){
             await pyodide.loadPackage("micropip");
             const micropip = pyodide.pyimport("micropip");
             // 3. Installa il tuo .whl locale
-            await micropip.install("./pynarrative-0.4-py3-none-any.whl");
+            await micropip.install("geopandas")
+            await micropip.install("./pynarrative-2.0-py3-none-any.whl");
             console.log("Pynarrative ok");
 
             const pythonTemplateCode =
@@ -763,6 +788,10 @@ class myStyle(Style):
             opacity = 1.0,
         )
 
+        series_colors = list(self.data.get('series_colors', []))
+        series_colors.insert(0, main_color)
+        series_colors.insert(1, secondary_color)
+
         self.set(
             #Other general options
             bar_fill_color = main_color,
@@ -772,7 +801,7 @@ class myStyle(Style):
             annotation_label_size = annotation_font_size,
             annotation_box_border_width = annotation_border_stroke,
 
-            series_colors = [main_color, secondary_color, "#348035", "#a46cc2", "#d96027"],
+            series_colors = series_colors,
 
             reference_line_color = lines_color, #horizontal and vertical lines
             reference_line_dash = [5, 5], #dash type
@@ -792,14 +821,14 @@ class myLayout(Layout):
         self.set(
             title_area_height=58,
             title_y=4,
-            subtitle_y=30,
+            subtitle_y = 40 + standard_font_size,
             preferred_width=760,
             preferred_height=560,
             layout_context_side_width_ratio = 0.73, #title block width multiplier
-            context_right_width_ratio = 0.6, #right context block width multiplier
-            context_left_width_ratio = 0.6, #left context block width multiplier
-            context_top_width_ratio = 1.7, #top context block width multiplier
-            context_bottom_width_ratio = 1.7, #bottom context block width multiplier
+            context_right_width_ratio = 0.55, #right context block width multiplier
+            context_left_width_ratio = 0.55, #left context block width multiplier
+            context_top_width_ratio = 1.75, #top context block width multiplier
+            context_bottom_width_ratio = 1.75, #bottom context block width multiplier
         )
 
 
@@ -817,11 +846,7 @@ class ${template_name}Template(Template):
             
             await pyodide.runPythonAsync(pythonTemplateCode);
 
-            const output =
-
-        
-
-
+const bar_chart =
 `import pynarrative as pn
 import altair as alt
 import pandas as pd
@@ -841,15 +866,16 @@ story = (
     pn.Story(
     #Builing the Story class object
         data = year_values,
-        width = 600,
-        height = 350,
+        width = 600 + (${standard_font_size} * (${standard_font_size}/2)),
+        height = 350 + (${standard_font_size} * (${standard_font_size}/3)),
         template = ${template_name}Template
     )
 
     #Method invocation
     #Bar chart
     .mark_bar(
-        size = 25
+        size = 25,
+        cornerRadiusEnd = 10,
     )
 
     #Data encoding
@@ -900,11 +926,9 @@ story = (
         x = 2021,
         y = 1.689,
         text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
-        dx = -350,
-        dy = -400
+        dx = -350 - (${annotation_font_size} * (${annotation_font_size}/2)),
+        dy = -400 - (${annotation_font_size} * (${annotation_font_size}/2.5)),
     )
-
-    .add_highlight(2024)
 
     .add_line(
         orientation = "horizontal",
@@ -912,18 +936,16 @@ story = (
         math = "mean",
     )
 
-    # Context (on the left)
+    # Context (top)
     .add_context(
         position = "top",
         text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."
     )
 
-
-    #Next steps
+    # Next steps (right)
     .add_next_steps(
         position = "right",
         mode = "vertical",
-        title = "Next steps",
         steps = [
             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
@@ -935,20 +957,477 @@ story = (
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgMsz3pZbNvmkmOpKlXUgXmn8Vcg1jHwSOUNYrRfKs5g&s=10",
         ],
         x_img_offset = -40,
-        y_img_offset = -10
+        y_img_offset = -20 - ${nextstep_font_size}
+    )
+
+    .add_highlight([2023, 2024])
+
+    .render()
+)
+story
+story.to_html(fullhtml=False)
+`;
+
+
+const line_chart =
+`import pynarrative as pn
+import altair as alt
+import pandas as pd
+
+#IMPORTANT: decomment the following row!
+#from pynarrative.templates.mytemplates.${template_name}Template import ${template_name}Template
+
+year = [y  for y in range(2012, 2025)]
+
+year_values = pd.DataFrame({
+    "year" : year,
+    "value" : [5.201, 5.625, 6.182, 6.551, 6.409, 7.036, 7.650, 7.618, 1.086, 1.689, 9.812, 12.298, 14.733]
+})
+
+story = (
+    pn.Story(
+    #Builing the Story class object
+        data = year_values,
+        width = 600 + (${standard_font_size} * (${standard_font_size}/2)),
+        height = 350 + (${standard_font_size} * (${standard_font_size}/3)),
+        template = ${template_name}Template
+    )
+
+    #Method invocation
+    #Line chart
+    .mark_line(
+        point = True,
+        interpolate = "cardinal"
+    )
+
+    #Data encoding
+    .encode(
+        #We need both quantitative axis to add annotation
+        x = alt.X(
+            "year:Q",
+            title = "Year", 
+            axis = alt.Axis(
+                format = "d",
+                grid = True,
+                labelAngle = -30,
+                values = list(range(2012, 2025))
+            )
+        ),
+        y = alt.Y(
+            "value:Q",
+            title = "Value (in millions)",
+            axis = alt.Axis(
+                grid = True
+            ),
+            scale = alt.Scale(domain=[0, 20])
+        ),
+    )
+    
+    #Data source
+    .add_source(
+        text = "Source: sample data",
+        position = "top",
+        align = "left"
+    )
+    
+    #Title and subtitle
+    .add_title(
+        title = "Example of using pynarrative with ${template_name}Template",
+        subtitle = "${template_name}Template",
+        align = "center"
+    )
+
+    .add_labels_chart(
+        values = "value:Q",
+        font_weight = "bold",
+        font_size = 14,
+        dy = -15
+    )
+
+    .add_annotation(
+        x = 2021,
+        y = 1.689,
+        text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+        dx = -350 - (${annotation_font_size} * (${annotation_font_size}/2)),
+        dy = -400 - (${annotation_font_size} * (${annotation_font_size}/2.5)),
+    )
+
+    .add_line(
+        orientation = "horizontal",
+        value = year_values["value"],
+        math = "mean",
+    )
+
+    # Context (top)
+    .add_context(
+        position = "top",
+        text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."
+    )
+
+    # Next steps (right)
+    .add_next_steps(
+        position = "right",
+        mode = "vertical",
+        steps = [
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+        ],
+        img_url = [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD4kXoPXArWYORmlhrdZIZM4e53ZrzziZrDRtsr4ZoHA&s=10",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0bta0j90YvpRGv7__lNOeG5-3yFP_yHNMI11R1kEUuQ&s=10",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgMsz3pZbNvmkmOpKlXUgXmn8Vcg1jHwSOUNYrRfKs5g&s=10",
+        ],
+        x_img_offset = -40,
+        y_img_offset = -20 - ${nextstep_font_size}
+    )
+
+    .render()
+)
+story
+story.to_html(fullhtml=False)
+`;
+
+const pie_chart =
+`import pynarrative as pn
+import altair as alt
+import pandas as pd
+
+#IMPORTANT: decomment the following row!
+#from pynarrative.templates.mytemplates.${template_name}Template import ${template_name}Template
+
+pie = pd.DataFrame({
+    "category" : ["A", "B", "C", "D", "E", "F"],
+    "percentage" : [45, 20, 10, 7, 3, 15]
+})
+
+story = (
+    pn.Story(
+    #Builing the Story class object
+        data = pie,
+        width = 550 + (${standard_font_size} * (${standard_font_size}/2)),
+        height = 300 + (${standard_font_size} * (${standard_font_size}/3)),
+        template = ${template_name}Template
+    )
+
+    #Method invocation
+    #Pie chart
+    .mark_arc(
+        stroke = "white",
+        strokeWidth = 1
+    )
+
+    #Data encoding
+    .encode(
+        theta=alt.Theta(field = "percentage", type = "quantitative"),
+        color=alt.Color(
+            field = "category",
+            type = "nominal",
+            title = "Category",
+            legend=alt.Legend(
+                title = "Category",
+                orient = "none",
+                legendX = 535 + (${standard_font_size} * (${standard_font_size}/4)),
+                legendY = 175,
+                direction = "vertical",
+                titleAlign = "center",
+                titleAnchor = "middle",
+                titlePadding = 15,
+                titleFontSize = 16,
+                labelFontSize = 14
+            )
+        ),
+    )
+    
+    #Data source
+    .add_source(
+        text = "Source: sample data",
+        position = "top",
+        align = "left"
+    )
+    
+    #Title and subtitle
+    .add_title(
+        title = "Example of using pynarrative with ${template_name}Template",
+        subtitle = "${template_name}Template",
+        align = "center"
+    )
+    
+    .add_context(
+        text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+        position = "right",
+        title = ""
+    )
+
+    .add_next_steps(
+        mode = "horizontal",
+        position = "bottom",
+        text_align = "left",
+        steps = [
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam",
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam",
+            ]
     )
 
     .render()
 )
 
 story
+story.to_html(fullhtml=False)
+`;
 
+const area_chart =
+`import pynarrative as pn
+import altair as alt
+import pandas as pd
+
+#IMPORTANT: decomment the following row!
+#from pynarrative.templates.mytemplates.${template_name}Template import ${template_name}Template
+
+year = [y  for y in range(2012, 2025)]
+
+year_values = pd.DataFrame({
+    "year" : year,
+    "value" : [5.201, 5.625, 6.182, 6.551, 6.409, 7.036, 7.650, 7.618, 1.086, 1.689, 9.812, 12.298, 14.733]
+})
+
+story = (
+    pn.Story(
+    #Builing the Story class object
+        data = year_values,
+        width = 600 + (${standard_font_size} * (${standard_font_size}/2)),
+        height = 350 + (${standard_font_size} * (${standard_font_size}/2)),
+        template = ${template_name}Template
+    )
+
+    #Method invocation
+    #Area chart
+    .mark_area(
+        interpolate = "cardinal",
+        color = "${main_color}"
+    )
+
+    #Data encoding
+    .encode(
+        #We need both quantitative axis to add annotation
+        x = alt.X(
+            "year:Q",
+            title = "Year", 
+            axis = alt.Axis(
+                format = "d",
+                grid = True,
+                labelAngle = -30,
+                values = list(range(2012, 2025))
+            )
+        ),
+        y = alt.Y(
+            "value:Q",
+            title = "Value (in millions)",
+            axis = alt.Axis(
+                grid = True
+            ),
+            scale = alt.Scale(domain=[0, 20])
+        ),
+    )
+    
+    #Data source
+    .add_source(
+        text = "Source: sample data",
+        position = "top",
+        align = "left"
+    )
+    
+    #Title and subtitle
+    .add_title(
+        title = "Example of using pynarrative with ${template_name}Template",
+        subtitle = "${template_name}Template",
+        align = "center"
+    )
+
+    .add_labels_chart(
+        values = "value:Q",
+        font_weight = "bold",
+        font_size = 14,
+        dy = -15
+    )
+
+    .add_annotation(
+        x = 2021,
+        y = 1.689,
+        text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.",
+        dx = -350 - (${annotation_font_size} * (${annotation_font_size}/2)),
+        dy = -400 - (${annotation_font_size} * (${annotation_font_size}/2)),
+    )
+
+    .add_line(
+        orientation = "horizontal",
+        value = year_values["value"],
+        math = "mean",
+    )
+
+    # Context (top)
+    .add_context(
+        position = "top",
+        text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat."
+    )
+
+    # Next steps (right)
+    .add_next_steps(
+        position = "right",
+        mode = "vertical",
+        steps = [
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut",
+        ],
+        img_url = [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD4kXoPXArWYORmlhrdZIZM4e53ZrzziZrDRtsr4ZoHA&s=10",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0bta0j90YvpRGv7__lNOeG5-3yFP_yHNMI11R1kEUuQ&s=10",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgMsz3pZbNvmkmOpKlXUgXmn8Vcg1jHwSOUNYrRfKs5g&s=10",
+        ],
+        x_img_offset = -40,
+        y_img_offset = -20 - ${nextstep_font_size}
+    )
+
+    .render()
+)
+story
 story.to_html(fullhtml=False)
 `;
 
 
-            const output_chart = await pyodide.runPythonAsync(output);
-            // TODO:permettere download del notebook di esempio
+const scatter_plot =
+`import pynarrative as pn
+import altair as alt
+import pandas as pd
+
+#IMPORTANT: decomment the following row!
+#from pynarrative.templates.mytemplates.${template_name}Template import ${template_name}Template
+
+import numpy as np
+np.random.seed(42)
+n_samples = 100
+sq_meters = np.random.uniform(40, 250, n_samples)
+locations = np.random.choice(
+    ["City Center", "Suburbs", "Rural"], size=n_samples, p=[0.3, 0.5, 0.2]
+)
+multiplier = {"City Center": 4500, "Suburbs": 2500, "Rural": 1200}
+noise = np.random.normal(0, 25000, n_samples)
+price_eur = [
+    (m2 * multiplier[loc]) + n
+    for m2, loc, n in zip(sq_meters, locations, noise)
+]
+
+sq_price_location = pd.DataFrame(
+    {
+        "sq_meters": np.round(sq_meters, 1),
+        "price": np.round(price_eur, -2),
+        "location": locations,
+    }
+)
+
+story = (
+    pn.Story(
+    #Builing the Story class object
+        data = sq_price_location,
+        width = 600 + (${standard_font_size} * (${standard_font_size}/2)),
+        height = 300 + (${standard_font_size} * (${standard_font_size}/2)),
+        template = ${template_name}Template
+    )
+
+    #Method invocation
+    #scatter plot
+    .mark_point()
+
+    #Data encoding
+    .encode(
+        x = alt.X(
+            "sq_meters:Q",
+            title = "Square meters", 
+            axis = alt.Axis(grid = True),
+        ),
+        y = alt.Y(
+            "price:Q",
+            title = "Price (€)",
+            axis = alt.Axis(grid = True)
+        ),
+        color = alt.Color(
+            "location:N",
+            title = "Location",
+            legend=alt.Legend(
+                title = "Living areas",
+                orient = "none",
+                legendX = 435 + (${standard_font_size} * (${standard_font_size}/2)),
+                legendY = 170,
+                direction = "horizontal",
+                titleAlign = "center",
+                titleAnchor = "middle",
+                titlePadding = 5
+            )
+        ),
+    )
+    
+    #Data source
+    .add_source(
+        text = "Source: sample data",
+        position = "top",
+        align = "left"
+    )
+    
+    #Title and subtitle
+    .add_title(
+        title = "Example of using pynarrative with ${template_name}Template",
+        subtitle = "${template_name}Template",
+        align = "center"
+    )
+
+    .add_context(
+        text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam",
+        position = "top",
+        font_weight = "bold",
+        title = ""
+    )
+
+    .add_next_steps(
+        mode = "vertical",
+        position = "right",
+        text_align = "left",
+        steps = [
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam",
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam",
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam",
+            ],
+        img_url = [
+            "https://cdn.iconscout.com/icon/premium/png-256-thumb/city-centre-icon-svg-download-png-3413700.png",
+            "https://cdn-icons-png.flaticon.com/512/5947/5947931.png",
+            "https://cdn-icons-png.flaticon.com/512/5256/5256343.png"
+        ],
+        img_width = 60,
+        x_img_offset = -40,
+        y_img_offset = -20 - ${nextstep_font_size},
+        title = ""
+    )
+
+    .render()
+)
+
+story
+story.to_html(fullhtml=False)
+`;
+
+            let selected_type_chart = $("#chart_type_selection div.chart_type_selected").attr("id");
+            
+            switch(selected_type_chart){
+                case "bar_chart": selected_chart = bar_chart; break;
+                case "line_chart": selected_chart = line_chart; break;
+                case "pie_chart": selected_chart = pie_chart; break;
+                case "area_chart": selected_chart = area_chart; break;
+                case "map": selected_chart = map; break;
+                case "scatter_plot": selected_chart = scatter_plot; break;
+                default: selected_chart = bar_chart;
+            }
+
+            const output_chart = await pyodide.runPythonAsync(selected_chart);
 
             // Risultato
             output_box.html(output_chart);
@@ -970,7 +1449,7 @@ story.to_html(fullhtml=False)
 
 
             $("#download_notebook").off("click").on("click", function(){
-                let notebookCode = output.replace("story.to_html(fullhtml=False)", "");
+                let notebookCode = selected_chart.replace("story.to_html(fullhtml=False)", "");
 
                 const cssFontsCode = `%%html
 <style>
