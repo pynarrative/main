@@ -177,18 +177,307 @@ geopandas
 
             <div>
                 <h3>Basic Example</h3>
-                <p class="code">
+<p class="code">import pandas as pd
+import pynarrative as pn
+import altair as alt
 
+colosseum = pd.DataFrame({
+    "year" : [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019,
+             2020, 2021, 2022, 2023, 2024],
+    "visitors" : [5.201, 5.625, 6.182, 6.551, 6.409, 7.036, 7.650, 7.618,
+                 1.086, 1.689, 9.812, 12.298, 14.733]
+})
+
+story = (
+    pn.Story(
+    #Builing the Story class object
+        data = colosseum,
+        width = 550,
+        height = 350,
+        #Not using any template, pynarrative will apply its defaultTemplate,
+        #with default colors and dimensions
+    )
+
+    #Method invocation and chaining
+    #Plotting a bar chart
+    .mark_bar(
+        cornerRadiusEnd = 10, #With the rounded ends of the bars
+        size = 25 #Of a specified size
+    )
+
+    #Data encoding
+    .encode(
+        x = alt.X(
+            "year:O", #'year' is an ordinal category (:O)
+            title = "Year", 
+            axis = alt.Axis(
+                labelAngle = -45
+            )
+        ),
+        y = alt.Y(
+            "visitors:Q", #'visitors' is a quantity (:Q)
+            title = "Number of visitors (in millions)",
+        )
+    )
+
+    #Data source
+    .add_source(
+        text = "Source: Ministero della Cultura via statista.com",
+        position = "top",
+        align = "right"
+    )
+    
+    #Title and subtitle
+    .add_title(
+        title = "Number of visitors to the Colosseum archaeological park in Rome",
+        subtitle = "Colosseum, Roman Forum, and Palatine Hill (from 2012 to 2024)",
+        align = "center",
+    )
+
+    #Context area (on top)
+    .add_context(
+        position = "top",
+        title = "An introduction",
+        text = """The Colosseum (Italian: Colosseo) is an elliptical amphitheatre in
+                the centre of the city of Rome, Italy,just east of the Roman Forum. It is
+                the largest ancient amphitheatre ever built, and is the largest standing
+                amphitheatre in the world. Construction began under the Emperor Vespasian
+                in 72 and was completed in AD 80 under his successor and heir, Titus.
+                Further modifications were made during the reign of Domitian. The three
+                emperors who were patrons of the work are known as the Flavian dynasty,
+                and the amphitheatre was named the Flavian Amphitheatre (Latin:
+                Amphitheatrum lavium; Italian: Anfiteatro Flavio) by later classicists and
+                archaeologists for its association with their family name (Flavius)."""
+
+    )
+
+    #Context area (on the left)
+    .add_context(
+        position = "left",
+        title = "An analysis of tourism flows",
+        text = """Between 2012 and 2019, the Colosseum Archaeological Park saw steady
+                visitor growth, consistently surpassing the historical average of 7.07
+                million. Following a drastic plunge in 2020–2021 due to COVID-19
+                pandemic restrictions (reaching a low of 1.08 million), the reopening
+                of international travel sparked a massive \"revenge tourism\" boom.
+                By 2024, visitor numbers reached an all-time high of 14.73 million—more
+                than doubling the period's overall average.""",
+    )
+
+    #Highlghing 2020 and 2024 bars
+    .add_highlight([2020, 2024])
+
+    #Creating labels with values
+    .add_labels_chart(
+        values = "visitors:Q", #Setting the 'axis' for which to write the values
+        font_size = 14,
+        font_weight = "bold",
+        dy = -10 #Moving the labels slightly upwards.
+    )
+
+
+    .render() #Rendering the data story
+)
+
+story #Visualizing the data story
                 </p>
+
+                <div class="img_container">
+                    <p class="bold">Here is the result:</p>
+                    <img src="img/example/example1.png" alt="basic example">
+                </div>
+            </div>
+
+            <div>
+                <h3>Advanced Example with Customization</h3>
+<p class="code">import pandas as pd
+import pynarrative as pn
+import altair as alt
+
+story = (
+    pn.Story(
+    #Builing the Story class object
+        data = colosseum,
+        width = 600, #Increasing width
+        height = 350,
+        #Not using any template, pynarrative will apply its defaultTemplate,
+        # with default colors and dimensions
+    )
+
+    #Method invocation and chaining
+    #Plotting a bar chart
+    .mark_bar(
+        cornerRadiusEnd = 10, #With the rounded ends of the bars
+        size = 25 #Of a specified size
+    )
+
+    #Data encoding
+    .encode(
+        x = alt.X(
+            "year:Q", #'year' is an ordinal category (:O) but we need
+                      #to indicate it as a quantity in order to be able
+                      #to use the add_annotation() method (see later)
+            title = "Year", 
+            axis = alt.Axis(
+                format = "d", #Using format = "d" (meaning 'decimal')
+                              #to display years without thousands separators
+                              #(e.g. 2020 instead of 2,020)
+                labelAngle = -45,
+                values = colosseum["year"].to_list() #Forcing values
+                
+            ),
+        ),
+        y = alt.Y(
+            "visitors:Q", #'visitors' is a quantity (:Q)
+            title = "Number of visitors (in millions)",
+        )
+    )
+
+    .add_source(
+        text = "Source: Ministero della Cultura via statista.com",
+        position = "top",
+        align = "right"
+    )
+    
+    .add_title(
+        title = "Number of visitors to the Colosseum archaeological park in Rome",
+        subtitle = "Colosseum, Roman Forum, and Palatine Hill (from 2012 to 2024)",
+        align = "center",
+    )
+
+    .add_context(
+        position = "top",
+        title = "An introduction",
+        text = """The Colosseum (Italian: Colosseo) is an elliptical amphitheatre in
+                the centre of the city of Rome, Italy,just east of the Roman Forum. It is
+                the largest ancient amphitheatre ever built, and is the largest standing
+                amphitheatre in the world. Construction began under the Emperor Vespasian
+                in 72 and was completed in AD 80 under his successor and heir, Titus.
+                Further modifications were made during the reign of Domitian. The three
+                emperors who were patrons of the work are known as the Flavian dynasty,
+                and the amphitheatre was named the Flavian Amphitheatre (Latin:
+                Amphitheatrum lavium; Italian: Anfiteatro Flavio) by later classicists and
+                archaeologists for its association with their family name (Flavius)."""
+    )
+
+    .add_context(
+        position = "left",
+        text = """Between 2012 and 2019, the Colosseum Archaeological Park saw steady
+                visitor growth, consistently surpassing the historical average of 7.07
+                million. Following a drastic plunge in 2020–2021 due to COVID-19
+                pandemic restrictions (reaching a low of 1.08 million), the reopening
+                of international travel sparked a massive \"revenge tourism\" boom.
+                By 2024, visitor numbers reached an all-time high of 14.73 million—more
+                than doubling the period's overall average.""",
+        title = "An analysis of tourism flows",
+    )
+
+    .add_labels_chart(
+        values = "visitors:Q",
+        font_size = 14,
+        font_weight = "bold",
+        dy = -10
+    )
+
+    #Vertical line
+    .add_line(
+        orientation = "vertical",
+        value = 2020,
+        label_text = "Covid 19 pandemic beginning",
+        label_dx = -200,
+        label_dy = 50,
+        label_font_size = 14
+    )
+    
+    #Vertical line
+    .add_line(
+        orientation = "vertical",
+        value = 2021,
+        label_text = "End of Covid 19 pandemic restrictions",
+        label_dx = 5,
+        label_dy = 10,
+        label_font_size = 14
+    )
+
+    #Horizontal line highlighing the average value in the 'value' argument 
+    .add_line(
+        orientation = "horizontal",
+        value = colosseum["visitors"],
+        math = "mean",
+        label_text = "Avg per year = 7.07 Mln",
+        label_font_size = 14
+    )
+
+    #Highlighing bar and adding an image
+    .add_highlight(
+        category = 2020,
+        img_url = "https://cdn-icons-png.flaticon.com/512/2746/2746582.png",
+        img_width = 60,
+        y_img_offset = -35,
+        x_img_offset = 20,
+        highlight_color = "#E7473C"
+    )
+
+    #Highlighing bar
+    .add_highlight(
+        category = 2021,
+        highlight_color = "#E7473C"
+    )
+
+    #Highlighing bar and adding an image
+    .add_highlight(
+        category = 2024,
+        img_url = "https://cdn-icons-png.flaticon.com/512/190/190488.png",
+        img_width = 60,
+        y_img_offset = 130
+    )
+
+    #Writing annotation
+    .add_annotation(
+        x = 2012,
+        y = 12,
+        text = "Moderate but steady growth between 2012 and 2018"
+    )
+
+
+    .render() #Rendering the data story
+)
+
+story #Visualizing the data story
+                </p>
+                <div class="img_container">
+                    <p class="bold">Here is the result:</p>
+                    <img src="img/example/example2.png" alt="Advanced example">
+                </div>
             </div>
 
 
-            
             <div>
                 <h3>Advanced Example with Customization</h3>
-                <p class="code">
+<p class="code">import pandas as pd
+import pynarrative as pn
+import altair as alt
 
-                </p>
+<span class="bold">from pynarrative.templates.mytemplates.darkBlueTemplate import darkBlueTemplate</span> #Importing darkBlueTemplate
+
+story = (
+    pn.Story(
+        data = colosseum,
+        width = 600,
+        height = 350,
+        <span class="bold">template = darkBlueTemplate</span> #Using darkBlueTemplate
+    )
+
+    [...]
+    
+    .render()
+)
+
+story</p>
+                <div class="img_container">
+                    <p class="bold">Here is the result:</p>
+                    <img src="img/example/example3.png" alt="Advanced example with template">
+                </div>
             </div>
 
             <p>These examples demonstrate how <span class="highlight">pynarrative</span> allows you to create rich, interactive narrative visualizations with just a few lines of code. The first example illustrates the library&#39;s basic functionality, while the second shows how you can customize every aspect of the visualization in detail.</p>

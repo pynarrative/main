@@ -672,4 +672,6 @@ li img:hover{
 #about_body div{margin-bottom: 3%;}
 #about_body div h2{margin-bottom: 0.2%; font-size: 120%;}
 #about_body div p{margin-top: 0;}
-/* #about_body div a{text-decoration: underline;} */
+#about_body div.img_container img{width: 60%}
+#about_body div.img_container{width: 100%; margin: auto; text-align: center;}
+#about_body div.img_container p {width: 100%; margin-top: 2.5%; text-align: left;}
