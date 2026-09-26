@@ -69,8 +69,8 @@
             <img class="secondary_image" src="img/template/colosseumTemplate/colosseumTemplateB.png" alt="secondary_image">
         </div>
         <div id="download_button_container">
-            <p class="button" id="download_template_button">Download <span class="bold italic">colosseumTemplate.py</span> <a target="_blank" href="img/template/colosseumTemplate/colosseumTemplate.py"></a> </p>
-            <p class="button" id="download_notebook_button">Download example notebook <a target="_blank" href="img/template/colosseumTemplate/colosseumTemplate.ipynb"></a></p>
+            <p class="button" id="download_template_button">Download <span class="bold italic" style="color: black !important;">colosseumTemplate.py</span> <a target="_blank" href="img/template/colosseumTemplate/colosseumTemplate.py"></a> </p>
+            <p class="button" id="download_notebook_button">Download <span class="bold" style="color: black !important;">example notebook</span> <a target="_blank" href="img/template/colosseumTemplate/colosseumTemplate.ipynb"></a></p>
         </div>
     </div>
 
@@ -85,7 +85,9 @@
             </li>
             <li>
                 <p>On your python script or on your notebook write:</p>
-                <p class="code">from pynarrative.templates.mytemplates.<span class="bold italic">templateName</span> import <span class="bold italic">templateName</span></p>
+                <div class="code">
+                    <p>from pynarrative.templates.mytemplates.<span class="bold italic">templateName</span> import <span class="bold italic">templateName</span></p>
+                </div>
             </li>
             <li>
                 <p>Try it and enjoy!</p>
@@ -107,14 +109,16 @@
                 <p>
                     You should have gotten something like this:
                 </p>
-                <p class="code small">%%html
+                <div class="code">
+<p>%%html
 &lt;style&gt;
-@import url('https://fonts.googleapis.com/css2?family=<span class="bold italic">the_font_you_chose</span>:ital,wght@0,300..800;1,300..800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=<span class="bold italic">the_font_you_chose</span>:ital,wght@0,300..800;1,300..800&display=swap');
 &lt;/style&gt;
-                </p>
-
+</p>
+                </div>
                 <p>And after that:</p>
-                <p class="code">import pynarrative as pn
+                <div class="code">
+<p>import pynarrative as pn
 
 story = (
     pn.Story(
@@ -122,7 +126,10 @@ story = (
         <span class="bold">template = <span class="italic">templateName</span><span class="template_name_span"></span></span>
     )
     
-[...]</p>
+    [...]
+)
+</p>
+</div>
             </li>
         </ol>
 
@@ -133,7 +140,7 @@ story = (
         <p><span class="highlight">Pynarrative</span> : Transform data visualizations into stories!</p>
         <a target="_blank" href="https://github.com/pynarrative/pynarrative">
             <img src="img/icon/star.svg" alt="Star">
-            <span>Star and follow the project on <span class="bold">Github</span></span>
+            <span>Star and follow the project on <span class="bold" style="color: white;">Github</span></span>
         </a>
     </div>
 

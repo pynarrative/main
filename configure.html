@@ -404,8 +404,10 @@
             </li>
             <li>
                 <p>On your python script or on your notebook write:</p>
-                <p id="to_copy1" class="code">from pynarrative.templates.mytemplates.<span class="template_name_span bold"></span> import <span class="template_name_span bold"></span></p>
-                <img src="img/icon/copy.svg" alt="Copy to clipboard" id="copy1" title="Copy to clipboard">
+                <div class="code">
+                    <p>from pynarrative.templates.mytemplates.<span class="template_name_span bold"></span> import <span class="template_name_span bold"></span></p>
+                    <img src="img/icon/copy.svg" alt="Copy to clipboard" class="copy_icon" title="Copy to clipboard">
+                </div>
             </li>
             <li>
                 <p>Try it and enjoy!</p>
@@ -413,7 +415,7 @@
                     <span class="bold">Important!</span> Please note that the font-family you chose for your template will be applied to your chart only if you have it already available on your computer, otherwise python will use a fallback font family.
                     However, if you are using a Notebook to create your data story, as we recommend, you can use the <span class="bold">Jupyter Notebook <span class="italic">%%html</span> special cell</span>. Just paste the following command in a <span class="bold">new cell</span> located <span class="bold">before</span> the data story you're working on.
                 </p>
-                <div id="to_copy2" class="code">%%html
+                <div class="code">%%html
 &lt;style&gt;</span>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
@@ -445,11 +447,14 @@
     @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-&lt;/style&gt;</div>
-                <img src="img/icon/copy.svg" alt="Copy to clipboard" id="copy2" title="Copy to clipboard">
+&lt;/style&gt;
+<img src="img/icon/copy.svg" alt="Copy to clipboard" class="copy_icon" title="Copy to clipboard" style="width: 2.5em;">
+</div>
+                
 
                 <p>And after that:</p>
-                <p class="code">import pynarrative as pn
+                <div class="code">
+<p>import pynarrative as pn
 
 story = (
     pn.Story(
@@ -457,7 +462,10 @@ story = (
         <span class="bold">template = <span class="template_name_span"></span></span>
     )
     
-[...]</p>
+    [...]
+
+)</p>
+            </div>
             </li>
         </ol>
 
@@ -470,7 +478,7 @@ story = (
         <p><span class="highlight">Pynarrative</span> : Transform data visualizations into stories!</p>
         <a target="_blank" href="https://github.com/pynarrative/pynarrative">
             <img src="img/icon/star.svg" alt="Star">
-            <span>Star and follow the project on <span class="bold">Github</span></span>
+            <span>Star and follow the project on <span class="bold" style="color: white;">Github</span></span>
         </a>
     </div>
 

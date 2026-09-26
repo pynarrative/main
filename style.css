@@ -41,7 +41,7 @@ a{
 }
 
 /* Formatting */
-.bold{font-weight: bold;}
+.bold{font-weight: bold; color: rgb(228, 99, 39);}
 .italic{font-style: italic;}
 
 .highlight{
@@ -53,15 +53,16 @@ a{
 
 .code{
     background-color: rgb(234, 234, 234);
-    width: 90%;
     margin: 0;
     padding: 2%;
     border-radius: 16px;
     white-space: pre;
     font-family: monospace;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-areas:
+    "code copy_icon";
 }
-.small{font-size: 90%;}
-
 
 
 /* INDEX.HTML */
@@ -71,8 +72,8 @@ a{
     justify-content: space-around; 
     align-items: center; 
     box-sizing: border-box;
+    background-color: #102043;
 }
-#header{background-color: #0F172A;}
 
 #header a{
     padding: 2%;
@@ -109,17 +110,17 @@ a{
     padding: 1%;
     font-size: 85%;
     margin-top: 5%;
-    background-color: #0F172A;;
 }
 #footer .highlight{color: white !important;}
 
-#footer a{
+#footer a, #star_and_follow{
     text-align: center;
     color: white;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    width: fit-content;
 }
 
 /* Body and gallery */
@@ -323,10 +324,7 @@ img.second{display: none;}
     align-self: center;
 }
 
-#options>div{
-    text-align: center;
-    margin: auto;
-}
+#options>div{text-align: center;}
 #options > div h4, #options > div label{margin: 1% 0;}
 
 #options input[type = "text"], #options input[type = "number"]{
@@ -388,7 +386,7 @@ select:open::picker-icon {
 
 #title_font_multiplier_container{grid-area: title_font_multiplier_container;}
 #title_font_selection_container{grid-area: title_font_selection_container;}
-#title_subtitle_color_input_container{grid-area: title_subtitle_color_input_container; display: flex; gap: 5%;}
+#title_subtitle_color_input_container{grid-area: title_subtitle_color_input_container; display: flex; gap: 5%; justify-content: center;}
 #subtitle_font_multiplier_container{grid-area: subtitle_font_multiplier_container;}
 #context_font_multiplier_container{grid-area: context_font_multiplier_container;}
 #context_options{grid-area: context_options;}
@@ -629,49 +627,44 @@ details{display: none;}
     align-items: center;
     gap: 8px;
     transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
 }
 
 #download_template:hover, #download_notebook:hover{
-    cursor: pointer;
     background-color: orange;
+    color: black;
 }
 
 #download_icon{
     margin: 0 !important;
     width: 1.5em;
     opacity: 1 !important;
+    cursor: pointer;
 }
 
 #download_box ol li{margin: 2% 0;}
 #to_copy2{font-size: 80%;}
 
-li .code {
-    display: inline-block;
+.copy_icon{
     vertical-align: middle;
+    opacity: 0.7;
+    margin-left: auto;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer !important;
+    width: 2em;
+    grid-area: copy_icon;
 }
 
-li img {
-    vertical-align: middle;
-    margin-left: 2%;
-    opacity: 0.7;
-    transition: all 0.2s ease-in-out;
-}
-li img:hover{
+.copy_icon:hover{
     opacity: 1;
     cursor: copy;
 }
 
-.img_green{
-    filter: brightness(0) saturate(100%) invert(16%) sepia(99%) saturate(1500%) hue-rotate(80deg) brightness(95%) contrast(110%);   
-    opacity: 1;
-}
-
-
 
 /* ABOUT.HTML */
 #about_body div{margin-bottom: 3%;}
-#about_body div h2{margin-bottom: 0.2%; font-size: 120%;}
-#about_body div p{margin-top: 0;}
+#about_body div>h2{margin-bottom: 0.2%; font-size: 120%;}
+#about_body div>p{margin-top: 0;}
 #about_body div.img_container img{width: 60%}
 #about_body div.img_container{width: 100%; margin: auto; text-align: center;}
 #about_body div.img_container p {width: 100%; margin-top: 2.5%; text-align: left;}

@@ -8,21 +8,13 @@ $(document).ready(function(){
         }
     });
 
-    $("#copy1").on("click", function(){
-        navigator.clipboard.writeText($("#to_copy1").text().trim());
-        $(this).addClass("img_green");
-        $(this).attr("title", "Copied!");
+    $(".copy_icon").on("click", function(){
+        let $this = $(this);
+        let code_to_copy = $(this).siblings("p");
+        let code = navigator.clipboard.writeText(code_to_copy.text().trim());
+        $this.attr("src", "img/icon/check.svg").attr("title", "Copied!");
         setTimeout(function () {
-            $("#copy1").removeClass("img_green");
-        }, 2000);
-    });
-
-    $("#copy2").on("click", function(){
-        navigator.clipboard.writeText($("#to_copy2").text().trim());
-        $(this).addClass("img_green");
-        $(this).attr("title", "Copied!");
-        setTimeout(function () {
-            $("#copy2").removeClass("img_green");
+            $this.attr("src", "img/icon/copy.svg").attr("title", "Copy to clipboard");
         }, 2000);
     });
 
@@ -230,7 +222,6 @@ $(document).ready(function(){
             "#main_color_contrast"
         );
 
-
         check_contrast(
             $("#secondary_color_input").val(),
             text_color,
@@ -255,10 +246,9 @@ $(document).ready(function(){
             "#annotation_color_contrast"
         );
 
-
         check_contrast( 
-            "#ffffff",
-            $("#title_color_input").val(),
+            $("#title_background_color_input").val(),
+            text_color,
             "#title_color_contrast"
         );
     }
@@ -346,6 +336,7 @@ $(document).ready(function(){
         $("#title_color_input").val(text_color);
         $(".color_preview").css("color", text_color);
         $("#title_color_preview").css("color", text_color);
+        $("#subtitle_preview").css("color", text_color);
         $("#context_text_color_input").val(text_color);
         $("#ns_text_color_input").val(text_color);
         $("#annotation_text_color_input").val(text_color);
@@ -819,9 +810,9 @@ class myLayout(Layout):
         super().__init__(deepcopy(base.data))
 
         self.set(
-            title_area_height=58,
+            title_area_height=60 + (standard_font_size/2),
             title_y=4,
-            subtitle_y = 40 + standard_font_size,
+            subtitle_y = 35 + (standard_font_size/2),
             preferred_width=760,
             preferred_height=560,
             layout_context_side_width_ratio = 0.73, #title block width multiplier
@@ -1166,7 +1157,7 @@ story = (
         steps = [
             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam",
             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam",
-            ]
+            ],
     )
 
     .render()

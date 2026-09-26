@@ -20,6 +20,20 @@
                 $("#arrow_up").css("opacity", "0");
             }
         });
+
+
+        $(document).ready(function(){
+            $(".copy_icon").on("click", function(){
+                let $this = $(this);
+                let code_to_copy = $(this).siblings("p");
+                let code = navigator.clipboard.writeText(code_to_copy.text().trim());
+                $this.attr("src", "img/icon/check.svg").attr("title", "Copied!");
+                setTimeout(function () {
+                    $this.attr("src", "img/icon/copy.svg").attr("title", "Copy to clipboard");
+                }, 2000);
+            });
+
+        })
     </script>
 
 </head>
@@ -36,22 +50,26 @@
         <div>
             <h1><span class="highlight">About the project</span></h1>
             <p>Transform data visualizations into stories with <span class="highlight">Pynarrative</span></p>
-            <a target="_blank" href="https://github.com/pynarrative/pynarrative">
+            <a id="star_and_follow" target="_blank" href="https://github.com/pynarrative/pynarrative">
                 <img src="img/icon/dark_star.svg" alt="Star">
                 <span>Star and follow the project on <span class="bold">Github</span></span>
             </a>
         </div>
 
         <div>
-            <h2 id="installation">Installation</h2>
+            <h2>Installation</h2>
             <p><span class="highlight">Pynarrative</span> can be easily installed using <strong>pip</strong>, Python&#39;s package manager. To install the library, run the following command in your terminal:</p>
-            <p class="code">pip install pynarrative</p>
+            <div class="code">
+                <p>pip install pynarrative</p>
+                <img src="img/icon/copy.svg" alt="Copy to clipboard" class="copy_icon" title="Copy to clipboard">
+            </div>
         </div>
 
         <div>
             <h2>Core API Reference</h2>
             <p>Full technical documentation <a href="https://pynarrative.github.io/doc/site/api/" class="bold" target="_blank">here</a></p>
-<p class="code">
+<div class="code">
+<p>
     <span class="bold">Story</span>(
             <span>data=None,</span>
             <span>width=None,</span>
@@ -152,6 +170,8 @@
             <span>ppi=False</span>
         )
 </p>
+<img src="img/icon/copy.svg" alt="Copy to clipboard" class="copy_icon" title="Copy to clipboard">
+    </div>
         </div>
 
         <div>
@@ -177,7 +197,8 @@ geopandas
 
             <div>
                 <h3>Basic Example</h3>
-<p class="code">import pandas as pd
+<div class="code">
+<p>import pandas as pd
 import pynarrative as pn
 import altair as alt
 
@@ -280,7 +301,9 @@ story = (
 )
 
 story #Visualizing the data story
-                </p>
+</p>
+<img src="img/icon/copy.svg" alt="Copy to clipboard" class="copy_icon" title="Copy to clipboard">
+</div>
 
                 <div class="img_container">
                     <p class="bold">Here is the result:</p>
@@ -290,7 +313,8 @@ story #Visualizing the data story
 
             <div>
                 <h3>Advanced Example with Customization</h3>
-<p class="code">import pandas as pd
+<div class="code">
+<p>import pandas as pd
 import pynarrative as pn
 import altair as alt
 
@@ -444,7 +468,10 @@ story = (
 )
 
 story #Visualizing the data story
-                </p>
+</p>
+<img src="img/icon/copy.svg" alt="Copy to clipboard" class="copy_icon" title="Copy to clipboard">
+</div>
+
                 <div class="img_container">
                     <p class="bold">Here is the result:</p>
                     <img src="img/example/example2.png" alt="Advanced example">
@@ -454,7 +481,8 @@ story #Visualizing the data story
 
             <div>
                 <h3>Advanced Example with Customization</h3>
-<p class="code">import pandas as pd
+<div class="code">
+<p>import pandas as pd
 import pynarrative as pn
 import altair as alt
 
@@ -473,7 +501,9 @@ story = (
     .render()
 )
 
-story</p>
+story
+</p>
+</div>
                 <div class="img_container">
                     <p class="bold">Here is the result:</p>
                     <img src="img/example/example3.png" alt="Advanced example with template">
@@ -513,7 +543,7 @@ story</p>
         <p><span class="highlight">Pynarrative</span> : Transform data visualizations into stories!</p>
         <a target="_blank" href="https://github.com/pynarrative/pynarrative">
             <img src="img/icon/star.svg" alt="Star">
-            <span>Star and follow the project on <span class="bold">Github</span></span>
+            <span>Star and follow the project on <span class="bold" style="color: white;">Github</span></span>
         </a>
     </div>
 
