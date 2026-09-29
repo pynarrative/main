@@ -137,17 +137,13 @@ class myLayout(Layout):
         super().__init__(deepcopy(base.data))
 
         self.set(
-            title_area_height=58,
+            title_area_height=58 + standard_font_size,
             title_y=4,
-            subtitle_y=30,
-            preferred_width=760,
-            preferred_height=560,
+            subtitle_y = 40 + standard_font_size,
+            preferred_width=700,
+            preferred_height=500,
             layout_context_side_width_ratio = 0.73, #title block width multiplier
-            context_right_width_ratio = 0.7, #right context block width multiplier
-            context_left_width_ratio = 0.6, #left context block width multiplier
-            context_top_width_ratio = 1.7, #top context block width multiplier
-            context_bottom_width_ratio = 1.7, #bottom context block width multiplier
-        )
+   )
 
 
 class mapTemplate(Template):
